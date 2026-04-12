@@ -1,0 +1,66 @@
+docker_path := ""
+
+# --- Infrastructure Management ---
+
+# Start containers in the background
+[group('Docker')]
+up:
+    docker compose up -d
+
+# Stop and remove containers, networks, and images created by up
+[group('Docker')]
+down:
+    docker compose down
+
+# Restart the entire environment
+[group('Docker')]
+restart:
+    just down
+    just up
+
+# Follow log output from services
+[group('Docker')]
+logs:
+    docker compose logs -f
+
+# Procesos contenedores
+[group('Docker')]
+ps:
+    docker compose -f {{ docker_path }} ps
+
+# Listar contenedores
+[group('Docker')]
+ls:
+    docker compose -f {{ docker_path }} ls
+
+# Remove unused data (containers, networks, images)
+[group('Docker')]
+clean:
+    docker system prune -f
+    docker image prune -f
+
+# --- Execution & Interaction ---
+
+# Open a shell inside a service container (usage: just shell app)
+[group('Docker')]
+shell service='app':
+    docker compose exec {{ service }} sh
+
+# Display real-time resource usage statistics of containers
+[group('Docker')]
+stats:
+    docker stats
+
+# --- Build & Registry ---
+
+# Build images from scratch without using cache
+[group('Docker')]
+build-nocache:
+    docker compose build --no-cache
+
+# --- Maintenance & Cleanup ---
+
+# Dangerous: Remove everything (volumes, images, orphans) to start fresh
+[group('Docker')]
+nuke:
+    docker compose down -v --rmi all --remove-orphans
