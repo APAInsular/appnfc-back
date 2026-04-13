@@ -1,11 +1,11 @@
 default:
     @just --list --unsorted
 
+import './justfiles/ssh.justfile'
 import './justfiles/js.justfile'
 import './justfiles/test.justfile'
-import './justfiles/docker.justfile'
 import './justfiles/git.justfile'
-import './justfiles/ssh.justfile'
+import './justfiles/docker.justfile'
 
 [group('Release')]
 publish:
