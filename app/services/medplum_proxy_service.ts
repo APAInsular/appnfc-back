@@ -3,7 +3,38 @@ import User from '#models/user'
 import medplum from '#services/medplum'
 import env from '#start/env'
 import { TransactionClientContract } from '@adonisjs/lucid/types/database'
-import { OperationOutcome, Patient, Practitioner, ProjectMembership } from '@medplum/fhirtypes'
+import {
+  OperationOutcome,
+  Patient,
+  Practitioner,
+  ProjectMembership,
+  ResourceType,
+} from '@medplum/fhirtypes'
+
+type ProfileResourceType = Extract<ResourceType, 'Patient' | 'Practitioner'>
+
+interface MedplumUserParams {
+  profileType: ProfileResourceType
+  profileId: string
+  membershipId: string
+}
+
+interface DeleteMedplumUserParams extends MedplumUserParams {
+  behalfMembershipId?: string
+}
+
+interface GetProfileParams {
+  profileType: ProfileResourceType
+  profileId: string
+  membershipId: string
+}
+
+interface UpdateProfileParams<T extends Patient | Practitioner> {
+  profileType: ProfileResourceType
+  profileId: string
+  membershipId: string
+  data: Partial<T>
+}
 
 export default class MedplumProxyService {
   /**
@@ -57,64 +88,41 @@ export default class MedplumProxyService {
 
   // ─── Patient ─────────────────────────────────────────────
 
-  static async getPatient(id: string, membershipId: string): Promise<Patient> {
-    return medplum.readResource('Patient', id, {
-      headers: this.onBehalfOfHeaders(membershipId),
+  static async getProfile(params: GetProfileParams): Promise<Patient | Practitioner> {
+    return medplum.readResource(params.profileType, params.profileId, {
+      headers: this.onBehalfOfHeaders(params.membershipId),
     })
   }
 
-  static async getPatients(membershipId: string): Promise<Patient[]> {
-    const bundle = await medplum.search('Patient', undefined, {
-      headers: this.onBehalfOfHeaders(membershipId),
+  static async getProfiles(
+    params: Pick<GetProfileParams, 'profileType' | 'membershipId'>
+  ): Promise<Patient[] | Practitioner[]> {
+    const bundle = await medplum.search(params.profileType, undefined, {
+      headers: this.onBehalfOfHeaders(params.membershipId),
     })
-    return bundle.entry?.map((e) => e.resource as Patient) ?? []
+    return bundle.entry?.map((e) => e.resource as Patient & Practitioner) ?? []
   }
 
-  static async updatePatient(
-    id: string,
-    data: Partial<Patient>,
-    membershipId: string
-  ): Promise<Patient> {
-    const headers = this.onBehalfOfHeaders(membershipId)
-    const existing = await medplum.readResource('Patient', id, { headers })
-    return medplum.updateResource({ ...existing, ...data }, { headers })
+  static async updateProfile<T extends Patient | Practitioner>(
+    params: UpdateProfileParams<T>
+  ): Promise<T> {
+    const headers = this.onBehalfOfHeaders(params.membershipId)
+    const existing = await medplum.readResource(params.profileType, params.profileId, { headers })
+    return medplum.updateResource({ ...existing, ...params.data }, { headers }) as Promise<T>
   }
 
-  static async deletePatient(
-    profileId: string,
-    membershipId: string): Promise<void> {
-    await medplum.deleteResource("Patient", profileId)
-    await medplum.deleteResource('ProjectMembership', membershipId)
+
+    static async deleteAsAdmin(
+    params: Omit<DeleteMedplumUserParams, 'behalfMembershipId'>
+  ): Promise<void> {
+    await medplum.deleteResource(params.profileType, params.profileId)
+    await medplum.deleteResource('ProjectMembership', params.membershipId)
   }
 
-  // ─── Practitioner ─────────────────────────────────────────
 
-  static async getPractitioner(id: string, membershipId: string): Promise<Practitioner> {
-    return medplum.readResource('Practitioner', id, {
-      headers: this.onBehalfOfHeaders(membershipId),
-    })
-  }
-
-  static async getPractitioners(membershipId: string): Promise<Practitioner[]> {
-    const bundle = await medplum.search('Practitioner', undefined, {
-      headers: this.onBehalfOfHeaders(membershipId),
-    })
-    return bundle.entry?.map((e) => e.resource as Practitioner) ?? []
-  }
-
-  static async updatePractitioner(
-    id: string,
-    data: Partial<Practitioner>,
-    membershipId: string
-  ): Promise<Practitioner> {
-    const headers = this.onBehalfOfHeaders(membershipId)
-    const existing = await medplum.readResource('Practitioner', id, { headers })
-    return medplum.updateResource({ ...existing, ...data }, { headers })
-  }
-
-  static async deletePractitioner(id: string, membershipId: string): Promise<void> {
-    return medplum.deleteResource('Practitioner', id, {
-      headers: this.onBehalfOfHeaders(membershipId),
-    })
+  static async delete(params: Required<DeleteMedplumUserParams>): Promise<void> {
+    const headers = this.onBehalfOfHeaders(params.behalfMembershipId)
+    await medplum.deleteResource(params.profileType, params.profileId, { headers })
+    await medplum.deleteResource('ProjectMembership', params.membershipId)
   }
 }
