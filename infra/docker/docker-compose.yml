@@ -1,14 +1,13 @@
 services:
   postgres:
     image: postgres:16
-    restart: unless-stopped # for production usage, consider using 'always'
+    restart: unless-stopped
     environment:
       - POSTGRES_USER=medplum
       - POSTGRES_PASSWORD=medplum
     volumes:
       - medplum-postgres-data:/var/lib/postgresql/data
     command:
-      # We use command line args instead of a postgres.conf to avoid additional setup out of the box
       - 'postgres'
       - '-c'
       - 'listen_addresses=*'
@@ -25,10 +24,12 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
+    networks:
+      - app-network
 
   redis:
     image: redis:7
-    restart: unless-stopped # for production usage, consider 'always'
+    restart: unless-stopped
     command: redis-server --requirepass medplum
     ports:
       - '6379:6379'
@@ -37,8 +38,9 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
+    networks:
+      - app-network
 
-  # Medplum server container
   medplum-server:
     image: medplum/medplum-server:latest
     restart: unless-stopped
@@ -55,19 +57,16 @@ services:
       MEDPLUM_BASE_URL: 'http://localhost:8103/'
       MEDPLUM_APP_BASE_URL: 'http://localhost:3000/'
       MEDPLUM_STORAGE_BASE_URL: 'http://localhost:8103/storage/'
-
       MEDPLUM_DATABASE_HOST: 'postgres'
       MEDPLUM_DATABASE_PORT: 5432
       MEDPLUM_DATABASE_DBNAME: 'medplum'
       MEDPLUM_DATABASE_USERNAME: 'medplum'
       MEDPLUM_DATABASE_PASSWORD: 'medplum'
-
       MEDPLUM_REDIS_HOST: 'redis'
       MEDPLUM_REDIS_PORT: 6379
       MEDPLUM_REDIS_PASSWORD: 'medplum'
-
       MEDPLUM_BINARY_STORAGE: 'file:./binary/'
-      MEDPLUM_SUPPORT_EMAIL: '\"Medplum\" <support@medplum.com>'
+      MEDPLUM_SUPPORT_EMAIL: '"Medplum" <support@medplum.com>'
       MEDPLUM_GOOGLE_CLIENT_ID: '397236612778-c0b5tnjv98frbo1tfuuha5vkme3cmq4s.apps.googleusercontent.com'
       MEDPLUM_GOOGLE_CLIENT_SECRET: ''
       MEDPLUM_RECAPTCHA_SITE_KEY: '6LfHdsYdAAAAAC0uLnnRrDrhcXnziiUwKd8VtLNq'
@@ -81,10 +80,8 @@ services:
       MEDPLUM_ALLOWED_ORIGINS: '*'
       MEDPLUM_INTROSPECTION_ENABLED: 'true'
       MEDPLUM_SHUTDOWN_TIMEOUT_MILLISECONDS: 30000
-
     healthcheck:
       test:
-        # We use Node's fetch for healthcheck because this image doesn't have a curl or wget installed
         [
           'CMD',
           'node',
@@ -94,8 +91,9 @@ services:
       interval: 30s
       timeout: 10s
       retries: 5
+    networks:
+      - app-network
 
-  # Medplum app container (web UI)
   medplum-app:
     image: medplum/medplum-app:latest
     restart: unless-stopped
@@ -109,6 +107,12 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
+    networks:
+      - app-network
 
 volumes:
   medplum-postgres-data:
+
+networks:
+  app-network:
+    driver: bridge

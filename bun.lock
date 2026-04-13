@@ -27,6 +27,7 @@
         "@japa/assert": "^4.2.0",
         "@japa/plugin-adonisjs": "^5.1.0",
         "@japa/runner": "^5.3.0",
+        "@medplum/fhirtypes": "^5.1.4",
         "@poppinss/ts-exec": "^1.4.4",
         "@types/luxon": "^3.7.1",
         "@types/node": "~24.11.0",
@@ -179,6 +180,8 @@
     "@jest/schemas": ["@jest/schemas@30.0.5", "", { "dependencies": { "@sinclair/typebox": "^0.34.0" } }, "sha512-DmdYgtezMkh3cpU8/1uyXakv3tJRcmcXxBOcO0tbaozPwpmh4YMsnWrQm9ZmZMfa5ocbxzbFk6O4bDPEc/iAnA=="],
 
     "@medplum/core": ["@medplum/core@5.1.4", "", { "peerDependencies": { "pdfmake": "^0.2.5" }, "optionalPeers": ["pdfmake"] }, "sha512-IIqb/x87ocHmz6UKB59bPG3QwBkT+OlEeDNegYTVBqVyNhGakebV6LP3SUhMEzpeoVyeDE1K6vlHSq4BWbFoaA=="],
+
+    "@medplum/fhirtypes": ["@medplum/fhirtypes@5.1.7", "", {}, "sha512-iCuTIA7XgOdpycIHmrCc05dhhWlb9gMBX1NVpkq28B+5JU4lLM+MwzWGJ18yeBAmFoHwQeIlKTc7qYGKWYTX7w=="],
 
     "@noble/hashes": ["@noble/hashes@1.8.0", "", {}, "sha512-jCs9ldd7NwzpgXDIf6P3+NrHh9/sD6CQdxHyjQI+h/6rDNo88ypBxxz45UDuZHz9r3tNz7N/VInSVoVdtXEI4A=="],
 

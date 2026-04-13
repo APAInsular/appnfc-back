@@ -2,7 +2,8 @@ import MedPlumUser from '#models/med_plum_user'
 import User from '#models/user'
 import medplum from '#services/medplum'
 import env from '#start/env'
-import { Account, OperationOutcome, Patient, Practitioner, ProjectMembership } from '@medplum/fhirtypes'
+import { TransactionClientContract } from '@adonisjs/lucid/types/database'
+import { OperationOutcome, Patient, Practitioner, ProjectMembership } from '@medplum/fhirtypes'
 
 export default class MedplumProxyService {
   /**
@@ -10,7 +11,8 @@ export default class MedplumProxyService {
    */
   static async createUser(
     user: User,
-    type: 'Patient' | 'Practitioner' | 'RelatedPerson'
+    type: 'Patient' | 'Practitioner' | 'RelatedPerson',
+    trx: TransactionClientContract
   ): Promise<MedPlumUser> {
     let membership: ProjectMembership | OperationOutcome
     try {
@@ -20,6 +22,7 @@ export default class MedplumProxyService {
         lastName: user.surnames,
         email: user.email,
         password: crypto.randomUUID(),
+        sendEmail: false,
       })
     } catch (error) {
       throw new Error(`Failed to create Medplum user: ${error}`)
@@ -30,15 +33,19 @@ export default class MedplumProxyService {
     }
 
     const medplumUserId = membership.user!.reference!.split('/')[1]
+
     const medplumProfileId = membership.profile!.reference!.split('/')[1]
 
-    return await MedPlumUser.create({
-      userId: user.id,
-      medplumUserId: medplumUserId,
-      medplumMembershipId: membership.id!,
-      profileId: medplumProfileId,
-      profileType: type,
-    })
+    return await MedPlumUser.create(
+      {
+        userId: user.id,
+        medplumUserId: medplumUserId,
+        medplumMembershipId: membership.id!,
+        profileId: medplumProfileId,
+        profileType: type.toLowerCase() as 'patient' | 'practitioner',
+      },
+      { client: trx }
+    )
   }
 
   private static onBehalfOfHeaders(membershipId: string) {
@@ -48,7 +55,6 @@ export default class MedplumProxyService {
     }
   }
 
-  
   // ─── Patient ─────────────────────────────────────────────
 
   static async getPatient(id: string, membershipId: string): Promise<Patient> {
@@ -74,10 +80,21 @@ export default class MedplumProxyService {
     return medplum.updateResource({ ...existing, ...data }, { headers })
   }
 
-  static async deletePatient(id: string, membershipId: string): Promise<void> {
-    return medplum.deleteResource('Patient', id, {
-      headers: this.onBehalfOfHeaders(membershipId),
-    })
+  static async deletePatient(
+    patientId: string,
+    membershipId: string,
+    userId: string
+  ): Promise<void> {
+    console.log('1. expunge Patient:', patientId)
+    await medplum.post(`fhir/R4/Patient/${patientId}/$expunge`, {})
+
+    console.log('2. delete Membership:', membershipId)
+    await medplum.deleteResource('ProjectMembership', membershipId)
+
+    console.log('3. delete User SCIM:', userId)
+    await medplum.delete(`scim/v2/Users/${userId}`)
+
+    console.log('done')
   }
 
   // ─── Practitioner ─────────────────────────────────────────

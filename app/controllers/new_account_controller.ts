@@ -4,16 +4,17 @@ import type { HttpContext } from '@adonisjs/core/http'
 import UserTransformer from '#transformers/user_transformer'
 import MedplumProxyService from '#services/medplum_proxy_service'
 import db from '@adonisjs/lucid/services/db'
-
+import MedPlumUser from '#models/med_plum_user'
 export default class NewAccountController {
   async store({ request, serialize }: HttpContext) {
     const { firstName, surnames, email, password, role } = await request.validateUsing(signupValidator)
 
     const trx = await db.transaction()
+    let medplumUser: MedPlumUser | null = null
 
     try {
       const user = await User.create({ firstName, surnames, email, password }, { client: trx })
-      await MedplumProxyService.createUser(user, role)
+      medplumUser = await MedplumProxyService.createUser(user, role, trx)
       await trx.commit()
 
       const token = await User.accessTokens.create(user)
@@ -24,6 +25,15 @@ export default class NewAccountController {
       })
     } catch (error) {
       await trx.rollback()
+
+      if (medplumUser) {
+        await MedplumProxyService.deletePatient(
+          medplumUser.profileId!,
+          medplumUser.medplumMembershipId!,
+          medplumUser.medplumUserId!,
+        ).catch(() => {}) 
+      }
+
       throw error
     }
   }

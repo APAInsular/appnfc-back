@@ -1,16 +1,17 @@
-docker_path := ""
+docker_path := "infra/docker/docker-compose.yml"
 
 # --- Infrastructure Management ---
 
 # Start containers in the background
 [group('Docker')]
 up:
-    docker compose up -d
+    docker compose -f {{ docker_path }} up -d
 
 # Stop and remove containers, networks, and images created by up
 [group('Docker')]
 down:
-    docker compose down
+    docker compose -f {{ docker_path }} down
+
 
 # Restart the entire environment
 [group('Docker')]
@@ -21,7 +22,7 @@ restart:
 # Follow log output from services
 [group('Docker')]
 logs:
-    docker compose logs -f
+    docker compose -f {{ docker_path }} logs -f
 
 # Procesos contenedores
 [group('Docker')]
@@ -56,11 +57,9 @@ stats:
 # Build images from scratch without using cache
 [group('Docker')]
 build-nocache:
-    docker compose build --no-cache
-
-# --- Maintenance & Cleanup ---
+    docker compose -f {{ docker_path }} build --no-cache
 
 # Dangerous: Remove everything (volumes, images, orphans) to start fresh
 [group('Docker')]
 nuke:
-    docker compose down -v --rmi all --remove-orphans
+    docker compose -f {{ docker_path }} down -v --rmi all --remove-orphans
