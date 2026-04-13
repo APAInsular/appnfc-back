@@ -1,7 +1,7 @@
 import MedPlumUser from '#models/med_plum_user'
 import User from '#models/user'
 import medplum from '#services/medplum'
-import env from '#start/env'
+import MedplumProxyService from '#services/medplum_proxy_service'
 import { test } from '@japa/runner'
 
 const TEST_USER = {
@@ -23,16 +23,17 @@ test.group('Auth - Signup', (group) => {
       const profileType = (medplumUser.profileType.charAt(0).toUpperCase() +
         medplumUser.profileType.slice(1)) as 'Patient' | 'Practitioner'
 
-      if (medplumUser.profileId) {
-        await medplum.deleteResource(
+      if (medplumUser.profileId && medplumUser.medplumMembershipId) {
+        MedplumProxyService.deletePatient(medplumUser.profileId, medplumUser.medplumMembershipId)
+       /*  await medplum.deleteResource(
           profileType as 'Patient' | 'Practitioner',
           medplumUser.profileId
-        )
+        ) */
       }
 
-      if (medplumUser.medplumMembershipId) {
+/*       if (medplumUser.medplumMembershipId) {
         await medplum.deleteResource('ProjectMembership', medplumUser.medplumMembershipId)
-      }
+      } */
     }
 
     await User.query().where('email', TEST_USER.email).delete()

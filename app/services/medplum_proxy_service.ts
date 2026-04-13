@@ -81,20 +81,10 @@ export default class MedplumProxyService {
   }
 
   static async deletePatient(
-    patientId: string,
-    membershipId: string,
-    userId: string
-  ): Promise<void> {
-    console.log('1. expunge Patient:', patientId)
-    await medplum.post(`fhir/R4/Patient/${patientId}/$expunge`, {})
-
-    console.log('2. delete Membership:', membershipId)
+    profileId: string,
+    membershipId: string): Promise<void> {
+    await medplum.deleteResource("Patient", profileId)
     await medplum.deleteResource('ProjectMembership', membershipId)
-
-    console.log('3. delete User SCIM:', userId)
-    await medplum.delete(`scim/v2/Users/${userId}`)
-
-    console.log('done')
   }
 
   // ─── Practitioner ─────────────────────────────────────────
