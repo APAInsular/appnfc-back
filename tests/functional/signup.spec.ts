@@ -15,17 +15,24 @@ const TEST_USER = {
 
 test.group('Auth - Signup', (group) => {
   group.each.teardown(async () => {
-    const memberships = await medplum.searchResources('ProjectMembership', {
-      project: `Project/${env.get('MEDPLUM_PROJECT_ID')}`,
-    })
+    const medplumUser = await MedPlumUser.query()
+      .whereHas('user', (q) => q.where('email', TEST_USER.email))
+      .first()
 
-    const testMemberships = memberships.filter(
-      (m) => (m.profile as any)?.display === TEST_USER.email
-        || (m.user as any)?.display === TEST_USER.email
-    )
+    if (medplumUser) {
+      const profileType = (medplumUser.profileType.charAt(0).toUpperCase() +
+        medplumUser.profileType.slice(1)) as 'Patient' | 'Practitioner'
 
-    for (const m of testMemberships) {
-      await medplum.deleteResource('ProjectMembership', m.id!)
+      if (medplumUser.profileId) {
+        await medplum.deleteResource(
+          profileType as 'Patient' | 'Practitioner',
+          medplumUser.profileId
+        )
+      }
+
+      if (medplumUser.medplumMembershipId) {
+        await medplum.deleteResource('ProjectMembership', medplumUser.medplumMembershipId)
+      }
     }
 
     await User.query().where('email', TEST_USER.email).delete()
