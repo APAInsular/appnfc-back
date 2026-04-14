@@ -21,7 +21,7 @@ test.group('Assign a bracelet', (group) => {
     await cleanupUser(TEST_PATIENT.email)
   })
 
-  test('creates an bracelete', async ({ client }) => {
+  test('Creates a bracelete', async ({ client }) => {
     const response = await client
       .post('/api/v1/bracelet/assign')
       .header('Authorization', `Bearer ${token}`)
@@ -30,8 +30,6 @@ test.group('Assign a bracelet', (group) => {
         serial_number: 'testtest',
         model: 'Test',
       })
-
-    console.log(response.body())
 
     response.assertStatus(200)
   })

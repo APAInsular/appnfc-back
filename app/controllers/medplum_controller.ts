@@ -2,78 +2,58 @@ import type { HttpContext } from '@adonisjs/core/http'
 import MedplumProxyService from '#services/medplum_proxy_service'
 import MedPlumUser from '#models/med_plum_user'
 import { UserRole } from '../enums/user_role.ts'
+import User from '#models/user'
+import { cleanupUser } from '#tests/helpers/auth'
+
+type ProfileType = 'Patient' | 'Practitioner'
 
 export default class MedplumController {
-  // GET /medplum/patients
-  async indexPatients({ auth }: HttpContext) {
-    const user = await auth.getUserOrFail()
-    const medplumUser = await MedPlumUser.findByOrFail('userId', user.id)
-    return MedplumProxyService.getPatients(medplumUser.medplumMembershipId)
+  private async getMedplumUser(userId: number) {
+    return MedPlumUser.findByOrFail('userId', userId)
   }
 
-  // GET /medplum/practitioners
-  async indexPractitioners({ auth, response }: HttpContext) {
-    const user = await auth.getUserOrFail()
+  private requireAdmin(user: User, response: HttpContext['response']) {
     if (user.role !== UserRole.Admin) {
       return response.forbidden({ message: 'Forbidden' })
     }
-    const medplumUser = await MedPlumUser.findByOrFail('userId', user.id)
-    return MedplumProxyService.getPractitioners(medplumUser.medplumMembershipId)
   }
 
-  // GET /medplum/patients/:id
-  async showPatient({ auth, params}: HttpContext) {
+  // GET /medplum/:profileType
+  async index({ auth, params, response }: HttpContext) {
+    const profileType = params.profileType as ProfileType
     const user = await auth.getUserOrFail()
-    const medplumUser = await MedPlumUser.findByOrFail('userId', user.id)
-    return MedplumProxyService.getPatient(params.id, medplumUser.medplumMembershipId)
+    if (profileType === 'Practitioner' && this.requireAdmin(user, response)) return
+
+    const medplumUser = await this.getMedplumUser(user.id)
+    return MedplumProxyService.getProfiles({ membershipId: medplumUser.medplumMembershipId, profileType })
   }
 
-  // GET /medplum/practitioners/:id
-  async showPractitioner({ auth, params, response }: HttpContext) {
+  // GET /medplum/:profileType/:id
+  async show({ auth, params, response }: HttpContext) {
+    const profileType = params.profileType as ProfileType
     const user = await auth.getUserOrFail()
-    if (user.role !== UserRole.Admin) {
-      return response.forbidden({ message: 'Forbidden' })
-    }
-    const medplumUser = await MedPlumUser.findByOrFail('userId', user.id)
-    return MedplumProxyService.getPractitioner(params.id, medplumUser.medplumMembershipId)
+    if (profileType === 'Practitioner' && this.requireAdmin(user, response)) return
+
+    const medplumUser = await this.getMedplumUser(user.id)
+    return MedplumProxyService.getProfile({ membershipId: medplumUser.medplumMembershipId, profileType, profileId: params.id })
   }
 
-  // PUT /medplum/patients/:id
-  async updatePatient({ auth, params, request }: HttpContext) {
+  // PUT /medplum/:profileType/:id
+  async update({ auth, params, request, response }: HttpContext) {
+    const profileType = params.profileType as ProfileType
     const user = await auth.getUserOrFail()
-    const medplumUser = await MedPlumUser.findByOrFail('userId', user.id)
-    const data = request.all()
-    return MedplumProxyService.updatePatient(params.id, data, medplumUser.medplumMembershipId)
+    if (profileType === 'Practitioner' && this.requireAdmin(user, response)) return
+
+    const medplumUser = await this.getMedplumUser(user.id)
+    return MedplumProxyService.updateProfile({ data: request.all(), membershipId: medplumUser.medplumMembershipId, profileId: params.id, profileType })
   }
 
-  // PUT /medplum/practitioners/:id
-  async updatePractitioner({ auth, params, request, response }: HttpContext) {
+  // DELETE /medplum/:profileType/:id
+  async destroy({ auth, params, response }: HttpContext) {
     const user = await auth.getUserOrFail()
-    if (user.role !== UserRole.Admin) {
-      return response.forbidden({ message: 'Forbidden' })
-    }
-    const medplumUser = await MedPlumUser.findByOrFail('userId', user.id)
-    const data = request.all()
-    return MedplumProxyService.updatePractitioner(params.id, data, medplumUser.medplumMembershipId)
-  }
+    if (this.requireAdmin(user, response)) return
 
-  // DELETE /medplum/patients/:id
-  async destroyPatient({ auth, params, response }: HttpContext) {
-    const user = await auth.getUserOrFail()
-    if (user.role !== UserRole.Admin) {
-      return response.forbidden({ message: 'Forbidden' })
-    }
-    const medplumUser = await MedPlumUser.findByOrFail('userId', user.id)
-    return MedplumProxyService.deletePatient(params.id, medplumUser.medplumMembershipId)
-  }
-
-  // DELETE /medplum/practitioners/:id
-  async destroyPractitioner({ auth, params, response }: HttpContext) {
-    const user = await auth.getUserOrFail()
-    if (user.role !== UserRole.Admin) {
-      return response.forbidden({ message: 'Forbidden' })
-    }
-    const medplumUser = await MedPlumUser.findByOrFail('userId', user.id)
-    return MedplumProxyService.deletePractitioner(params.id, medplumUser.medplumMembershipId)
+    const target = await User.findOrFail(params.id)
+    await cleanupUser(target.email)
   }
 }

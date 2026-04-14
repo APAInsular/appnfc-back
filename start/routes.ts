@@ -10,6 +10,7 @@
 import { middleware } from '#start/kernel'
 import router from '@adonisjs/core/services/router'
 import { controllers } from '#generated/controllers'
+import { MedplumClient } from '@medplum/core';
 
 router.get('/', () => {
   return { hello: 'world' }
@@ -50,15 +51,10 @@ router
     // ? Medplum Proxy
     router
       .group(() => {
-        router.get('/practitioners', [controllers.Medplum, 'indexPractitioners'])
-        router.get('/practitioners/:id', [controllers.Medplum, 'showPractitioner'])
-        router.put('/practitioners/:id', [controllers.Medplum, 'updatePractitioner'])
-        router.delete('/practitioners/:id', [controllers.Medplum, 'destroyPractitioner'])
-
-        router.get('/patients', [controllers.Medplum, 'indexPatients'])
-        router.get('/patients/:id', [controllers.Medplum, 'showPatient'])
-        router.put('/patients/:id', [controllers.Medplum, 'updatePatient'])
-        router.delete('/patients/:id', [controllers.Medplum, 'destroyPatient'])
+        router.get('/medplum/:profileType', [controllers.Medplum, 'index'])
+        router.get('/medplum/:profileType/:id', [controllers.Medplum, 'show'])
+        router.put('/medplum/:profileType/:id', [controllers.Medplum, 'update'])
+        router.delete('/medplum/:profileType/:id', [controllers.Medplum, 'destroy'])
       })
       .prefix('proxy')
       .use(middleware.auth())
