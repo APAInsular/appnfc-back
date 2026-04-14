@@ -33,10 +33,10 @@ export class AuthAccessTokenSchema extends BaseModel {
 }
 
 export class BraceletSchema extends BaseModel {
-  static $columns = ['assingDate', 'createdAt', 'id', 'model', 'serialNumer', 'state', 'updatedAt', 'userId'] as const
+  static $columns = ['assignDate', 'createdAt', 'id', 'model', 'serialNumer', 'state', 'updatedAt', 'userId'] as const
   $columns = BraceletSchema.$columns
   @column.date()
-  declare assingDate: DateTime
+  declare assignDate: DateTime
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime | null
   @column({ isPrimary: true })

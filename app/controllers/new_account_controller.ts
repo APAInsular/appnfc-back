@@ -7,13 +7,17 @@ import db from '@adonisjs/lucid/services/db'
 import MedPlumUser from '#models/med_plum_user'
 export default class NewAccountController {
   async store({ request, serialize }: HttpContext) {
-    const { firstName, surnames, email, password, role } = await request.validateUsing(signupValidator)
+    const { firstName, surnames, email, password, role } =
+      await request.validateUsing(signupValidator)
 
     const trx = await db.transaction()
     let medplumUser: MedPlumUser | null = null
 
     try {
-      const user = await User.create({ firstName, surnames, email, password }, { client: trx })
+      const user = await User.create(
+        { firstName, surnames, email, password, role },
+        { client: trx }
+      )
       medplumUser = await MedplumProxyService.createUser(user, role, trx)
       await trx.commit()
 
@@ -27,11 +31,11 @@ export default class NewAccountController {
       await trx.rollback()
 
       if (medplumUser) {
-        await MedplumProxyService.deletePatient(
-          medplumUser.profileId!,
-          medplumUser.medplumMembershipId!,
-          medplumUser.medplumUserId!,
-        ).catch(() => {}) 
+        await MedplumProxyService.deleteAsAdmin({
+          profileId: medplumUser.profileId!,
+          membershipId: medplumUser.medplumMembershipId!,
+          profileType: role,
+        }).catch(() => {})
       }
 
       throw error

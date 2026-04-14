@@ -1,9 +1,7 @@
-import vine from "@vinejs/vine";
+import vine from '@vinejs/vine'
 
-export const createBraceletValidator = vine.create(
-  {
-    user_id: vine.string(),
-    table: vine.string(),
-    serial_numer: vine.string().minLength(8),
-  }
-)
+export const createBraceletValidator = vine.create({
+  user_id: vine.number().positive(),
+  model: vine.string(),
+  serial_number: vine.string().minLength(8),
+})

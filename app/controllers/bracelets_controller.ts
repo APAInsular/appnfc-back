@@ -3,6 +3,7 @@ import User from '#models/user'
 import { createBraceletValidator } from '#validators/brecelet'
 import type { HttpContext } from '@adonisjs/core/http'
 import { UserRole } from '../enums/user_role.ts'
+import { DateTime } from 'luxon'
 
 export default class BraceletsController {
   async index({ response }: HttpContext) {
@@ -15,18 +16,27 @@ export default class BraceletsController {
     return response.json({ bracelets })
   }
 
-  async store({ request, response }: HttpContext) {
-    const { user_id, ...data } = await request.validateUsing(createBraceletValidator)
+  async store({ request, response, auth }: HttpContext) {
+    const { user_id, model, serial_number } = await request.validateUsing(createBraceletValidator)
 
-    const user = await User.findOrFail(user_id)
+    const auth_user = auth.getUserOrFail()
+    
 
-    if (user.role === UserRole.Admin) {
-      return response.forbidden({ message: 'Admins cannot have a bracelet.' })
+    const request_user = await User.findOrFail(user_id)
+
+    if (request_user.role === UserRole.Admin) {
+      return response.forbidden({ message: 'Access denied A.' })
+    }
+
+    if (auth_user.role !== UserRole.Admin && auth_user.role !== UserRole.Practitioner) {
+      return response.forbidden({ message: 'Access denied B.' })
     }
 
     await Bracelet.create({
-      ...data,
-      userId: user.id,
+      model,
+      serialNumer: serial_number,
+      userId: request_user.id,
+      assignDate: DateTime.now()
     })
   }
 

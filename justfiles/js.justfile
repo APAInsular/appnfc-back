@@ -8,6 +8,7 @@ install:
     @echo "Installing dependencies..."
     bun install
 
+
 [group('Frameworks')]
 adonis-api name:
     @echo "Scaffolding AdonisJS API..."

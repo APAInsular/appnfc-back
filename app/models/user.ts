@@ -9,7 +9,8 @@ export default class User extends compose(UserSchema, withAuthFinder(hash)) {
   declare currentAccessToken?: AccessToken
 
   get initials() {
-    const [first, last] = this.fullName ? this.fullName.split(' ') : this.email.split('@')
+    const first = this.firstName
+    const last = this.surnames
     if (first && last) {
       return `${first.charAt(0)}${last.charAt(0)}`.toUpperCase()
     }

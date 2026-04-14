@@ -1,55 +1,27 @@
 import MedPlumUser from '#models/med_plum_user'
 import User from '#models/user'
 import MedplumProxyService from '#services/medplum_proxy_service'
+import { cleanupUser, registerUser } from '#tests/helpers/auth'
 import { test } from '@japa/runner'
 
-const TEST_MEDIC = {
-  firstName: 'John',
-  surnames: 'Doe',
-  email: 'medic@example.com',
+export const TEST_MEDIC = {
+  firstName: 'John3',
+  surnames: 'Doe3',
+  email: 'medic3@example.com',
   password: 'secret123',
   passwordConfirmation: 'secret123',
   role: 'Practitioner',
 } as const
 
-const TEST_PATIENT = {
-  firstName: 'Jane',
+export const TEST_PATIENT = {
+  firstName: 'Jane2',
   surnames: 'Doe',
-  email: 'patient@example.com',
+  email: 'patient2@example.com',
   password: 'secret123',
   passwordConfirmation: 'secret123',
   role: 'Patient',
 } as const
 
-const capitalizeProfileType = (type: string): 'Patient' | 'Practitioner' => {
-  return (type.charAt(0).toUpperCase() + type.slice(1)) as 'Patient' | 'Practitioner'
-}
-
-
-const registerUser = async (payload: typeof TEST_PATIENT) => {
-  return fetch('http://localhost:3333/api/v1/auth/register', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(payload),
-  })
-}
-
-const cleanupUser = async (email: string) => {
-  const medplumUser = await MedPlumUser.query()
-    .whereHas('user', (q) => q.where('email', email))
-    .preload('user')
-    .first()
-
-  if (medplumUser?.profileId && medplumUser?.medplumMembershipId) {
-    await MedplumProxyService.deleteAsAdmin({
-      profileId: medplumUser.profileId,
-      membershipId: medplumUser.medplumMembershipId,
-      profileType: capitalizeProfileType(medplumUser.profileType),
-    })
-  }
-
-  await User.query().where('email', email).delete()
-}
 
 const teardown = async () => {
   await cleanupUser(TEST_MEDIC.email)

@@ -42,7 +42,7 @@ export default class MedplumProxyService {
    */
   static async createUser(
     user: User,
-    type: 'Patient' | 'Practitioner' | 'RelatedPerson',
+    type: 'Patient' | 'Practitioner',
     trx: TransactionClientContract
   ): Promise<MedPlumUser> {
     let membership: ProjectMembership | OperationOutcome
@@ -73,7 +73,7 @@ export default class MedplumProxyService {
         medplumUserId: medplumUserId,
         medplumMembershipId: membership.id!,
         profileId: medplumProfileId,
-        profileType: type.toLowerCase() as 'patient' | 'practitioner',
+        profileType: type,
       },
       { client: trx }
     )

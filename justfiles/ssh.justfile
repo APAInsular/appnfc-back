@@ -3,7 +3,7 @@
 ssh_key := "~/.ssh/prod_key"
 prod_ip := "123.45.67.89"
 stg_ip := "10.0.5.21"
-db_user := "db_admin"
+# db_user := "db_admin"
 
 # --- Recipes ---
 

@@ -6,7 +6,7 @@ export default class extends BaseSchema {
   async up() {
     this.schema.createTable(this.tableName, (table) => {
       table.increments('id')
-      table.date('assing_date').notNullable()
+      table.date('assign_date').notNullable()
       table.string('model')
       table.string('serial_numer')
       table.enum('state', ["unassigned", "assigned", "banned"])

@@ -10,7 +10,7 @@ export default class extends BaseSchema {
       table.string('medplum_user_id')
       table.string('medplum_membership_id').notNullable()
       table.integer('user_id').unsigned().references('id').inTable('users').onDelete('CASCADE').notNullable().unique()
-      table.enum('profile_type', ['patient', 'practitioner']).notNullable()
+      table.enum('profile_type', ['Patient', 'Practitioner']).notNullable()
       table.timestamp('created_at')
       table.timestamp('updated_at')
     })

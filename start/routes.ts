@@ -42,7 +42,7 @@ router
         router.get('/', [controllers.Bracelets, 'index'])
         router.get('/:id', [controllers.Bracelets, 'show'])
         router.get('/user/:userId', [controllers.Bracelets, 'showByUser'])
-        router.post('/', [controllers.Bracelets, 'store'])
+        router.post('/assign', [controllers.Bracelets, 'store'])
       })
       .prefix('bracelet')
       .use(middleware.auth())
