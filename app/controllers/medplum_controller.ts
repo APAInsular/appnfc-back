@@ -4,6 +4,7 @@ import MedPlumUser from '#models/med_plum_user'
 import { UserRole } from '../enums/user_role.ts'
 import User from '#models/user'
 import { cleanupUser } from '#tests/helpers/auth'
+import { requireAdmin } from '../helpers/index.ts'
 
 type ProfileType = 'Patient' | 'Practitioner'
 
@@ -12,17 +13,11 @@ export default class MedplumController {
     return MedPlumUser.findByOrFail('userId', userId)
   }
 
-  private requireAdmin(user: User, response: HttpContext['response']) {
-    if (user.role !== UserRole.Admin) {
-      return response.forbidden({ message: 'Forbidden' })
-    }
-  }
-
   // GET /medplum/:profileType
   async index({ auth, params, response }: HttpContext) {
     const profileType = params.profileType as ProfileType
     const user = await auth.getUserOrFail()
-    if (profileType === 'Practitioner' && this.requireAdmin(user, response)) return
+    if (profileType === 'Practitioner' && requireAdmin(user, response)) return
 
     const medplumUser = await this.getMedplumUser(user.id)
     return MedplumProxyService.getProfiles({ membershipId: medplumUser.medplumMembershipId, profileType })
@@ -32,7 +27,7 @@ export default class MedplumController {
   async show({ auth, params, response }: HttpContext) {
     const profileType = params.profileType as ProfileType
     const user = await auth.getUserOrFail()
-    if (profileType === 'Practitioner' && this.requireAdmin(user, response)) return
+    if (profileType === 'Practitioner' && requireAdmin(user, response)) return
 
     const medplumUser = await this.getMedplumUser(user.id)
     return MedplumProxyService.getProfile({ membershipId: medplumUser.medplumMembershipId, profileType, profileId: params.id })
@@ -42,7 +37,7 @@ export default class MedplumController {
   async update({ auth, params, request, response }: HttpContext) {
     const profileType = params.profileType as ProfileType
     const user = await auth.getUserOrFail()
-    if (profileType === 'Practitioner' && this.requireAdmin(user, response)) return
+    if (profileType === 'Practitioner' && requireAdmin(user, response)) return
 
     const medplumUser = await this.getMedplumUser(user.id)
     return MedplumProxyService.updateProfile({ data: request.all(), membershipId: medplumUser.medplumMembershipId, profileId: params.id, profileType })
@@ -51,7 +46,7 @@ export default class MedplumController {
   // DELETE /medplum/:profileType/:id
   async destroy({ auth, params, response }: HttpContext) {
     const user = await auth.getUserOrFail()
-    if (this.requireAdmin(user, response)) return
+    if (requireAdmin(user, response)) return
 
     const target = await User.findOrFail(params.id)
     await cleanupUser(target.email)

@@ -1,0 +1,47 @@
+name: Deploy Backend (Develop)
+
+on:
+  push:
+    branches:
+      - develop
+
+jobs:
+  deploy-server:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy server via SSH
+        uses: appleboy/ssh-action@v0.1.7
+        with:
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USER }}
+          key: ${{ secrets.VPS_SSH_KEY }}
+          port: 22
+          script: |
+            cd /var/www/html/TU_REPO
+            git reset --hard
+            git clean -fd
+            git pull origin develop
+
+            cat > .env << 'ENVEOF'
+            TZ=UTC
+            PORT=${{ vars.PORT }}
+            HOST=${{ vars.HOST }}
+            NODE_ENV=production
+
+            LOG_LEVEL=info
+            APP_KEY=${{ secrets.APP_KEY }}
+            APP_URL=${{ vars.APP_URL }}
+
+            SESSION_DRIVER=cookie
+
+            MEDPLUM_URL=${{ secrets.MEDPLUM_URL }}
+            MEDPLUM_CLIENT_ID=${{ secrets.MEDPLUM_CLIENT_ID }}
+            MEDPLUM_CLIENT_SECRET=${{ secrets.MEDPLUM_CLIENT_SECRET }}
+            MEDPLUM_PROJECT_ID=${{ secrets.MEDPLUM_PROJECT_ID }}
+            ENVEOF
+
+            docker compose stop backend
+            docker compose rm -f backend
+            docker image prune -f
+            docker compose build backend
+            docker compose up -d backend

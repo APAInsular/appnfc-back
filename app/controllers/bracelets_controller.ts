@@ -4,6 +4,7 @@ import { createBraceletValidator } from '#validators/brecelet'
 import type { HttpContext } from '@adonisjs/core/http'
 import { UserRole } from '../enums/user_role.ts'
 import { DateTime } from 'luxon'
+import { requireAdmin } from '../helpers/index.ts'
 
 export default class BraceletsController {
   async index({ response }: HttpContext) {
@@ -20,7 +21,6 @@ export default class BraceletsController {
     const { user_id, model, serial_number } = await request.validateUsing(createBraceletValidator)
 
     const auth_user = auth.getUserOrFail()
-    
 
     const request_user = await User.findOrFail(user_id)
 
@@ -36,7 +36,7 @@ export default class BraceletsController {
       model,
       serialNumer: serial_number,
       userId: request_user.id,
-      assignDate: DateTime.now()
+      assignDate: DateTime.now(),
     })
   }
 
@@ -59,4 +59,12 @@ export default class BraceletsController {
       })
       .firstOrFail()
   }
+
+  /*async update({ auth, params, request, response }: HttpContext) {
+    const user = await auth.getUserOrFail()
+
+    
+ 
+  }*/
 }
+
