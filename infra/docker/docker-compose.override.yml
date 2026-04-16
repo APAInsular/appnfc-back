@@ -54,9 +54,9 @@ services:
     command: ['env']
     environment:
       MEDPLUM_PORT: 8103
-      MEDPLUM_BASE_URL: 'http://www.limpora.xyz/medplum-api/'
-      MEDPLUM_APP_BASE_URL: 'http://www.limpora.xyz/medplum/'
-      MEDPLUM_STORAGE_BASE_URL: 'http://www.limpora.xyz/medplum-api/storage/'
+      MEDPLUM_BASE_URL: 'http://localhost:8103/'
+      MEDPLUM_APP_BASE_URL: 'http://localhost:3000/'
+      MEDPLUM_STORAGE_BASE_URL: 'http://localhost:8103/storage/'
       MEDPLUM_DATABASE_HOST: 'postgres'
       MEDPLUM_DATABASE_PORT: 5432
       MEDPLUM_DATABASE_DBNAME: 'medplum'
@@ -111,21 +111,8 @@ services:
       - app-network
 
   app-backend:
-    build:
-      context: ../../
-      dockerfile: infra/docker/Dockerfile
-    restart: unless-stopped
-    working_dir: /app
-    environment:
-      NODE_ENV: production
-      PORT: 3333
-    ports:
-      - '3333:3333'
-    depends_on:
-      - postgres
-      - redis
-    networks:
-      - app-network
+      profiles:
+        - disabled
 
 volumes:
   medplum-postgres-data:
