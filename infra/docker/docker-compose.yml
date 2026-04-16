@@ -113,7 +113,7 @@ services:
   app-backend:
     build:
       context: ../../
-      dockerfile: infra/docker/Dockerfile
+      dockerfile: ../../infra/docker/Dockerfile
     restart: unless-stopped
     working_dir: /app
     environment:
