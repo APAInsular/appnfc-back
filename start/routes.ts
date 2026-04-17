@@ -43,7 +43,7 @@ router
         router.get('/', [controllers.Bracelets, 'index'])
         router.get('/:id', [controllers.Bracelets, 'show'])
         router.get('/user/:userId', [controllers.Bracelets, 'showByUser'])
-        router.put('/:id', [controllers.Bracelets, 'update'])
+        // router.put('/:id', [controllers.Bracelets, 'update'])
         router.post('/assign', [controllers.Bracelets, 'store'])
       })
       .prefix('bracelet')
