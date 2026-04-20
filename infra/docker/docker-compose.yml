@@ -35,6 +35,7 @@ services:
     ports:
       - '8103:8103'
     environment:
+      MEDPLUM_CONFIG: 'env'
       MEDPLUM_PORT: 8103
       MEDPLUM_BASE_URL: 'http://medplum.limpora.xyz/api/'
       MEDPLUM_APP_BASE_URL: 'http://medplum.limpora.xyz/'
