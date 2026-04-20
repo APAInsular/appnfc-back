@@ -54,9 +54,9 @@ services:
     command: ['env']
     environment:
       MEDPLUM_PORT: 8103
-      MEDPLUM_BASE_URL: 'http://medplum-api.limpora.xyz/'
-      MEDPLUM_APP_BASE_URL: 'http://medplum.limpora.xyz/'
-      MEDPLUM_STORAGE_BASE_URL: 'http://medplum-api.limpora.xyz/storage/'
+      MEDPLUM_BASE_URL: "http://medplum.limpora.xyz"
+      MEDPLUM_APP_BASE_URL: "http://medplum.limpora.xyz"
+      MEDPLUM_STORAGE_BASE_URL: "http://medplum.limpora.xyz/storage/"
 
       MEDPLUM_DATABASE_HOST: 'postgres'
       MEDPLUM_DATABASE_PORT: 5432
@@ -101,7 +101,7 @@ services:
     ports:
       - '3000:3000'
     environment:
-      - MEDPLUM_BASE_URL=http://medplum-api.limpora.xyz/
+      - MEDPLUM_BASE_URL=http://medplum.limpora.xyz
     healthcheck:
       test: ['CMD', 'curl', '-f', 'http://localhost:3000']
       interval: 10s
