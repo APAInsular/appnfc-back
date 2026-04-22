@@ -8,8 +8,8 @@ const placeholder: any = {}
 const routes = {
   'auth.new_account.store': {
     methods: ["POST"],
-    pattern: '/api/v1/auth/signup',
-    tokens: [{"old":"/api/v1/auth/signup","type":0,"val":"api","end":""},{"old":"/api/v1/auth/signup","type":0,"val":"v1","end":""},{"old":"/api/v1/auth/signup","type":0,"val":"auth","end":""},{"old":"/api/v1/auth/signup","type":0,"val":"signup","end":""}],
+    pattern: '/api/v1/auth/register',
+    tokens: [{"old":"/api/v1/auth/register","type":0,"val":"api","end":""},{"old":"/api/v1/auth/register","type":0,"val":"v1","end":""},{"old":"/api/v1/auth/register","type":0,"val":"auth","end":""},{"old":"/api/v1/auth/register","type":0,"val":"register","end":""}],
     types: placeholder as Registry['auth.new_account.store']['types'],
   },
   'auth.access_token.store': {
@@ -50,57 +50,33 @@ const routes = {
   },
   'bracelets.store': {
     methods: ["POST"],
-    pattern: '/api/v1/bracelet',
-    tokens: [{"old":"/api/v1/bracelet","type":0,"val":"api","end":""},{"old":"/api/v1/bracelet","type":0,"val":"v1","end":""},{"old":"/api/v1/bracelet","type":0,"val":"bracelet","end":""}],
+    pattern: '/api/v1/bracelet/assign',
+    tokens: [{"old":"/api/v1/bracelet/assign","type":0,"val":"api","end":""},{"old":"/api/v1/bracelet/assign","type":0,"val":"v1","end":""},{"old":"/api/v1/bracelet/assign","type":0,"val":"bracelet","end":""},{"old":"/api/v1/bracelet/assign","type":0,"val":"assign","end":""}],
     types: placeholder as Registry['bracelets.store']['types'],
   },
-  'medplum.index_practitioners': {
+  'medplum.index': {
     methods: ["GET","HEAD"],
-    pattern: '/api/v1/proxy/practitioners',
-    tokens: [{"old":"/api/v1/proxy/practitioners","type":0,"val":"api","end":""},{"old":"/api/v1/proxy/practitioners","type":0,"val":"v1","end":""},{"old":"/api/v1/proxy/practitioners","type":0,"val":"proxy","end":""},{"old":"/api/v1/proxy/practitioners","type":0,"val":"practitioners","end":""}],
-    types: placeholder as Registry['medplum.index_practitioners']['types'],
+    pattern: '/api/v1/proxy/medplum/:profileType',
+    tokens: [{"old":"/api/v1/proxy/medplum/:profileType","type":0,"val":"api","end":""},{"old":"/api/v1/proxy/medplum/:profileType","type":0,"val":"v1","end":""},{"old":"/api/v1/proxy/medplum/:profileType","type":0,"val":"proxy","end":""},{"old":"/api/v1/proxy/medplum/:profileType","type":0,"val":"medplum","end":""},{"old":"/api/v1/proxy/medplum/:profileType","type":1,"val":"profileType","end":""}],
+    types: placeholder as Registry['medplum.index']['types'],
   },
-  'medplum.show_practitioner': {
+  'medplum.show': {
     methods: ["GET","HEAD"],
-    pattern: '/api/v1/proxy/practitioners/:id',
-    tokens: [{"old":"/api/v1/proxy/practitioners/:id","type":0,"val":"api","end":""},{"old":"/api/v1/proxy/practitioners/:id","type":0,"val":"v1","end":""},{"old":"/api/v1/proxy/practitioners/:id","type":0,"val":"proxy","end":""},{"old":"/api/v1/proxy/practitioners/:id","type":0,"val":"practitioners","end":""},{"old":"/api/v1/proxy/practitioners/:id","type":1,"val":"id","end":""}],
-    types: placeholder as Registry['medplum.show_practitioner']['types'],
+    pattern: '/api/v1/proxy/medplum/:profileType/:id',
+    tokens: [{"old":"/api/v1/proxy/medplum/:profileType/:id","type":0,"val":"api","end":""},{"old":"/api/v1/proxy/medplum/:profileType/:id","type":0,"val":"v1","end":""},{"old":"/api/v1/proxy/medplum/:profileType/:id","type":0,"val":"proxy","end":""},{"old":"/api/v1/proxy/medplum/:profileType/:id","type":0,"val":"medplum","end":""},{"old":"/api/v1/proxy/medplum/:profileType/:id","type":1,"val":"profileType","end":""},{"old":"/api/v1/proxy/medplum/:profileType/:id","type":1,"val":"id","end":""}],
+    types: placeholder as Registry['medplum.show']['types'],
   },
-  'medplum.update_practitioner': {
+  'medplum.update': {
     methods: ["PUT"],
-    pattern: '/api/v1/proxy/practitioners/:id',
-    tokens: [{"old":"/api/v1/proxy/practitioners/:id","type":0,"val":"api","end":""},{"old":"/api/v1/proxy/practitioners/:id","type":0,"val":"v1","end":""},{"old":"/api/v1/proxy/practitioners/:id","type":0,"val":"proxy","end":""},{"old":"/api/v1/proxy/practitioners/:id","type":0,"val":"practitioners","end":""},{"old":"/api/v1/proxy/practitioners/:id","type":1,"val":"id","end":""}],
-    types: placeholder as Registry['medplum.update_practitioner']['types'],
+    pattern: '/api/v1/proxy/medplum/:profileType/:id',
+    tokens: [{"old":"/api/v1/proxy/medplum/:profileType/:id","type":0,"val":"api","end":""},{"old":"/api/v1/proxy/medplum/:profileType/:id","type":0,"val":"v1","end":""},{"old":"/api/v1/proxy/medplum/:profileType/:id","type":0,"val":"proxy","end":""},{"old":"/api/v1/proxy/medplum/:profileType/:id","type":0,"val":"medplum","end":""},{"old":"/api/v1/proxy/medplum/:profileType/:id","type":1,"val":"profileType","end":""},{"old":"/api/v1/proxy/medplum/:profileType/:id","type":1,"val":"id","end":""}],
+    types: placeholder as Registry['medplum.update']['types'],
   },
-  'medplum.destroy_practitioner': {
+  'medplum.destroy': {
     methods: ["DELETE"],
-    pattern: '/api/v1/proxy/practitioners/:id',
-    tokens: [{"old":"/api/v1/proxy/practitioners/:id","type":0,"val":"api","end":""},{"old":"/api/v1/proxy/practitioners/:id","type":0,"val":"v1","end":""},{"old":"/api/v1/proxy/practitioners/:id","type":0,"val":"proxy","end":""},{"old":"/api/v1/proxy/practitioners/:id","type":0,"val":"practitioners","end":""},{"old":"/api/v1/proxy/practitioners/:id","type":1,"val":"id","end":""}],
-    types: placeholder as Registry['medplum.destroy_practitioner']['types'],
-  },
-  'medplum.index_patients': {
-    methods: ["GET","HEAD"],
-    pattern: '/api/v1/proxy/patients',
-    tokens: [{"old":"/api/v1/proxy/patients","type":0,"val":"api","end":""},{"old":"/api/v1/proxy/patients","type":0,"val":"v1","end":""},{"old":"/api/v1/proxy/patients","type":0,"val":"proxy","end":""},{"old":"/api/v1/proxy/patients","type":0,"val":"patients","end":""}],
-    types: placeholder as Registry['medplum.index_patients']['types'],
-  },
-  'medplum.show_patient': {
-    methods: ["GET","HEAD"],
-    pattern: '/api/v1/proxy/patients/:id',
-    tokens: [{"old":"/api/v1/proxy/patients/:id","type":0,"val":"api","end":""},{"old":"/api/v1/proxy/patients/:id","type":0,"val":"v1","end":""},{"old":"/api/v1/proxy/patients/:id","type":0,"val":"proxy","end":""},{"old":"/api/v1/proxy/patients/:id","type":0,"val":"patients","end":""},{"old":"/api/v1/proxy/patients/:id","type":1,"val":"id","end":""}],
-    types: placeholder as Registry['medplum.show_patient']['types'],
-  },
-  'medplum.update_patient': {
-    methods: ["PUT"],
-    pattern: '/api/v1/proxy/patients/:id',
-    tokens: [{"old":"/api/v1/proxy/patients/:id","type":0,"val":"api","end":""},{"old":"/api/v1/proxy/patients/:id","type":0,"val":"v1","end":""},{"old":"/api/v1/proxy/patients/:id","type":0,"val":"proxy","end":""},{"old":"/api/v1/proxy/patients/:id","type":0,"val":"patients","end":""},{"old":"/api/v1/proxy/patients/:id","type":1,"val":"id","end":""}],
-    types: placeholder as Registry['medplum.update_patient']['types'],
-  },
-  'medplum.destroy_patient': {
-    methods: ["DELETE"],
-    pattern: '/api/v1/proxy/patients/:id',
-    tokens: [{"old":"/api/v1/proxy/patients/:id","type":0,"val":"api","end":""},{"old":"/api/v1/proxy/patients/:id","type":0,"val":"v1","end":""},{"old":"/api/v1/proxy/patients/:id","type":0,"val":"proxy","end":""},{"old":"/api/v1/proxy/patients/:id","type":0,"val":"patients","end":""},{"old":"/api/v1/proxy/patients/:id","type":1,"val":"id","end":""}],
-    types: placeholder as Registry['medplum.destroy_patient']['types'],
+    pattern: '/api/v1/proxy/medplum/:profileType/:id',
+    tokens: [{"old":"/api/v1/proxy/medplum/:profileType/:id","type":0,"val":"api","end":""},{"old":"/api/v1/proxy/medplum/:profileType/:id","type":0,"val":"v1","end":""},{"old":"/api/v1/proxy/medplum/:profileType/:id","type":0,"val":"proxy","end":""},{"old":"/api/v1/proxy/medplum/:profileType/:id","type":0,"val":"medplum","end":""},{"old":"/api/v1/proxy/medplum/:profileType/:id","type":1,"val":"profileType","end":""},{"old":"/api/v1/proxy/medplum/:profileType/:id","type":1,"val":"id","end":""}],
+    types: placeholder as Registry['medplum.destroy']['types'],
   },
 } as const satisfies Record<string, AdonisEndpoint>
 

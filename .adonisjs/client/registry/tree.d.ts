@@ -23,13 +23,9 @@ export interface ApiDefinition {
     store: typeof routes['bracelets.store']
   }
   medplum: {
-    indexPractitioners: typeof routes['medplum.index_practitioners']
-    showPractitioner: typeof routes['medplum.show_practitioner']
-    updatePractitioner: typeof routes['medplum.update_practitioner']
-    destroyPractitioner: typeof routes['medplum.destroy_practitioner']
-    indexPatients: typeof routes['medplum.index_patients']
-    showPatient: typeof routes['medplum.show_patient']
-    updatePatient: typeof routes['medplum.update_patient']
-    destroyPatient: typeof routes['medplum.destroy_patient']
+    index: typeof routes['medplum.index']
+    show: typeof routes['medplum.show']
+    update: typeof routes['medplum.update']
+    destroy: typeof routes['medplum.destroy']
   }
 }

@@ -9,7 +9,7 @@ export type ParamValue = string | number | bigint | boolean
 export interface Registry {
   'auth.new_account.store': {
     methods: ["POST"]
-    pattern: '/api/v1/auth/signup'
+    pattern: '/api/v1/auth/register'
     types: {
       body: ExtractBody<InferInput<(typeof import('#validators/user').signupValidator)>>
       paramsTuple: []
@@ -93,7 +93,7 @@ export interface Registry {
   }
   'bracelets.store': {
     methods: ["POST"]
-    pattern: '/api/v1/bracelet'
+    pattern: '/api/v1/bracelet/assign'
     types: {
       body: ExtractBody<InferInput<(typeof import('#validators/brecelet').createBraceletValidator)>>
       paramsTuple: []
@@ -103,100 +103,52 @@ export interface Registry {
       errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/bracelets_controller').default['store']>>> | { status: 422; response: { errors: SimpleError[] } }
     }
   }
-  'medplum.index_practitioners': {
+  'medplum.index': {
     methods: ["GET","HEAD"]
-    pattern: '/api/v1/proxy/practitioners'
-    types: {
-      body: {}
-      paramsTuple: []
-      params: {}
-      query: {}
-      response: ExtractResponse<Awaited<ReturnType<import('#controllers/medplum_controller').default['indexPractitioners']>>>
-      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/medplum_controller').default['indexPractitioners']>>>
-    }
-  }
-  'medplum.show_practitioner': {
-    methods: ["GET","HEAD"]
-    pattern: '/api/v1/proxy/practitioners/:id'
+    pattern: '/api/v1/proxy/medplum/:profileType'
     types: {
       body: {}
       paramsTuple: [ParamValue]
-      params: { id: ParamValue }
+      params: { profileType: ParamValue }
       query: {}
-      response: ExtractResponse<Awaited<ReturnType<import('#controllers/medplum_controller').default['showPractitioner']>>>
-      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/medplum_controller').default['showPractitioner']>>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/medplum_controller').default['index']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/medplum_controller').default['index']>>>
     }
   }
-  'medplum.update_practitioner': {
+  'medplum.show': {
+    methods: ["GET","HEAD"]
+    pattern: '/api/v1/proxy/medplum/:profileType/:id'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue, ParamValue]
+      params: { profileType: ParamValue; id: ParamValue }
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/medplum_controller').default['show']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/medplum_controller').default['show']>>>
+    }
+  }
+  'medplum.update': {
     methods: ["PUT"]
-    pattern: '/api/v1/proxy/practitioners/:id'
+    pattern: '/api/v1/proxy/medplum/:profileType/:id'
     types: {
       body: {}
-      paramsTuple: [ParamValue]
-      params: { id: ParamValue }
+      paramsTuple: [ParamValue, ParamValue]
+      params: { profileType: ParamValue; id: ParamValue }
       query: {}
-      response: ExtractResponse<Awaited<ReturnType<import('#controllers/medplum_controller').default['updatePractitioner']>>>
-      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/medplum_controller').default['updatePractitioner']>>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/medplum_controller').default['update']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/medplum_controller').default['update']>>>
     }
   }
-  'medplum.destroy_practitioner': {
+  'medplum.destroy': {
     methods: ["DELETE"]
-    pattern: '/api/v1/proxy/practitioners/:id'
+    pattern: '/api/v1/proxy/medplum/:profileType/:id'
     types: {
       body: {}
-      paramsTuple: [ParamValue]
-      params: { id: ParamValue }
+      paramsTuple: [ParamValue, ParamValue]
+      params: { profileType: ParamValue; id: ParamValue }
       query: {}
-      response: ExtractResponse<Awaited<ReturnType<import('#controllers/medplum_controller').default['destroyPractitioner']>>>
-      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/medplum_controller').default['destroyPractitioner']>>>
-    }
-  }
-  'medplum.index_patients': {
-    methods: ["GET","HEAD"]
-    pattern: '/api/v1/proxy/patients'
-    types: {
-      body: {}
-      paramsTuple: []
-      params: {}
-      query: {}
-      response: ExtractResponse<Awaited<ReturnType<import('#controllers/medplum_controller').default['indexPatients']>>>
-      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/medplum_controller').default['indexPatients']>>>
-    }
-  }
-  'medplum.show_patient': {
-    methods: ["GET","HEAD"]
-    pattern: '/api/v1/proxy/patients/:id'
-    types: {
-      body: {}
-      paramsTuple: [ParamValue]
-      params: { id: ParamValue }
-      query: {}
-      response: ExtractResponse<Awaited<ReturnType<import('#controllers/medplum_controller').default['showPatient']>>>
-      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/medplum_controller').default['showPatient']>>>
-    }
-  }
-  'medplum.update_patient': {
-    methods: ["PUT"]
-    pattern: '/api/v1/proxy/patients/:id'
-    types: {
-      body: {}
-      paramsTuple: [ParamValue]
-      params: { id: ParamValue }
-      query: {}
-      response: ExtractResponse<Awaited<ReturnType<import('#controllers/medplum_controller').default['updatePatient']>>>
-      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/medplum_controller').default['updatePatient']>>>
-    }
-  }
-  'medplum.destroy_patient': {
-    methods: ["DELETE"]
-    pattern: '/api/v1/proxy/patients/:id'
-    types: {
-      body: {}
-      paramsTuple: [ParamValue]
-      params: { id: ParamValue }
-      query: {}
-      response: ExtractResponse<Awaited<ReturnType<import('#controllers/medplum_controller').default['destroyPatient']>>>
-      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/medplum_controller').default['destroyPatient']>>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/medplum_controller').default['destroy']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/medplum_controller').default['destroy']>>>
     }
   }
 }
