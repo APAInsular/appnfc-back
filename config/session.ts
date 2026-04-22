@@ -71,7 +71,7 @@ const sessionConfig = defineConfig({
     /**
      * Store session data inside the configured database.
      */
-    database: stores.database(),
+    // database: stores.database(),
   },
 })
 
