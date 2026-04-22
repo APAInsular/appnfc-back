@@ -39,7 +39,7 @@ jobs:
             MEDPLUM_CLIENT_SECRET=${{ secrets.MEDPLUM_CLIENT_SECRET }}
             MEDPLUM_PROJECT_ID=${{ secrets.MEDPLUM_PROJECT_ID }}
 
-            DB_CONNECTION=pg
+            DB_CONNECTION=postgres
             DB_HOST=postgres
             DB_PORT=5432
             DB_USER=${{ secrets.PG_USER }}
