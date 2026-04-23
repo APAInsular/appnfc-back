@@ -7,6 +7,8 @@ services:
       - POSTGRES_PASSWORD=medplum
     volumes:
       - medplum-postgres-data:/var/lib/postgresql/data
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+
     command:
       - 'postgres'
       - '-c'
@@ -54,30 +56,27 @@ services:
     command: ['env']
     environment:
       MEDPLUM_PORT: 8103
-      MEDPLUM_BASE_URL: 'http://localhost:8103/'
-      MEDPLUM_APP_BASE_URL: 'http://localhost:3000/'
+      MEDPLUM_BASE_URL: 'http://localhost:8103'
       MEDPLUM_STORAGE_BASE_URL: 'http://localhost:8103/storage/'
+      MEDPLUM_APP_BASE_URL: 'http://localhost:3000'
+
       MEDPLUM_DATABASE_HOST: 'postgres'
       MEDPLUM_DATABASE_PORT: 5432
       MEDPLUM_DATABASE_DBNAME: 'medplum'
       MEDPLUM_DATABASE_USERNAME: 'medplum'
       MEDPLUM_DATABASE_PASSWORD: 'medplum'
+
       MEDPLUM_REDIS_HOST: 'redis'
       MEDPLUM_REDIS_PORT: 6379
       MEDPLUM_REDIS_PASSWORD: 'medplum'
+
       MEDPLUM_BINARY_STORAGE: 'file:./binary/'
       MEDPLUM_SUPPORT_EMAIL: '"Medplum" <support@medplum.com>'
-      MEDPLUM_GOOGLE_CLIENT_ID: '397236612778-c0b5tnjv98frbo1tfuuha5vkme3cmq4s.apps.googleusercontent.com'
-      MEDPLUM_GOOGLE_CLIENT_SECRET: ''
-      MEDPLUM_RECAPTCHA_SITE_KEY: '6LfHdsYdAAAAAC0uLnnRrDrhcXnziiUwKd8VtLNq'
-      MEDPLUM_RECAPTCHA_SECRET_KEY: '6LfHdsYdAAAAAH9dN154jbJ3zpQife3xaiTvPChL'
       MEDPLUM_MAX_JSON_SIZE: '1mb'
       MEDPLUM_MAX_BATCH_SIZE: '50mb'
-      MEDPLUM_BOT_LAMBDA_ROLE_ARN: ''
-      MEDPLUM_BOT_LAMBDA_LAYER_NAME: 'medplum-bot-layer'
       MEDPLUM_VM_CONTEXT_BOTS_ENABLED: 'true'
       MEDPLUM_DEFAULT_BOT_RUNTIME_VERSION: 'vmcontext'
-      MEDPLUM_ALLOWED_ORIGINS: '*'
+      MEDPLUM_ALLOWED_ORIGINS: 'http://localhost:3000'
       MEDPLUM_INTROSPECTION_ENABLED: 'true'
       MEDPLUM_SHUTDOWN_TIMEOUT_MILLISECONDS: 30000
     healthcheck:
@@ -90,7 +89,8 @@ services:
         ]
       interval: 30s
       timeout: 10s
-      retries: 5
+      retries: 10       
+      start_period: 120s 
     networks:
       - app-network
 
@@ -102,6 +102,8 @@ services:
         condition: service_healthy
     ports:
       - '3000:3000'
+    environment:
+      - MEDPLUM_BASE_URL=http://localhost:8103
     healthcheck:
       test: ['CMD', 'curl', '-f', 'http://localhost:3000']
       interval: 10s
@@ -111,8 +113,7 @@ services:
       - app-network
 
   app-backend:
-      profiles:
-        - disabled
+    profiles: ["disabled"]
 
 volumes:
   medplum-postgres-data:
@@ -120,3 +121,4 @@ volumes:
 networks:
   app-network:
     driver: bridge
+    

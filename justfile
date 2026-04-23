@@ -3,9 +3,9 @@ default:
 
 import './justfiles/ssh.justfile'
 import './justfiles/js.justfile'
-import './justfiles/test.justfile'
 import './justfiles/git.justfile'
 import './justfiles/docker.justfile'
+import './justfiles/test.justfile'
 
 [group('Dev')]
 dev:

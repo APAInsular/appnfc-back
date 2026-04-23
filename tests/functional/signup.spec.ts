@@ -1,6 +1,4 @@
-import MedPlumUser from '#models/med_plum_user'
-import User from '#models/user'
-import MedplumProxyService from '#services/medplum_proxy_service'
+
 import { cleanupUser, registerUser } from '#tests/helpers/auth'
 import { test } from '@japa/runner'
 

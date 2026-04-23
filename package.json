@@ -46,6 +46,7 @@
     "@japa/plugin-adonisjs": "^5.1.0",
     "@japa/runner": "^5.3.0",
     "@medplum/fhirtypes": "^5.1.4",
+    "@medplum/mock": "^5.1.8",
     "@poppinss/ts-exec": "^1.4.4",
     "@types/luxon": "^3.7.1",
     "@types/node": "~24.11.0",

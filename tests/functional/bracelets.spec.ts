@@ -7,6 +7,7 @@ import { TEST_MEDIC, TEST_PATIENT } from './signup.spec.ts'
 test.group('Bracelet - Index', (group) => {
   let token: string
   let user_id: number | null = null
+  
   group.each.setup(async () => {
     await registerUser(TEST_MEDIC)
     const { token: t } = await loginUser(TEST_MEDIC.email, TEST_MEDIC.password)

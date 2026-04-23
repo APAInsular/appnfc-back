@@ -1,1 +1,6 @@
-CREATE DATABASE app_backend;
+CREATE DATABASE app_test;
+
+CREATE USER app WITH PASSWORD 'secret';
+
+GRANT ALL ON SCHEMA public TO app;
+ALTER SCHEMA public OWNER TO app;
