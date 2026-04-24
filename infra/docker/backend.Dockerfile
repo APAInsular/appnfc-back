@@ -18,6 +18,7 @@ WORKDIR /app
 ENV NODE_ENV=production
 
 COPY --from=build /app/build ./
+COPY --from=build /app/swagger.yml ./swagger.yml
 RUN npm install --omit=dev
 
 EXPOSE 3333
