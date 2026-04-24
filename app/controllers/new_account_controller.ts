@@ -5,7 +5,15 @@ import UserTransformer from '#transformers/user_transformer'
 import MedplumProxyService from '#services/medplum_proxy_service'
 import db from '@adonisjs/lucid/services/db'
 import MedPlumUser from '#models/med_plum_user'
+
+
+
 export default class NewAccountController {
+  /**
+   * @store
+   * @summary Register an account
+   * @requestBody <signupValidator>
+   */
   async store({ request, serialize }: HttpContext) {
     const { firstName, surnames, email, password, role } =
       await request.validateUsing(signupValidator)

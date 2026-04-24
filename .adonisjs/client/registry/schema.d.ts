@@ -55,6 +55,18 @@ export interface Registry {
       errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/profile_controller').default['show']>>>
     }
   }
+  'bracelets.show': {
+    methods: ["GET","HEAD"]
+    pattern: '/api/v1/bracelet/:uid'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { uid: ParamValue }
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/bracelets_controller').default['show']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/bracelets_controller').default['show']>>>
+    }
+  }
   'bracelets.index': {
     methods: ["GET","HEAD"]
     pattern: '/api/v1/bracelet'
@@ -67,33 +79,33 @@ export interface Registry {
       errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/bracelets_controller').default['index']>>>
     }
   }
-  'bracelets.show': {
-    methods: ["GET","HEAD"]
-    pattern: '/api/v1/bracelet/:id'
-    types: {
-      body: {}
-      paramsTuple: [ParamValue]
-      params: { id: ParamValue }
-      query: {}
-      response: ExtractResponse<Awaited<ReturnType<import('#controllers/bracelets_controller').default['show']>>>
-      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/bracelets_controller').default['show']>>>
-    }
-  }
   'bracelets.show_by_user': {
     methods: ["GET","HEAD"]
-    pattern: '/api/v1/bracelet/user/:userId'
+    pattern: '/api/v1/bracelet/user/:userUid'
     types: {
       body: {}
       paramsTuple: [ParamValue]
-      params: { userId: ParamValue }
+      params: { userUid: ParamValue }
       query: {}
       response: ExtractResponse<Awaited<ReturnType<import('#controllers/bracelets_controller').default['showByUser']>>>
       errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/bracelets_controller').default['showByUser']>>>
     }
   }
+  'bracelets.ban_by_uid': {
+    methods: ["PATCH"]
+    pattern: '/api/v1/bracelet/ban/:uid'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { uid: ParamValue }
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/bracelets_controller').default['banByUid']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/bracelets_controller').default['banByUid']>>>
+    }
+  }
   'bracelets.store': {
     methods: ["POST"]
-    pattern: '/api/v1/bracelet/assign'
+    pattern: '/api/v1/bracelet/create'
     types: {
       body: ExtractBody<InferInput<(typeof import('#validators/brecelet').createBraceletValidator)>>
       paramsTuple: []
@@ -101,6 +113,18 @@ export interface Registry {
       query: ExtractQuery<InferInput<(typeof import('#validators/brecelet').createBraceletValidator)>>
       response: ExtractResponse<Awaited<ReturnType<import('#controllers/bracelets_controller').default['store']>>>
       errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/bracelets_controller').default['store']>>> | { status: 422; response: { errors: SimpleError[] } }
+    }
+  }
+  'bracelets.assign': {
+    methods: ["POST"]
+    pattern: '/api/v1/bracelet/assign'
+    types: {
+      body: ExtractBody<InferInput<(typeof import('#validators/brecelet').assignBraceletValidator)>>
+      paramsTuple: []
+      params: {}
+      query: ExtractQuery<InferInput<(typeof import('#validators/brecelet').assignBraceletValidator)>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/bracelets_controller').default['assign']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/bracelets_controller').default['assign']>>> | { status: 422; response: { errors: SimpleError[] } }
     }
   }
   'medplum.index': {

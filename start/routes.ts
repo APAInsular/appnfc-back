@@ -11,6 +11,9 @@ import { middleware } from '#start/kernel'
 import router from '@adonisjs/core/services/router'
 import { controllers } from '#generated/controllers'
 
+import AutoSwagger from 'adonis-autoswagger'
+import swagger from '#config/swagger'
+
 router.get('/', () => {
   return { hello: 'world' }
 })
@@ -39,8 +42,8 @@ router
     // ? Bracelets routes
     router
       .group(() => {
-        // router.get('/:id', [controllers.Bracelets, 'show'])
         // router.put('/:id', [controllers.Bracelets, 'update'])
+        router.get('/:uid', [controllers.Bracelets, 'show'])
         router.get('/', [controllers.Bracelets, 'index'])
         router.get('/user/:userUid', [controllers.Bracelets, 'showByUser'])
         router.patch('/ban/:uid', [controllers.Bracelets, 'banByUid'])
@@ -60,5 +63,13 @@ router
       })
       .prefix('proxy')
       .use(middleware.auth())
+
+    router.get('/swagger', async () => {
+      return AutoSwagger.default.docs(router.toJSON(), swagger)
+    })
+
+    router.get('/docs', async () => {
+      return AutoSwagger.default.scalar('/api/v1/swagger')
+    })
   })
   .prefix('/api/v1')

@@ -17,10 +17,12 @@ export interface ApiDefinition {
     }
   }
   bracelets: {
-    index: typeof routes['bracelets.index']
     show: typeof routes['bracelets.show']
+    index: typeof routes['bracelets.index']
     showByUser: typeof routes['bracelets.show_by_user']
+    banByUid: typeof routes['bracelets.ban_by_uid']
     store: typeof routes['bracelets.store']
+    assign: typeof routes['bracelets.assign']
   }
   medplum: {
     index: typeof routes['medplum.index']

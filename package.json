@@ -68,6 +68,7 @@
     "@medplum/core": "^5.1.4",
     "@tuyau/core": "^1.0.0",
     "@vinejs/vine": "^4.3.0",
+    "adonis-autoswagger": "^3.73.0",
     "better-sqlite3": "^12.6.2",
     "luxon": "^3.7.2",
     "pg": "^8.20.0",

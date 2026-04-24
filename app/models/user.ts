@@ -8,7 +8,22 @@ import { randomUUID } from 'crypto'
 
 export default class User extends compose(UserSchema, withAuthFinder(hash)) {
   static accessTokens = DbAccessTokensProvider.forModel(User)
+
+  // @no-swagger
   declare currentAccessToken?: AccessToken
+
+  // @format(uuid)
+  // @example(550e8400-e29b-41d4-a716-446655440000)
+  declare uid: string
+
+  // @example(Pepito)
+  declare firstName: string
+
+  // @example(Perez)
+  declare surnames: string
+
+  // @format(email)
+  declare email: string
 
   @beforeCreate()
   static assignUid(user: User) {
