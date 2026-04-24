@@ -1,3 +1,4 @@
+import Bracelet from '#models/bracelet'
 import MedPlumUser from '#models/med_plum_user'
 import User from '#models/user'
 import MedplumProxyService from '#services/medplum_proxy_service'
@@ -21,6 +22,7 @@ export const registerUser = async (payload: RegisterPayload) => {
     body: JSON.stringify(payload),
   })
   const body = await response.json()
+  
   return { token: body.data.token as string, user: body.data.user }
 }
 
@@ -48,7 +50,12 @@ export const cleanupUser = async (email: string) => {
     })
   }
 
-  await User.query().where('email', email).delete()
+   const user = await User.findBy('email', email)
+  if (user) {
+    await Bracelet.query().where('user_id', user.id)
+      .update({ user_id: null, state: 'unassigned', assign_date: null })
+    await user.delete()
+  }
 }
 
 export const capitalizeProfileType = (type: string): 'Patient' | 'Practitioner' => {

@@ -10,7 +10,6 @@
 import { middleware } from '#start/kernel'
 import router from '@adonisjs/core/services/router'
 import { controllers } from '#generated/controllers'
-import { MedplumClient } from '@medplum/core';
 
 router.get('/', () => {
   return { hello: 'world' }
@@ -40,11 +39,13 @@ router
     // ? Bracelets routes
     router
       .group(() => {
-        router.get('/', [controllers.Bracelets, 'index'])
-        router.get('/:id', [controllers.Bracelets, 'show'])
-        router.get('/user/:userId', [controllers.Bracelets, 'showByUser'])
+        // router.get('/:id', [controllers.Bracelets, 'show'])
         // router.put('/:id', [controllers.Bracelets, 'update'])
-        router.post('/assign', [controllers.Bracelets, 'store'])
+        router.get('/', [controllers.Bracelets, 'index'])
+        router.get('/user/:userUid', [controllers.Bracelets, 'showByUser'])
+        router.patch('/ban/:uid', [controllers.Bracelets, 'banByUid'])
+        router.post('/create', [controllers.Bracelets, 'store'])
+        router.post('/assign', [controllers.Bracelets, 'assign'])
       })
       .prefix('bracelet')
       .use(middleware.auth())

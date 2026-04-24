@@ -33,10 +33,10 @@ export class AuthAccessTokenSchema extends BaseModel {
 }
 
 export class BraceletSchema extends BaseModel {
-  static $columns = ['assignDate', 'createdAt', 'id', 'model', 'serialNumer', 'state', 'updatedAt', 'userId'] as const
+  static $columns = ['assignDate', 'createdAt', 'id', 'model', 'serialNumber', 'state', 'uid', 'updatedAt', 'userId'] as const
   $columns = BraceletSchema.$columns
   @column.date()
-  declare assignDate: DateTime
+  declare assignDate: DateTime | null
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime | null
   @column({ isPrimary: true })
@@ -44,9 +44,11 @@ export class BraceletSchema extends BaseModel {
   @column()
   declare model: string | null
   @column()
-  declare serialNumer: string | null
+  declare serialNumber: string | null
   @column()
   declare state: string | null
+  @column()
+  declare uid: string
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   declare updatedAt: DateTime | null
   @column()
@@ -75,7 +77,7 @@ export class MedPlumUserSchema extends BaseModel {
 }
 
 export class UserSchema extends BaseModel {
-  static $columns = ['createdAt', 'email', 'firstName', 'id', 'password', 'role', 'surnames', 'updatedAt'] as const
+  static $columns = ['createdAt', 'email', 'firstName', 'id', 'password', 'role', 'surnames', 'uid', 'updatedAt'] as const
   $columns = UserSchema.$columns
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime
@@ -91,6 +93,8 @@ export class UserSchema extends BaseModel {
   declare role: string
   @column()
   declare surnames: string
+  @column()
+  declare uid: string
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   declare updatedAt: DateTime | null
 }
