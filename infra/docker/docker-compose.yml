@@ -103,7 +103,7 @@ services:
     ports:
       - '3000:3000'
     environment:
-      - MEDPLUM_BASE_URL=http://medplum.limpora.xyz
+      - MEDPLUM_BASE_URL=https://medplum.limpora.xyz
     healthcheck:
       test: ['CMD', 'curl', '-f', 'http://localhost:3000']
       interval: 10s
