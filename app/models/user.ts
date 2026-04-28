@@ -25,6 +25,9 @@ export default class User extends compose(UserSchema, withAuthFinder(hash)) {
   // @format(email)
   declare email: string
 
+  // @example(Patient) 
+  declare role: string
+
   @beforeCreate()
   static assignUid(user: User) {
     user.uid = randomUUID()
