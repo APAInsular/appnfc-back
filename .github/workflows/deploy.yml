@@ -26,7 +26,7 @@ jobs:
             TZ=UTC
             PORT=${{ vars.PORT }}
             HOST=${{ vars.HOST }}
-            NODE_ENV=production
+            NODE_ENV=development
 
             LOG_LEVEL=info
             APP_KEY=${{ secrets.APP_KEY }}
