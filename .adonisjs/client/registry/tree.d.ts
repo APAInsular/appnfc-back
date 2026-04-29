@@ -11,6 +11,11 @@ export interface ApiDefinition {
       destroy: typeof routes['auth.access_token.destroy']
     }
   }
+  admin: {
+    newAccount: {
+      storeAdmin: typeof routes['admin.new_account.store_admin']
+    }
+  }
   profile: {
     profile: {
       show: typeof routes['profile.profile.show']

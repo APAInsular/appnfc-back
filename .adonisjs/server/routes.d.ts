@@ -7,11 +7,12 @@ export type ScannedRoutes = {
     'auth.new_account.store': { paramsTuple?: []; params?: {} }
     'auth.access_token.store': { paramsTuple?: []; params?: {} }
     'auth.access_token.destroy': { paramsTuple?: []; params?: {} }
+    'admin.new_account.store_admin': { paramsTuple?: []; params?: {} }
     'profile.profile.show': { paramsTuple?: []; params?: {} }
     'bracelets.show': { paramsTuple: [ParamValue]; params: {'uid': ParamValue} }
     'bracelets.index': { paramsTuple?: []; params?: {} }
     'bracelets.show_by_user': { paramsTuple: [ParamValue]; params: {'userUid': ParamValue} }
-    'bracelets.ban_by_uid': { paramsTuple: [ParamValue]; params: {'uid': ParamValue} }
+    'bracelets.ban_by_uid': { paramsTuple: [ParamValue]; params: {'braceletUuid': ParamValue} }
     'bracelets.store': { paramsTuple?: []; params?: {} }
     'bracelets.assign': { paramsTuple?: []; params?: {} }
     'medplum.index': { paramsTuple: [ParamValue]; params: {'profileType': ParamValue} }
@@ -39,11 +40,12 @@ export type ScannedRoutes = {
     'auth.new_account.store': { paramsTuple?: []; params?: {} }
     'auth.access_token.store': { paramsTuple?: []; params?: {} }
     'auth.access_token.destroy': { paramsTuple?: []; params?: {} }
+    'admin.new_account.store_admin': { paramsTuple?: []; params?: {} }
     'bracelets.store': { paramsTuple?: []; params?: {} }
     'bracelets.assign': { paramsTuple?: []; params?: {} }
   }
   PATCH: {
-    'bracelets.ban_by_uid': { paramsTuple: [ParamValue]; params: {'uid': ParamValue} }
+    'bracelets.ban_by_uid': { paramsTuple: [ParamValue]; params: {'braceletUuid': ParamValue} }
   }
   PUT: {
     'medplum.update': { paramsTuple: [ParamValue,ParamValue]; params: {'profileType': ParamValue,'id': ParamValue} }

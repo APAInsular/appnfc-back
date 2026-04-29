@@ -43,6 +43,18 @@ export interface Registry {
       errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/access_token_controller').default['destroy']>>>
     }
   }
+  'admin.new_account.store_admin': {
+    methods: ["POST"]
+    pattern: '/api/v1/admin/register'
+    types: {
+      body: ExtractBody<InferInput<(typeof import('#validators/user').adminSignupValidator)>>
+      paramsTuple: []
+      params: {}
+      query: ExtractQuery<InferInput<(typeof import('#validators/user').adminSignupValidator)>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/new_account_controller').default['storeAdmin']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/new_account_controller').default['storeAdmin']>>> | { status: 422; response: { errors: SimpleError[] } }
+    }
+  }
   'profile.profile.show': {
     methods: ["GET","HEAD"]
     pattern: '/api/v1/account/profile'
@@ -93,11 +105,11 @@ export interface Registry {
   }
   'bracelets.ban_by_uid': {
     methods: ["PATCH"]
-    pattern: '/api/v1/bracelet/ban/:uid'
+    pattern: '/api/v1/bracelet/ban/:braceletUuid'
     types: {
       body: {}
       paramsTuple: [ParamValue]
-      params: { uid: ParamValue }
+      params: { braceletUuid: ParamValue }
       query: {}
       response: ExtractResponse<Awaited<ReturnType<import('#controllers/bracelets_controller').default['banByUid']>>>
       errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/bracelets_controller').default['banByUid']>>>

@@ -24,6 +24,12 @@ const routes = {
     tokens: [{"old":"/api/v1/auth/logout","type":0,"val":"api","end":""},{"old":"/api/v1/auth/logout","type":0,"val":"v1","end":""},{"old":"/api/v1/auth/logout","type":0,"val":"auth","end":""},{"old":"/api/v1/auth/logout","type":0,"val":"logout","end":""}],
     types: placeholder as Registry['auth.access_token.destroy']['types'],
   },
+  'admin.new_account.store_admin': {
+    methods: ["POST"],
+    pattern: '/api/v1/admin/register',
+    tokens: [{"old":"/api/v1/admin/register","type":0,"val":"api","end":""},{"old":"/api/v1/admin/register","type":0,"val":"v1","end":""},{"old":"/api/v1/admin/register","type":0,"val":"admin","end":""},{"old":"/api/v1/admin/register","type":0,"val":"register","end":""}],
+    types: placeholder as Registry['admin.new_account.store_admin']['types'],
+  },
   'profile.profile.show': {
     methods: ["GET","HEAD"],
     pattern: '/api/v1/account/profile',
@@ -50,8 +56,8 @@ const routes = {
   },
   'bracelets.ban_by_uid': {
     methods: ["PATCH"],
-    pattern: '/api/v1/bracelet/ban/:uid',
-    tokens: [{"old":"/api/v1/bracelet/ban/:uid","type":0,"val":"api","end":""},{"old":"/api/v1/bracelet/ban/:uid","type":0,"val":"v1","end":""},{"old":"/api/v1/bracelet/ban/:uid","type":0,"val":"bracelet","end":""},{"old":"/api/v1/bracelet/ban/:uid","type":0,"val":"ban","end":""},{"old":"/api/v1/bracelet/ban/:uid","type":1,"val":"uid","end":""}],
+    pattern: '/api/v1/bracelet/ban/:braceletUuid',
+    tokens: [{"old":"/api/v1/bracelet/ban/:braceletUuid","type":0,"val":"api","end":""},{"old":"/api/v1/bracelet/ban/:braceletUuid","type":0,"val":"v1","end":""},{"old":"/api/v1/bracelet/ban/:braceletUuid","type":0,"val":"bracelet","end":""},{"old":"/api/v1/bracelet/ban/:braceletUuid","type":0,"val":"ban","end":""},{"old":"/api/v1/bracelet/ban/:braceletUuid","type":1,"val":"braceletUuid","end":""}],
     types: placeholder as Registry['bracelets.ban_by_uid']['types'],
   },
   'bracelets.store': {

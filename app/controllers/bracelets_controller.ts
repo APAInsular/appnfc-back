@@ -7,7 +7,6 @@ import {
 import type { HttpContext } from '@adonisjs/core/http'
 import { UserRole } from '../enums/user_role.ts'
 import { DateTime } from 'luxon'
-import { BraceletCreated } from '../interfaces/bracelet_response.ts';
 
 export default class BraceletsController {
   /**
@@ -28,7 +27,6 @@ export default class BraceletsController {
   /**
    * @store
    * @summary Create a bracelet
-   * @responseBody 200 - <BraceletCreated>
    */
   async store({ request, response, auth }: HttpContext) {
     const { model, serial_number } = await request.validateUsing(createBraceletValidator)
