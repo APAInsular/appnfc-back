@@ -59,7 +59,7 @@ export default class BraceletsController {
    */
   async banByUid({ params, response, auth }: HttpContext) {
     const bracelet = await Bracelet.findByOrFail('uid', params.braceletUuid)
-
+    
     const auth_user = auth.getUserOrFail()
 
     if (auth_user.role !== UserRole.Admin && auth_user.role !== UserRole.Practitioner) {

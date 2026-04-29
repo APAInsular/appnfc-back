@@ -1,15 +1,33 @@
 import { cleanupUser, loginUser, registerUser } from '#tests/helpers/auth'
 import { test } from '@japa/runner'
-import { TEST_MEDIC, TEST_PATIENT } from './signup.spec.ts'
 import Bracelet from '#models/bracelet'
 
-// test.group('Create a bracelet', (group) => {})
+const TEST_MEDIC = {
+  firstName: 'JohnBracelet',
+  surnames: 'DoeTest',
+  email: 'medic_bracelet@example.com',
+  password: 'secret123',
+  passwordConfirmation: 'secret123',
+  role: 'Practitioner',
+} as const
+
+const TEST_PATIENT = {
+  firstName: 'JaneBracelet',
+  surnames: 'DoeTest',
+  email: 'patient_bracelet@example.com',
+  password: 'secret123',
+  passwordConfirmation: 'secret123',
+  role: 'Patient',
+} as const
 
 test.group('Bracelet - Index', (group) => {
   let token: string
   let user_uid: string | null = null
 
-  group.each.setup(async () => {
+  group.setup(async () => {
+    await cleanupUser(TEST_MEDIC.email).catch(() => {})
+    await cleanupUser(TEST_PATIENT.email).catch(() => {})
+
     await registerUser(TEST_MEDIC)
     const { token: t } = await loginUser(TEST_MEDIC.email, TEST_MEDIC.password)
     token = t
@@ -18,11 +36,8 @@ test.group('Bracelet - Index', (group) => {
     user_uid = u.uid
   })
 
-  group.each.teardown(async () => {
-    await Bracelet.query()
-      .whereNotNull('user_id')
-      .update({ user_id: null, state: 'unassigned', assign_date: null })
-    
+  group.teardown(async () => {
+    await Bracelet.query().where('serial_number', 'testtest').delete()
     await cleanupUser(TEST_MEDIC.email)
     await cleanupUser(TEST_PATIENT.email)
   })
@@ -31,10 +46,7 @@ test.group('Bracelet - Index', (group) => {
     const response = await client
       .post('/api/v1/bracelet/create')
       .header('Authorization', `Bearer ${token}`)
-      .json({
-        serial_number: 'testtest',
-        model: 'Test',
-      })
+      .json({ serial_number: 'testtest', model: 'Test' })
 
     response.assertStatus(200)
   })
@@ -48,17 +60,17 @@ test.group('Bracelet - Index', (group) => {
     createResponse.assertStatus(200)
     const { uid: bracelet_uuid } = createResponse.body()
 
-    const response = await client
+    const assignResponse = await client
       .post('/api/v1/bracelet/assign')
       .header('Authorization', `Bearer ${token}`)
-      .json({ user_uuid: user_uid, bracelet_uuid } as any)
+      .json({ user_uuid: user_uid!, bracelet_uuid })
 
-    console.log(response.body())
+    assignResponse.assertStatus(200)
 
-    const deleteResponse = await client
+    const banResponse = await client
       .patch(`/api/v1/bracelet/ban/${bracelet_uuid}`)
       .header('Authorization', `Bearer ${token}`)
 
-    response.assertStatus(200)
+    banResponse.assertStatus(200)
   })
 })

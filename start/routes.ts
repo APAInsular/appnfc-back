@@ -30,6 +30,15 @@ router
       .prefix('auth')
       .as('auth')
 
+    router
+      .group(() => {
+          router.post('register', [controllers.NewAccount, 'storeAdmin'])
+      })
+      .prefix('admin')
+      .as('admin')
+      .use(middleware.admin_bootstrap())
+
+
     // ? Profile management routes
     router
       .group(() => {
@@ -46,7 +55,7 @@ router
         router.get('/:uid', [controllers.Bracelets, 'show'])
         router.get('/', [controllers.Bracelets, 'index'])
         router.get('/user/:userUid', [controllers.Bracelets, 'showByUser'])
-        router.patch('/ban/:uid', [controllers.Bracelets, 'banByUid'])
+        router.patch('/ban/:braceletUuid', [controllers.Bracelets, 'banByUid'])
         router.post('/create', [controllers.Bracelets, 'store'])
         router.post('/assign', [controllers.Bracelets, 'assign'])
       })
@@ -69,7 +78,7 @@ router
     })
 
     router.get('/docs', async () => {
-      return AutoSwagger.default.scalar('/apinfc/api/v1/swagger')
+      return AutoSwagger.default.scalar('/api/v1/swagger')
     })
   })
   .prefix('/api/v1')

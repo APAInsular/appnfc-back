@@ -1,35 +1,39 @@
-
 import { cleanupUser, registerUser } from '#tests/helpers/auth'
 import { test } from '@japa/runner'
 
-export const TEST_MEDIC = {
-  firstName: 'John3',
-  surnames: 'Doe3',
-  email: 'medic3@example.com',
+const TEST_MEDIC = {
+  firstName: 'JohnTest',
+  surnames: 'DoeTest',
+  email: 'medic_reg@example.com',
   password: 'secret123',
   passwordConfirmation: 'secret123',
   role: 'Practitioner',
 } as const
 
-export const TEST_PATIENT = {
-  firstName: 'Jane2',
-  surnames: 'Doe',
-  email: 'patient2@example.com',
+const TEST_PATIENT = {
+  firstName: 'JaneTest',
+  surnames: 'DoeTest',
+  email: 'patient_reg@example.com',
   password: 'secret123',
   passwordConfirmation: 'secret123',
   role: 'Patient',
 } as const
 
-
-const teardown = async () => {
-  await cleanupUser(TEST_MEDIC.email)
-  await cleanupUser(TEST_PATIENT.email)
-}
+const TEST_PATIENT_LOGIN = {
+  firstName: 'JaneLogin',
+  surnames: 'DoeTest',
+  email: 'patient_login@example.com',
+  password: 'secret123',
+  passwordConfirmation: 'secret123',
+  role: 'Patient',
+} as const
 
 // Register - Failures
 
-test.group('Auth - Register', (group) => {
-  group.each.teardown(teardown)
+test.group('Auth - Register - Failures', (group) => {
+  group.each.teardown(async () => {
+    await cleanupUser(TEST_PATIENT.email)
+  })
 
   test('fails with invalid email', async ({ client }) => {
     const response = await client.post('/api/v1/auth/register').json({
@@ -58,8 +62,11 @@ test.group('Auth - Register', (group) => {
 
 // Register - Success
 
-test.group('Auth - Register', (group) => {
-  group.each.teardown(teardown)
+test.group('Auth - Register - Success', (group) => {
+  group.each.teardown(async () => {
+    await cleanupUser(TEST_PATIENT.email)
+    await cleanupUser(TEST_MEDIC.email)
+  })
 
   test('creates a patient account', async ({ client }) => {
     const response = await client.post('/api/v1/auth/register').json(TEST_PATIENT)
@@ -89,20 +96,24 @@ test.group('Auth - Register', (group) => {
 
 test.group('Auth - Login', (group) => {
   group.each.setup(async () => {
-    await registerUser(TEST_PATIENT)
+    await registerUser(TEST_PATIENT_LOGIN)
   })
-  group.each.teardown(teardown)
+
+  group.each.teardown(async () => {
+    await cleanupUser(TEST_PATIENT_LOGIN.email)
+  })
 
   test('logs in with valid credentials', async ({ client }) => {
     const response = await client.post('/api/v1/auth/login').json({
-      email: TEST_PATIENT.email,
-      password: TEST_PATIENT.password,
+      email: TEST_PATIENT_LOGIN.email,
+      password: TEST_PATIENT_LOGIN.password,
+      passwordConfirmation: TEST_PATIENT_LOGIN.password,
     })
 
     response.assertStatus(200)
     response.assertBodyContains({
       data: {
-        user: { email: TEST_PATIENT.email },
+        user: { email: TEST_PATIENT_LOGIN.email },
       },
     })
     response.assertBodyContains({ data: { token: response.body().data?.token } })
@@ -110,8 +121,9 @@ test.group('Auth - Login', (group) => {
 
   test('fails with wrong password', async ({ client }) => {
     const response = await client.post('/api/v1/auth/login').json({
-      email: TEST_PATIENT.email,
+      email: TEST_PATIENT_LOGIN.email,
       password: 'wrongpassword',
+      passwordConfirmation: 'wrongpassword',
     })
 
     response.assertStatus(400)

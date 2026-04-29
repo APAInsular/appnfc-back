@@ -1,12 +1,10 @@
 import User from '#models/user'
-import { signupValidator } from '#validators/user'
+import { adminSignupValidator, signupValidator } from '#validators/user'
 import type { HttpContext } from '@adonisjs/core/http'
 import UserTransformer from '#transformers/user_transformer'
 import MedplumProxyService from '#services/medplum_proxy_service'
 import db from '@adonisjs/lucid/services/db'
 import MedPlumUser from '#models/med_plum_user'
-
-
 
 export default class NewAccountController {
   /**
@@ -47,6 +45,32 @@ export default class NewAccountController {
       }
 
       throw error
+    }
+  }
+
+  async storeAdmin({ request, serialize, response }: HttpContext) {
+    const { email, password } = await request.validateUsing(adminSignupValidator)
+    const trx = await db.transaction()
+
+    const adminExists = await User.query().where('role', 'admin').first()
+
+
+    if (adminExists) return response.forbidden({ message: 'Forbidden' });
+
+    try {
+      const user = await User.create(
+        { firstName: 'Root', surnames: 'Admin', email, password, role: 'Admin' },
+        { client: trx }
+      )
+
+      const token = await User.accessTokens.create(user)
+
+      return serialize({
+        user: UserTransformer.transform(user),
+        token: token.value!.release(),
+      })
+    } catch (error) {
+      await trx.rollback()
     }
   }
 }
