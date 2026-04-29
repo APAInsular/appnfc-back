@@ -1,4 +1,3 @@
-import Bracelet from '#models/bracelet'
 import User from '#models/user'
 import {
   assignBraceletValidator,
@@ -7,6 +6,7 @@ import {
 import type { HttpContext } from '@adonisjs/core/http'
 import { UserRole } from '../enums/user_role.ts'
 import { DateTime } from 'luxon'
+import Bracelet from '#models/bracelet'
 
 export default class BraceletsController {
   /**

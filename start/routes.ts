@@ -32,12 +32,11 @@ router
 
     router
       .group(() => {
-          router.post('register', [controllers.NewAccount, 'storeAdmin'])
+        router.post('register', [controllers.NewAccount, 'storeAdmin'])
       })
       .prefix('admin')
       .as('admin')
       .use(middleware.admin_bootstrap())
-
 
     // ? Profile management routes
     router
