@@ -2,10 +2,12 @@
 import path from 'node:path'
 import url from 'node:url'
 // ---
+const __filename = url.fileURLToPath(import.meta.url)
+const __dirname = path.dirname(__filename)
 
 export default {
   // path: __dirname + "/../", for AdonisJS v5
-  path: process.cwd() + '/',
+  path: __dirname + '/../',
   //title: "Foo", // use info instead
   //version: "1.0.0", // use info instead
   //description: "", // use info instead
