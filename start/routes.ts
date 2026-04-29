@@ -78,7 +78,7 @@ router
     })
 
     router.get('/docs', async () => {
-      return AutoSwagger.default.scalar('/api/v1/swagger')
+      return AutoSwagger.default.scalar('/apinfc/api/v1/swagger')
     })
   })
   .prefix('/api/v1')

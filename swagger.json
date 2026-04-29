@@ -179,6 +179,10 @@
             "type": "string",
             "example": "johndoe@example.com",
             "format": "email"
+          },
+          "role": {
+            "type": "string",
+            "example": "Patient"
           }
         },
         "description": "User (Model)"
@@ -243,14 +247,45 @@
         "properties": {
           "id": {
             "type": "number",
-            "example": 82,
+            "example": 59,
             "required": true
           }
         },
         "example": {
-          "id": 82
+          "id": 59
         },
         "description": "idParamValidator (Validator)"
+      },
+      "adminSignupValidator": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "example": "Lorem Ipsum",
+            "required": true,
+            "maxLength": 254
+          },
+          "password": {
+            "type": "string",
+            "example": "Lorem Ipsum",
+            "required": true,
+            "minLength": 8,
+            "maxLength": 32
+          },
+          "passwordConfirmation": {
+            "type": "string",
+            "example": "Lorem Ipsum",
+            "required": true,
+            "minLength": 8,
+            "maxLength": 32
+          }
+        },
+        "example": {
+          "email": "Lorem Ipsum",
+          "password": "Lorem Ipsum",
+          "passwordConfirmation": "Lorem Ipsum"
+        },
+        "description": "adminSignupValidator (Validator)"
       },
       "loginValidator": {
         "type": "object",
@@ -294,7 +329,7 @@
           },
           "role": {
             "type": "number",
-            "example": 12,
+            "example": 263,
             "choices": [
               "Patient",
               "Practitioner"
@@ -320,7 +355,7 @@
           "firstName": "Lorem Ipsum",
           "surnames": "Lorem Ipsum",
           "email": "Lorem Ipsum",
-          "role": 12,
+          "role": 263,
           "password": "Lorem Ipsum",
           "passwordConfirmation": "Lorem Ipsum"
         },
@@ -373,7 +408,7 @@
                 "firstName": "Lorem Ipsum",
                 "surnames": "Lorem Ipsum",
                 "email": "Lorem Ipsum",
-                "role": 12,
+                "role": 263,
                 "password": "Lorem Ipsum",
                 "passwordConfirmation": "Lorem Ipsum"
               }
@@ -437,6 +472,30 @@
             ]
           }
         ]
+      }
+    },
+    "/api/v1/admin/register": {
+      "post": {
+        "summary": " (storeAdmin)",
+        "description": "\n\n _app/controllers/new_account_controller.ts_ - **storeAdmin**",
+        "parameters": [],
+        "tags": [
+          "ADMIN"
+        ],
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {}
+            }
+          }
+        },
+        "security": [],
+        "requestBody": {
+          "content": {
+            "application/json": {}
+          }
+        }
       }
     },
     "/api/v1/account/profile": {
@@ -544,7 +603,8 @@
                       "uid": "550e8400-e29b-41d4-a716-446655440000",
                       "first_name": "Pepito",
                       "surnames": "Perez",
-                      "email": "johndoe@example.com"
+                      "email": "johndoe@example.com",
+                      "role": "Patient"
                     }
                   }
                 ]
@@ -619,14 +679,14 @@
         ]
       }
     },
-    "/api/v1/bracelet/ban/{uid}": {
+    "/api/v1/bracelet/ban/{braceletUuid}": {
       "patch": {
         "summary": "Bans a bracelet (banByUid)",
         "description": "\n\n _app/controllers/bracelets_controller.ts_ - **banByUid**",
         "parameters": [
           {
             "in": "path",
-            "name": "uid",
+            "name": "braceletUuid",
             "schema": {
               "type": "string"
             },
@@ -912,6 +972,10 @@
     {
       "name": "AUTH",
       "description": "Everything related to AUTH"
+    },
+    {
+      "name": "ADMIN",
+      "description": "Everything related to ADMIN"
     },
     {
       "name": "ACCOUNT",
