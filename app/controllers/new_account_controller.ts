@@ -59,7 +59,6 @@ export default class NewAccountController {
     const trx = await db.transaction()
 
     const adminExists = await User.query().where('role', 'admin').first()
-
     if (adminExists) return response.forbidden({ message: 'Forbidden' })
 
     try {
@@ -67,7 +66,7 @@ export default class NewAccountController {
         { firstName: 'Root', surnames: 'Admin', email, password, role: 'Admin' },
         { client: trx }
       )
-      
+
       await trx.commit()
 
       const token = await User.accessTokens.create(user)

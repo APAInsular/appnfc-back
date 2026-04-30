@@ -22,7 +22,7 @@ export const signupValidator = vine.create({
  * Validator to use when performing admin-signup
  */
 export const adminSignupValidator = vine.create({
-  email: email().unique({ table: 'users', column: 'email' }),
+  email: email(),
   password: password(),
   passwordConfirmation: password().sameAs('password'),
 })
