@@ -48,14 +48,18 @@ export default class NewAccountController {
     }
   }
 
+  /**
+   * @storeAdmin
+   * @summary Register an admin account if there are no admins.
+   * @requestBody <adminSignupValidator>
+   */
   async storeAdmin({ request, serialize, response }: HttpContext) {
     const { email, password } = await request.validateUsing(adminSignupValidator)
     const trx = await db.transaction()
 
     const adminExists = await User.query().where('role', 'admin').first()
 
-
-    if (adminExists) return response.forbidden({ message: 'Forbidden' });
+    if (adminExists) return response.forbidden({ message: 'Forbidden' })
 
     try {
       const user = await User.create(
