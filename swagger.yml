@@ -72,16 +72,6 @@ components:
           type: "string"
           example: "/?page=5"
           nullable: false
-    BraceletCreated:
-      type: "object"
-      properties:
-        uid:
-          type: "string"
-          nullable: false
-          example: "Lorem Ipsum"
-      required:
-        - "uid"
-      description: "BraceletCreated (Interface)"
     Bracelet:
       type: "object"
       required: []
@@ -185,10 +175,10 @@ components:
       properties:
         id:
           type: "number"
-          example: 59
+          example: 786
           required: true
       example:
-        id: 59
+        id: 786
       description: "idParamValidator (Validator)"
     adminSignupValidator:
       type: "object"
@@ -249,7 +239,7 @@ components:
           maxLength: 254
         role:
           type: "number"
-          example: 263
+          example: 331
           choices:
             - "Patient"
             - "Practitioner"
@@ -270,7 +260,7 @@ components:
         firstName: "Lorem Ipsum"
         surnames: "Lorem Ipsum"
         email: "Lorem Ipsum"
-        role: 263
+        role: 331
         password: "Lorem Ipsum"
         passwordConfirmation: "Lorem Ipsum"
       description: "signupValidator (Validator)"
@@ -309,7 +299,7 @@ paths:
               firstName: "Lorem Ipsum"
               surnames: "Lorem Ipsum"
               email: "Lorem Ipsum"
-              role: 263
+              role: 331
               password: "Lorem Ipsum"
               passwordConfirmation: "Lorem Ipsum"
   /api/v1/auth/login:
@@ -350,8 +340,8 @@ paths:
             - "access"
   /api/v1/admin/register:
     post:
-      summary: " (storeAdmin)"
-      description: "\n\n _app/controllers/new_account_controller.ts_ - **storeAdmin**"
+      summary: "Register an admin. (storeAdmin)"
+      description: "Register an admin account if there are no admins\n\n _app/controllers/new_account_controller.ts_ - **storeAdmin**"
       parameters: []
       tags:
         - "ADMIN"
@@ -363,7 +353,13 @@ paths:
       security: []
       requestBody:
         content:
-          application/json: {}
+          application/json:
+            schema:
+              $ref: "#/components/schemas/adminSignupValidator"
+            example:
+              email: "Lorem Ipsum"
+              password: "Lorem Ipsum"
+              passwordConfirmation: "Lorem Ipsum"
   /api/v1/account/profile:
     get:
       summary: "Get your account data (show)"
@@ -506,14 +502,6 @@ paths:
       tags:
         - "BRACELET"
       responses:
-        200:
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/BraceletCreated"
-              example:
-                uid: "Lorem Ipsum"
-          description: "Returns **200** (OK) as **application/json**"
         401:
           description: "Returns **401** (Unauthorized)"
         403:

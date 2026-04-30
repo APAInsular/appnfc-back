@@ -97,20 +97,6 @@
           }
         }
       },
-      "BraceletCreated": {
-        "type": "object",
-        "properties": {
-          "uid": {
-            "type": "string",
-            "nullable": false,
-            "example": "Lorem Ipsum"
-          }
-        },
-        "required": [
-          "uid"
-        ],
-        "description": "BraceletCreated (Interface)"
-      },
       "Bracelet": {
         "type": "object",
         "required": [],
@@ -247,12 +233,12 @@
         "properties": {
           "id": {
             "type": "number",
-            "example": 59,
+            "example": 786,
             "required": true
           }
         },
         "example": {
-          "id": 59
+          "id": 786
         },
         "description": "idParamValidator (Validator)"
       },
@@ -329,7 +315,7 @@
           },
           "role": {
             "type": "number",
-            "example": 263,
+            "example": 331,
             "choices": [
               "Patient",
               "Practitioner"
@@ -355,7 +341,7 @@
           "firstName": "Lorem Ipsum",
           "surnames": "Lorem Ipsum",
           "email": "Lorem Ipsum",
-          "role": 263,
+          "role": 331,
           "password": "Lorem Ipsum",
           "passwordConfirmation": "Lorem Ipsum"
         },
@@ -408,7 +394,7 @@
                 "firstName": "Lorem Ipsum",
                 "surnames": "Lorem Ipsum",
                 "email": "Lorem Ipsum",
-                "role": 263,
+                "role": 331,
                 "password": "Lorem Ipsum",
                 "passwordConfirmation": "Lorem Ipsum"
               }
@@ -476,8 +462,8 @@
     },
     "/api/v1/admin/register": {
       "post": {
-        "summary": " (storeAdmin)",
-        "description": "\n\n _app/controllers/new_account_controller.ts_ - **storeAdmin**",
+        "summary": "Register an admin. (storeAdmin)",
+        "description": "Register an admin account if there are no admins\n\n _app/controllers/new_account_controller.ts_ - **storeAdmin**",
         "parameters": [],
         "tags": [
           "ADMIN"
@@ -493,7 +479,16 @@
         "security": [],
         "requestBody": {
           "content": {
-            "application/json": {}
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/adminSignupValidator"
+              },
+              "example": {
+                "email": "Lorem Ipsum",
+                "password": "Lorem Ipsum",
+                "passwordConfirmation": "Lorem Ipsum"
+              }
+            }
           }
         }
       }
@@ -722,19 +717,6 @@
           "BRACELET"
         ],
         "responses": {
-          "200": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/BraceletCreated"
-                },
-                "example": {
-                  "uid": "Lorem Ipsum"
-                }
-              }
-            },
-            "description": "Returns **200** (OK) as **application/json**"
-          },
           "401": {
             "description": "Returns **401** (Unauthorized)"
           },

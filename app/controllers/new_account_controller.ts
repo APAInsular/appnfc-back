@@ -50,7 +50,8 @@ export default class NewAccountController {
 
   /**
    * @storeAdmin
-   * @summary Register an admin account if there are no admins.
+   * @summary Register an admin.
+   * @description Register an admin account if there are no admins
    * @requestBody <adminSignupValidator>
    */
   async storeAdmin({ request, serialize, response }: HttpContext) {
@@ -68,6 +69,8 @@ export default class NewAccountController {
       )
 
       const token = await User.accessTokens.create(user)
+      
+      await trx.commit() 
 
       return serialize({
         user: UserTransformer.transform(user),
@@ -75,6 +78,7 @@ export default class NewAccountController {
       })
     } catch (error) {
       await trx.rollback()
+      return response.internalServerError({ message: 'Something went wrong' })
     }
   }
 }
