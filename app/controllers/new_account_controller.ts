@@ -67,10 +67,10 @@ export default class NewAccountController {
         { firstName: 'Root', surnames: 'Admin', email, password, role: 'Admin' },
         { client: trx }
       )
+      
+      await trx.commit()
 
       const token = await User.accessTokens.create(user)
-      
-      await trx.commit() 
 
       return serialize({
         user: UserTransformer.transform(user),
@@ -78,6 +78,7 @@ export default class NewAccountController {
       })
     } catch (error) {
       await trx.rollback()
+      console.error(error)
       return response.internalServerError({ message: 'Something went wrong' })
     }
   }
