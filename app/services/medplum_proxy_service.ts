@@ -3,7 +3,9 @@ import User from '#models/user'
 import medplum from '#services/medplum'
 import env from '#start/env'
 import { TransactionClientContract } from '@adonisjs/lucid/types/database'
+import { ResourceArray, WithId } from '@medplum/core'
 import {
+  AllergyIntolerance,
   OperationOutcome,
   Patient,
   Practitioner,
@@ -111,18 +113,35 @@ export default class MedplumProxyService {
     return medplum.updateResource({ ...existing, ...params.data }, { headers }) as Promise<T>
   }
 
-
-    static async deleteAsAdmin(
+  static async deleteAsAdmin(
     params: Omit<DeleteMedplumUserParams, 'behalfMembershipId'>
   ): Promise<void> {
     await medplum.deleteResource(params.profileType, params.profileId)
     await medplum.deleteResource('ProjectMembership', params.membershipId)
   }
 
-
   static async delete(params: Required<DeleteMedplumUserParams>): Promise<void> {
     const headers = this.onBehalfOfHeaders(params.behalfMembershipId)
     await medplum.deleteResource(params.profileType, params.profileId, { headers })
     await medplum.deleteResource('ProjectMembership', params.membershipId)
+  }
+
+  static async getResource<RT extends ResourceType>(
+    patientId: string, resourceType: RT
+  ): Promise<ResourceArray<WithId<AllergyIntolerance>>> {
+    try {
+      const allergies = await medplum.searchResources(resourceType, {
+        patient: `Patient/${patientId}`,
+      })
+
+      if (allergies.length === 0) {
+        return [] as unknown as ResourceArray<WithId<AllergyIntolerance>>
+      }
+
+      return allergies as unknown as ResourceArray<WithId<AllergyIntolerance>>
+    } catch (error) {
+      console.error('Error getting allergies:', error)
+      return [] as unknown as ResourceArray<WithId<AllergyIntolerance>>
+    }
   }
 }

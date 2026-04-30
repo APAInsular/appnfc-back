@@ -68,10 +68,20 @@ router
     // ? Medplum Proxy
     router
       .group(() => {
-        router.get('/medplum/:profileType', [controllers.Medplum, 'index'])
-        router.get('/medplum/:profileType/:id', [controllers.Medplum, 'show'])
-        router.put('/medplum/:profileType/:id', [controllers.Medplum, 'update'])
-        router.delete('/medplum/:profileType/:id', [controllers.Medplum, 'destroy'])
+        router
+          .group(() => {
+            router.get('/:profileType', [controllers.Medplum, 'index'])
+            router.get('/:profileType/:id', [controllers.Medplum, 'show'])
+            router.put('/:profileType/:id', [controllers.Medplum, 'update'])
+            router.delete('/:profileType/:id', [controllers.Medplum, 'destroy'])
+          })
+          .prefix('profiles')
+
+        router
+          .group(() => {
+            router.get('/:profileType/:id/:resourceType', [controllers.Medplum, 'getInfo'])
+          })
+          .prefix('clinical')
       })
       .prefix('proxy')
       .use(middleware.auth())

@@ -78,4 +78,19 @@ export default class MedplumController {
     const target = await User.findOrFail(params.id)
     await cleanupUser(target.email)
   }
+
+
+  /**
+   * @getInfo
+   * @summary Gets info
+   */
+  async getInfo({ params }: HttpContext) {
+    const resourceType = params.resourceType
+
+    const medplumUser = await this.getMedplumUser(params.id)
+
+    const content = await MedplumProxyService.getResource(medplumUser.profileId!, resourceType)
+
+    return content
+  }
 }
