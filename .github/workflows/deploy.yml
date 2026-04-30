@@ -46,6 +46,8 @@ jobs:
             DB_PASSWORD=${{ secrets.PG_PASSWORD }}
             DB_DATABASE=${{ secrets.PG_DB_NAME }}
 
+            ADMIN_BOOTSTRAP_SECRET=${{ secrets.ADMIN_BOOTSTRAP_SECRET }}
+
             ENVEOF
 
             COMPOSE_FILE=/var/www/html/appnfc-back/infra/docker/docker-compose.yml
