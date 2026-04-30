@@ -31,12 +31,16 @@ router
       .as('auth')
 
     router
+      .post('admin/register-once', [controllers.NewAccount, 'storeAdminOnce'])
+      .use(middleware.admin_bootstrap())
+
+    router
       .group(() => {
         router.post('register', [controllers.NewAccount, 'storeAdmin'])
       })
       .prefix('admin')
       .as('admin')
-      .use(middleware.admin_bootstrap())
+      .use([middleware.auth(), middleware.role(['Admin'])])
 
     // ? Profile management routes
     router

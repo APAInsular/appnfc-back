@@ -19,9 +19,19 @@ export const signupValidator = vine.create({
 })
 
 /**
+ * Validator to use when performing once admin-signup
+ */
+export const onceAdminSignupValidator = vine.create({
+  email: email(),
+  password: password(),
+  passwordConfirmation: password().sameAs('password'),
+})
+
+/**
  * Validator to use when performing admin-signup
  */
 export const adminSignupValidator = vine.create({
+  name: vine.string().minLength(3).maxLength(50),
   email: email(),
   password: password(),
   passwordConfirmation: password().sameAs('password'),
