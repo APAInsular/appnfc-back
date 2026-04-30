@@ -58,7 +58,7 @@ export default class NewAccountController {
     const { email, password } = await request.validateUsing(adminSignupValidator)
     const trx = await db.transaction()
 
-    const adminExists = await User.query().where('role', 'admin').first()
+    const adminExists = await User.query().where('role', 'Admin').first()
     if (adminExists) return response.forbidden({ message: 'Forbidden' })
 
     try {
