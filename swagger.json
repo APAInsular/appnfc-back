@@ -233,16 +233,76 @@
         "properties": {
           "id": {
             "type": "number",
-            "example": 786,
+            "example": 397,
             "required": true
           }
         },
         "example": {
-          "id": 786
+          "id": 397
         },
         "description": "idParamValidator (Validator)"
       },
       "adminSignupValidator": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "example": "Lorem Ipsum",
+            "required": true,
+            "minLength": 3,
+            "maxLength": 50
+          },
+          "email": {
+            "type": "string",
+            "example": "Lorem Ipsum",
+            "required": true,
+            "maxLength": 254
+          },
+          "password": {
+            "type": "string",
+            "example": "Lorem Ipsum",
+            "required": true,
+            "minLength": 8,
+            "maxLength": 32
+          },
+          "passwordConfirmation": {
+            "type": "string",
+            "example": "Lorem Ipsum",
+            "required": true,
+            "minLength": 8,
+            "maxLength": 32
+          }
+        },
+        "example": {
+          "name": "Lorem Ipsum",
+          "email": "Lorem Ipsum",
+          "password": "Lorem Ipsum",
+          "passwordConfirmation": "Lorem Ipsum"
+        },
+        "description": "adminSignupValidator (Validator)"
+      },
+      "loginValidator": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "example": "Lorem Ipsum",
+            "required": true,
+            "maxLength": 254
+          },
+          "password": {
+            "type": "string",
+            "example": "Lorem Ipsum",
+            "required": true
+          }
+        },
+        "example": {
+          "email": "Lorem Ipsum",
+          "password": "Lorem Ipsum"
+        },
+        "description": "loginValidator (Validator)"
+      },
+      "onceAdminSignupValidator": {
         "type": "object",
         "properties": {
           "email": {
@@ -271,28 +331,7 @@
           "password": "Lorem Ipsum",
           "passwordConfirmation": "Lorem Ipsum"
         },
-        "description": "adminSignupValidator (Validator)"
-      },
-      "loginValidator": {
-        "type": "object",
-        "properties": {
-          "email": {
-            "type": "string",
-            "example": "Lorem Ipsum",
-            "required": true,
-            "maxLength": 254
-          },
-          "password": {
-            "type": "string",
-            "example": "Lorem Ipsum",
-            "required": true
-          }
-        },
-        "example": {
-          "email": "Lorem Ipsum",
-          "password": "Lorem Ipsum"
-        },
-        "description": "loginValidator (Validator)"
+        "description": "onceAdminSignupValidator (Validator)"
       },
       "signupValidator": {
         "type": "object",
@@ -315,7 +354,7 @@
           },
           "role": {
             "type": "number",
-            "example": 331,
+            "example": 151,
             "choices": [
               "Patient",
               "Practitioner"
@@ -341,7 +380,7 @@
           "firstName": "Lorem Ipsum",
           "surnames": "Lorem Ipsum",
           "email": "Lorem Ipsum",
-          "role": 331,
+          "role": 151,
           "password": "Lorem Ipsum",
           "passwordConfirmation": "Lorem Ipsum"
         },
@@ -394,7 +433,7 @@
                 "firstName": "Lorem Ipsum",
                 "surnames": "Lorem Ipsum",
                 "email": "Lorem Ipsum",
-                "role": 331,
+                "role": 151,
                 "password": "Lorem Ipsum",
                 "passwordConfirmation": "Lorem Ipsum"
               }
@@ -460,10 +499,10 @@
         ]
       }
     },
-    "/api/v1/admin/register": {
+    "/api/v1/admin/register-once": {
       "post": {
-        "summary": "Register an admin. (storeAdmin)",
-        "description": "Register an admin account if there are no admins\n\n _app/controllers/new_account_controller.ts_ - **storeAdmin**",
+        "summary": "Register once an admin. (storeAdminOnce)",
+        "description": "Register an admin account if there are no admins\n\n _app/controllers/new_account_controller.ts_ - **storeAdminOnce**",
         "parameters": [],
         "tags": [
           "ADMIN"
@@ -481,9 +520,49 @@
           "content": {
             "application/json": {
               "schema": {
+                "$ref": "#/components/schemas/onceAdminSignupValidator"
+              },
+              "example": {
+                "email": "Lorem Ipsum",
+                "password": "Lorem Ipsum",
+                "passwordConfirmation": "Lorem Ipsum"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/admin/register": {
+      "post": {
+        "summary": "Register an admin. (storeAdmin)",
+        "description": "Register an admin account if you are an admin\n\n _app/controllers/new_account_controller.ts_ - **storeAdmin**",
+        "parameters": [],
+        "tags": [
+          "ADMIN"
+        ],
+        "responses": {
+          "401": {
+            "description": "Returns **401** (Unauthorized)"
+          },
+          "403": {
+            "description": "Returns **403** (Forbidden)"
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": [
+              "access"
+            ]
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
                 "$ref": "#/components/schemas/adminSignupValidator"
               },
               "example": {
+                "name": "Lorem Ipsum",
                 "email": "Lorem Ipsum",
                 "password": "Lorem Ipsum",
                 "passwordConfirmation": "Lorem Ipsum"
@@ -758,7 +837,7 @@
         ]
       }
     },
-    "/api/v1/proxy/medplum/{profileType}": {
+    "/api/v1/proxy/profiles/{profileType}": {
       "get": {
         "summary": "List all medplum profiles (index)",
         "description": "Returns **200** (OK) as **application/json**\n\n _app/controllers/medplum_controller.ts_ - **index**",
@@ -811,7 +890,7 @@
         ]
       }
     },
-    "/api/v1/proxy/medplum/{profileType}/{id}": {
+    "/api/v1/proxy/profiles/{profileType}/{id}": {
       "get": {
         "summary": "Show all medplum users (show)",
         "description": "Returns **200** (OK) as **text/plain**\n\n _app/controllers/medplum_controller.ts_ - **show**",
@@ -923,6 +1002,56 @@
           {
             "in": "path",
             "name": "id",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "tags": [
+          "PROXY"
+        ],
+        "responses": {
+          "401": {
+            "description": "Returns **401** (Unauthorized)"
+          },
+          "403": {
+            "description": "Returns **403** (Forbidden)"
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": [
+              "access"
+            ]
+          }
+        ]
+      }
+    },
+    "/api/v1/proxy/clinical/{profileType}/{id}/{resourceType}": {
+      "get": {
+        "summary": "Gets info (getInfo)",
+        "description": "\n\n _app/controllers/medplum_controller.ts_ - **getInfo**",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "profileType",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "id",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "resourceType",
             "schema": {
               "type": "string"
             },
