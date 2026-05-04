@@ -2,6 +2,7 @@ import User from '#models/user'
 import { loginValidator } from '#validators/user'
 import type { HttpContext } from '@adonisjs/core/http'
 import UserTransformer from '#transformers/user_transformer'
+import logger from '@adonisjs/core/services/logger'
 
 export default class AccessTokenController {
   /**
@@ -11,6 +12,8 @@ export default class AccessTokenController {
    */
   async store({ request, serialize }: HttpContext) {
     const { email, password } = await request.validateUsing(loginValidator)
+
+    logger.debug('Processing login request', { email })
 
     const user = await User.verifyCredentials(email, password)
     const token = await User.accessTokens.create(user)
@@ -27,6 +30,9 @@ export default class AccessTokenController {
    */
   async destroy({ auth }: HttpContext) {
     const user = auth.getUserOrFail()
+
+    logger.debug('Processing logout request', { email: user.email })
+
     if (user.currentAccessToken) {
       await User.accessTokens.delete(user, user.currentAccessToken.identifier)
     }

@@ -1,12 +1,10 @@
 import User from '#models/user'
-import {
-  assignBraceletValidator,
-  createBraceletValidator,
-} from '#validators/brecelet'
+import { assignBraceletValidator, createBraceletValidator } from '#validators/brecelet'
 import type { HttpContext } from '@adonisjs/core/http'
 import { UserRole } from '../enums/user_role.ts'
 import { DateTime } from 'luxon'
 import Bracelet from '#models/bracelet'
+import logger from '@adonisjs/core/services/logger'
 
 export default class BraceletsController {
   /**
@@ -14,12 +12,17 @@ export default class BraceletsController {
    * @summary List all bracelets
    * @responseBody 200 - <Bracelet[]>.with(user)
    */
-  async index({ response }: HttpContext) {
+  async index({ auth, response }: HttpContext) {
     const bracelets = await Bracelet.query()
       .preload('user', (query) => {
         query.select('id', 'firstName', 'surnames')
       })
       .orderBy('created_at', 'desc')
+
+    logger.debug('Get all bracelets', {
+      count: bracelets.length,
+      userUid: auth.user?.uid,
+    })
 
     return response.json(bracelets)
   }
@@ -31,6 +34,8 @@ export default class BraceletsController {
   async store({ request, response, auth }: HttpContext) {
     const { model, serial_number } = await request.validateUsing(createBraceletValidator)
 
+    logger.info({ model, serial_number }, 'Processing creation of new bracelet.')
+
     const auth_user = auth.getUserOrFail()
 
     if (auth_user.role !== UserRole.Admin && auth_user.role !== UserRole.Practitioner) {
@@ -41,6 +46,11 @@ export default class BraceletsController {
       model,
       state: 'unassigned',
       serialNumber: serial_number,
+    })
+
+    logger.debug('Created new bracelet', {
+      braceletInfo: newBracelet,
+      userUid: auth.user?.uid,
     })
 
     await newBracelet.refresh()
@@ -57,7 +67,9 @@ export default class BraceletsController {
    */
   async banByUid({ params, response, auth }: HttpContext) {
     const bracelet = await Bracelet.findByOrFail('uid', params.braceletUuid)
-    
+
+    logger.info({ uid: params.braceletUuid }, 'Trying to ban a bracelet')
+
     const auth_user = auth.getUserOrFail()
 
     if (auth_user.role !== UserRole.Admin && auth_user.role !== UserRole.Practitioner) {
@@ -69,6 +81,12 @@ export default class BraceletsController {
         state: 'banned',
       })
       .save()
+
+    logger.debug('Banned bracelet', {
+      braceletUid: bracelet.uid,
+      state: bracelet.state,
+      userUid: auth.user?.uid,
+    })
   }
 
   /**
@@ -77,6 +95,11 @@ export default class BraceletsController {
    */
   async assign({ request, response, auth }: HttpContext) {
     const { user_uuid, bracelet_uuid } = await request.validateUsing(assignBraceletValidator)
+
+    logger.info(
+      { userUid: user_uuid, braceletUid: bracelet_uuid },
+      'Trying to assign a bracelet to an user.'
+    )
 
     const auth_user = auth.getUserOrFail()
 
@@ -99,6 +122,12 @@ export default class BraceletsController {
         assignDate: DateTime.now(),
       })
       .save()
+
+    logger.debug('Assigned bracelet', {
+      braceletUid: bracelet.uid,
+      state: bracelet.state,
+      userUid: auth.user?.uid,
+    })
   }
 
   /**
@@ -107,6 +136,8 @@ export default class BraceletsController {
    * @responseBody 200 - <Bracelet>
    */
   async show({ params }: HttpContext) {
+    logger.info('Obtaining bracelet by UID.')
+
     return await Bracelet.findByOrFail('uid', params.userUid)
   }
 
@@ -117,17 +148,11 @@ export default class BraceletsController {
    */
   async showByUser({ params }: HttpContext) {
     const user = await User.findByOrFail('uid', params.userUid)
+    logger.info('Obtaining bracelet by user UID.')
 
     return await Bracelet.query()
       .select('uid', 'assign_date', 'serial_number', 'state')
       .where('user_id', user.id)
       .firstOrFail()
   }
-
-  /*async update({ auth, params, request, response }: HttpContext) {
-    const user = await auth.getUserOrFail()
-
-    
- 
-  }*/
 }

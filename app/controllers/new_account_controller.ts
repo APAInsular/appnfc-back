@@ -5,8 +5,10 @@ import UserTransformer from '#transformers/user_transformer'
 import MedplumProxyService from '#services/medplum_proxy_service'
 import db from '@adonisjs/lucid/services/db'
 import MedPlumUser from '#models/med_plum_user'
+import logger from '@adonisjs/core/services/logger'
 
 export default class NewAccountController {
+  // TODO: Split into two endpoints for security reasons.
   /**
    * @store
    * @summary Register an account
@@ -15,6 +17,8 @@ export default class NewAccountController {
   async store({ request, serialize }: HttpContext) {
     const { firstName, surnames, email, password, role } =
       await request.validateUsing(signupValidator)
+
+    logger.info({ email, role }, 'Processing new account.')
 
     const trx = await db.transaction()
     let medplumUser: MedPlumUser | null = null
@@ -56,6 +60,9 @@ export default class NewAccountController {
    */
   async storeAdminOnce({ request, serialize, response }: HttpContext) {
     const { email, password } = await request.validateUsing(onceAdminSignupValidator)
+
+    logger.warn({ email }, 'Processing first Admin request.')
+
     const trx = await db.transaction()
 
     const adminExists = await User.query().where('role', 'Admin').first()
@@ -71,13 +78,20 @@ export default class NewAccountController {
 
       const token = await User.accessTokens.create(user)
 
+      logger.debug('First admin created: ', {
+        firstName: user.firstName,
+        surnames: user.surnames,
+        email,
+        role: user.role,
+      })
+
       return serialize({
         user: UserTransformer.transform(user),
         token: token.value!.release(),
       })
     } catch (error) {
       await trx.rollback()
-      console.error(error)
+      logger.error({ error }, 'Failed to create first Admin account.')
       return response.internalServerError({ message: 'Something went wrong' })
     }
   }
@@ -88,8 +102,11 @@ export default class NewAccountController {
    * @description Register an admin account if you are an admin
    * @requestBody <adminSignupValidator>
    */
-  async storeAdmin({ request, serialize, response }: HttpContext) {
+  async storeAdmin({ auth, request, serialize, response }: HttpContext) {
     const { name, email, password } = await request.validateUsing(adminSignupValidator)
+
+    logger.warn({ name, email, by: { name: auth.user?.firstName } }, 'Processing Admin account creation request.')
+
     const trx = await db.transaction()
 
     try {
@@ -102,13 +119,21 @@ export default class NewAccountController {
 
       const token = await User.accessTokens.create(user)
 
+      logger.debug('New Admin account created: ', {
+        firstName: user.firstName,
+        surnames: user.surnames,
+        email,
+        role: user.role,
+        by: { email: auth.user?.email }
+      })
+
       return serialize({
         user: UserTransformer.transform(user),
         token: token.value!.release(),
       })
     } catch (error) {
       await trx.rollback()
-      console.error(error)
+      logger.error({ error }, 'Failed to create an Admin account.')
       return response.internalServerError({ message: 'Something went wrong' })
     }
   }
