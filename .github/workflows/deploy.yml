@@ -50,7 +50,7 @@ jobs:
 
             ENVEOF
 
-            COMPOSE_FILE=/var/www/html/appnfc-back/infra/docker/docker-compose.yml
+            COMPOSE_FILE=/opt/qvida/appnfc-back/infra/docker/docker-compose.yml
             
             docker image prune -f --filter "until=24h"
             docker compose -f $COMPOSE_FILE stop app-backend
