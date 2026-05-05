@@ -11,6 +11,9 @@ export interface ApiDefinition {
       destroy: typeof routes['auth.access_token.destroy']
     }
   }
+  newAccount: {
+    storeAdminOnce: typeof routes['new_account.store_admin_once']
+  }
   admin: {
     newAccount: {
       storeAdmin: typeof routes['admin.new_account.store_admin']
@@ -29,10 +32,20 @@ export interface ApiDefinition {
     store: typeof routes['bracelets.store']
     assign: typeof routes['bracelets.assign']
   }
+  data: {
+    show: typeof routes['data.show']
+    allergies: typeof routes['data.allergies']
+    medications: typeof routes['data.medications']
+    pathologies: typeof routes['data.pathologies']
+    inplantDevices: typeof routes['data.inplant_devices']
+    neurologicalStatus: typeof routes['data.neurological_status']
+    bloodTypes: typeof routes['data.blood_types']
+  }
   medplum: {
     index: typeof routes['medplum.index']
     show: typeof routes['medplum.show']
     update: typeof routes['medplum.update']
     destroy: typeof routes['medplum.destroy']
+    getInfo: typeof routes['medplum.get_info']
   }
 }

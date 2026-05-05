@@ -65,6 +65,27 @@ router
       .prefix('bracelet')
       .use(middleware.auth())
 
+    router
+      .group(() => {
+        router.get('/', [controllers.Data, 'show'])
+        router.get('/allergies', [controllers.Data, 'allergies'])
+        router.get('/medications', [controllers.Data, 'medications'])
+        router.get('/pathologies', [controllers.Data, 'pathologies'])
+        router.get('/implant-devices', [controllers.Data, 'inplantDevices'])
+        router.get('/neurological-status', [controllers.Data, 'neurologicalStatus'])
+        router.get('/blood-types', [controllers.Data, 'bloodTypes'])
+      })
+      .prefix('data')
+
+    router
+      .group(() => {
+        // router.get('/', [controllers.Me, 'show'])
+        // router.put('/', [controllers.Me, 'update'])
+        // router.post('/', [controllers.Me, 'store'])
+      })
+      .prefix('me')
+      .use(middleware.auth())
+
     // ? Medplum Proxy
     router
       .group(() => {

@@ -43,6 +43,18 @@ export interface Registry {
       errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/access_token_controller').default['destroy']>>>
     }
   }
+  'new_account.store_admin_once': {
+    methods: ["POST"]
+    pattern: '/api/v1/admin/register-once'
+    types: {
+      body: ExtractBody<InferInput<(typeof import('#validators/user').onceAdminSignupValidator)>>
+      paramsTuple: []
+      params: {}
+      query: ExtractQuery<InferInput<(typeof import('#validators/user').onceAdminSignupValidator)>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/new_account_controller').default['storeAdminOnce']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/new_account_controller').default['storeAdminOnce']>>> | { status: 422; response: { errors: SimpleError[] } }
+    }
+  }
   'admin.new_account.store_admin': {
     methods: ["POST"]
     pattern: '/api/v1/admin/register'
@@ -139,9 +151,93 @@ export interface Registry {
       errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/bracelets_controller').default['assign']>>> | { status: 422; response: { errors: SimpleError[] } }
     }
   }
+  'data.show': {
+    methods: ["GET","HEAD"]
+    pattern: '/api/v1/data'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/data_controller').default['show']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/data_controller').default['show']>>>
+    }
+  }
+  'data.allergies': {
+    methods: ["GET","HEAD"]
+    pattern: '/api/v1/data/allergies'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/data_controller').default['allergies']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/data_controller').default['allergies']>>>
+    }
+  }
+  'data.medications': {
+    methods: ["GET","HEAD"]
+    pattern: '/api/v1/data/medications'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/data_controller').default['medications']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/data_controller').default['medications']>>>
+    }
+  }
+  'data.pathologies': {
+    methods: ["GET","HEAD"]
+    pattern: '/api/v1/data/pathologies'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/data_controller').default['pathologies']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/data_controller').default['pathologies']>>>
+    }
+  }
+  'data.inplant_devices': {
+    methods: ["GET","HEAD"]
+    pattern: '/api/v1/data/implant-devices'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/data_controller').default['inplantDevices']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/data_controller').default['inplantDevices']>>>
+    }
+  }
+  'data.neurological_status': {
+    methods: ["GET","HEAD"]
+    pattern: '/api/v1/data/neurological-status'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/data_controller').default['neurologicalStatus']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/data_controller').default['neurologicalStatus']>>>
+    }
+  }
+  'data.blood_types': {
+    methods: ["GET","HEAD"]
+    pattern: '/api/v1/data/blood-types'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/data_controller').default['bloodTypes']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/data_controller').default['bloodTypes']>>>
+    }
+  }
   'medplum.index': {
     methods: ["GET","HEAD"]
-    pattern: '/api/v1/proxy/medplum/:profileType'
+    pattern: '/api/v1/proxy/profiles/:profileType'
     types: {
       body: {}
       paramsTuple: [ParamValue]
@@ -153,7 +249,7 @@ export interface Registry {
   }
   'medplum.show': {
     methods: ["GET","HEAD"]
-    pattern: '/api/v1/proxy/medplum/:profileType/:id'
+    pattern: '/api/v1/proxy/profiles/:profileType/:id'
     types: {
       body: {}
       paramsTuple: [ParamValue, ParamValue]
@@ -165,7 +261,7 @@ export interface Registry {
   }
   'medplum.update': {
     methods: ["PUT"]
-    pattern: '/api/v1/proxy/medplum/:profileType/:id'
+    pattern: '/api/v1/proxy/profiles/:profileType/:id'
     types: {
       body: {}
       paramsTuple: [ParamValue, ParamValue]
@@ -177,7 +273,7 @@ export interface Registry {
   }
   'medplum.destroy': {
     methods: ["DELETE"]
-    pattern: '/api/v1/proxy/medplum/:profileType/:id'
+    pattern: '/api/v1/proxy/profiles/:profileType/:id'
     types: {
       body: {}
       paramsTuple: [ParamValue, ParamValue]
@@ -185,6 +281,18 @@ export interface Registry {
       query: {}
       response: ExtractResponse<Awaited<ReturnType<import('#controllers/medplum_controller').default['destroy']>>>
       errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/medplum_controller').default['destroy']>>>
+    }
+  }
+  'medplum.get_info': {
+    methods: ["GET","HEAD"]
+    pattern: '/api/v1/proxy/clinical/:profileType/:id/:resourceType'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue, ParamValue, ParamValue]
+      params: { profileType: ParamValue; id: ParamValue; resourceType: ParamValue }
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/medplum_controller').default['getInfo']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/medplum_controller').default['getInfo']>>>
     }
   }
 }
