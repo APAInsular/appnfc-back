@@ -78,11 +78,11 @@ const routes = {
     tokens: [{"old":"/api/v1/bracelet/assign","type":0,"val":"api","end":""},{"old":"/api/v1/bracelet/assign","type":0,"val":"v1","end":""},{"old":"/api/v1/bracelet/assign","type":0,"val":"bracelet","end":""},{"old":"/api/v1/bracelet/assign","type":0,"val":"assign","end":""}],
     types: placeholder as Registry['bracelets.assign']['types'],
   },
-  'data.show': {
+  'bracelets.models': {
     methods: ["GET","HEAD"],
-    pattern: '/api/v1/data',
-    tokens: [{"old":"/api/v1/data","type":0,"val":"api","end":""},{"old":"/api/v1/data","type":0,"val":"v1","end":""},{"old":"/api/v1/data","type":0,"val":"data","end":""}],
-    types: placeholder as Registry['data.show']['types'],
+    pattern: '/api/v1/bracelet/models',
+    tokens: [{"old":"/api/v1/bracelet/models","type":0,"val":"api","end":""},{"old":"/api/v1/bracelet/models","type":0,"val":"v1","end":""},{"old":"/api/v1/bracelet/models","type":0,"val":"bracelet","end":""},{"old":"/api/v1/bracelet/models","type":0,"val":"models","end":""}],
+    types: placeholder as Registry['bracelets.models']['types'],
   },
   'data.allergies': {
     methods: ["GET","HEAD"],
@@ -114,11 +114,23 @@ const routes = {
     tokens: [{"old":"/api/v1/data/neurological-status","type":0,"val":"api","end":""},{"old":"/api/v1/data/neurological-status","type":0,"val":"v1","end":""},{"old":"/api/v1/data/neurological-status","type":0,"val":"data","end":""},{"old":"/api/v1/data/neurological-status","type":0,"val":"neurological-status","end":""}],
     types: placeholder as Registry['data.neurological_status']['types'],
   },
-  'data.blood_types': {
+  'us.show': {
     methods: ["GET","HEAD"],
-    pattern: '/api/v1/data/blood-types',
-    tokens: [{"old":"/api/v1/data/blood-types","type":0,"val":"api","end":""},{"old":"/api/v1/data/blood-types","type":0,"val":"v1","end":""},{"old":"/api/v1/data/blood-types","type":0,"val":"data","end":""},{"old":"/api/v1/data/blood-types","type":0,"val":"blood-types","end":""}],
-    types: placeholder as Registry['data.blood_types']['types'],
+    pattern: '/api/v1/me',
+    tokens: [{"old":"/api/v1/me","type":0,"val":"api","end":""},{"old":"/api/v1/me","type":0,"val":"v1","end":""},{"old":"/api/v1/me","type":0,"val":"me","end":""}],
+    types: placeholder as Registry['us.show']['types'],
+  },
+  'us.update': {
+    methods: ["PUT"],
+    pattern: '/api/v1/me',
+    tokens: [{"old":"/api/v1/me","type":0,"val":"api","end":""},{"old":"/api/v1/me","type":0,"val":"v1","end":""},{"old":"/api/v1/me","type":0,"val":"me","end":""}],
+    types: placeholder as Registry['us.update']['types'],
+  },
+  'us.store': {
+    methods: ["POST"],
+    pattern: '/api/v1/me',
+    tokens: [{"old":"/api/v1/me","type":0,"val":"api","end":""},{"old":"/api/v1/me","type":0,"val":"v1","end":""},{"old":"/api/v1/me","type":0,"val":"me","end":""}],
+    types: placeholder as Registry['us.store']['types'],
   },
   'medplum.index': {
     methods: ["GET","HEAD"],

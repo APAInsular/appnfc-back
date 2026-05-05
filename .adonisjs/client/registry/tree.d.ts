@@ -31,15 +31,19 @@ export interface ApiDefinition {
     banByUid: typeof routes['bracelets.ban_by_uid']
     store: typeof routes['bracelets.store']
     assign: typeof routes['bracelets.assign']
+    models: typeof routes['bracelets.models']
   }
   data: {
-    show: typeof routes['data.show']
     allergies: typeof routes['data.allergies']
     medications: typeof routes['data.medications']
     pathologies: typeof routes['data.pathologies']
     inplantDevices: typeof routes['data.inplant_devices']
     neurologicalStatus: typeof routes['data.neurological_status']
-    bloodTypes: typeof routes['data.blood_types']
+  }
+  us: {
+    show: typeof routes['us.show']
+    update: typeof routes['us.update']
+    store: typeof routes['us.store']
   }
   medplum: {
     index: typeof routes['medplum.index']

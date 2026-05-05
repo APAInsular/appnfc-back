@@ -151,16 +151,16 @@ export interface Registry {
       errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/bracelets_controller').default['assign']>>> | { status: 422; response: { errors: SimpleError[] } }
     }
   }
-  'data.show': {
+  'bracelets.models': {
     methods: ["GET","HEAD"]
-    pattern: '/api/v1/data'
+    pattern: '/api/v1/bracelet/models'
     types: {
       body: {}
       paramsTuple: []
       params: {}
       query: {}
-      response: ExtractResponse<Awaited<ReturnType<import('#controllers/data_controller').default['show']>>>
-      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/data_controller').default['show']>>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/bracelets_controller').default['models']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/bracelets_controller').default['models']>>>
     }
   }
   'data.allergies': {
@@ -223,16 +223,40 @@ export interface Registry {
       errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/data_controller').default['neurologicalStatus']>>>
     }
   }
-  'data.blood_types': {
+  'us.show': {
     methods: ["GET","HEAD"]
-    pattern: '/api/v1/data/blood-types'
+    pattern: '/api/v1/me'
     types: {
       body: {}
       paramsTuple: []
       params: {}
       query: {}
-      response: ExtractResponse<Awaited<ReturnType<import('#controllers/data_controller').default['bloodTypes']>>>
-      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/data_controller').default['bloodTypes']>>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/us_controller').default['show']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/us_controller').default['show']>>>
+    }
+  }
+  'us.update': {
+    methods: ["PUT"]
+    pattern: '/api/v1/me'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/us_controller').default['update']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/us_controller').default['update']>>>
+    }
+  }
+  'us.store': {
+    methods: ["POST"]
+    pattern: '/api/v1/me'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/us_controller').default['store']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/us_controller').default['store']>>>
     }
   }
   'medplum.index': {

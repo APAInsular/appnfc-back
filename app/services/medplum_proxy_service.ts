@@ -167,24 +167,33 @@ export default class MedplumProxyService {
   }
 
   static async getValueSetConcepts(valueSetId: string) {
-    const valueSet = await medplum.get(`fhir/R4/ValueSet/${valueSetId}/$expand`)
-
-    const concepts: Record<string, string> = {}
-
-    valueSet.expansion?.contains?.forEach((concept: any) => {
-      if (concept.code && concept.display) {
-        concepts[concept.code] = concept.display
+    try {
+      const valueSet = await medplum.get(`fhir/R4/ValueSet/${valueSetId}`)
+      const concepts: Record<string, string> = {}
+      console.log(concepts);
+      
+      valueSet.compose?.include?.forEach((include: any) => {
+        include.concept?.forEach((concept: any) => {
+          if (concept.code && concept.display) {
+            concepts[concept.code] = concept.display
+          }
+        })
+      })
+      return concepts
+    } catch (err: any) {
+      if (err.status === 404) {
+        console.error(`ValueSet not found: ${valueSetId}`)
+        return {}
       }
-    })
-
-    return concepts
+      throw err
+    }
   }
 
   static async createCondition(
     patientId: string,
     membershipId: string,
     snomedId: string,
-    valueSetId: string 
+    valueSetId: string
   ): Promise<Condition> {
     const concepts = await this.getValueSetConcepts(valueSetId)
     const term = concepts[snomedId]
@@ -202,10 +211,10 @@ export default class MedplumProxyService {
             {
               system: 'http://snomed.info/sct',
               code: snomedId,
-              display: term, 
+              display: term,
             },
           ],
-          text: term, 
+          text: term,
         },
         clinicalStatus: {
           coding: [

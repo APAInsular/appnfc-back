@@ -68,13 +68,12 @@ router
 
     router
       .group(() => {
-        router.get('/', [controllers.Data, 'show'])
         router.get('/allergies', [controllers.Data, 'allergies'])
         router.get('/medications', [controllers.Data, 'medications'])
         router.get('/pathologies', [controllers.Data, 'pathologies'])
         router.get('/implant-devices', [controllers.Data, 'inplantDevices'])
         router.get('/neurological-status', [controllers.Data, 'neurologicalStatus'])
-        router.get('/blood-types', [controllers.Data, 'bloodTypes'])
+        // router.get('/blood-types', [controllers.Data, 'bloodTypes'])
       })
       .prefix('data')
 
