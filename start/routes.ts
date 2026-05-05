@@ -61,6 +61,7 @@ router
         router.patch('/ban/:braceletUuid', [controllers.Bracelets, 'banByUid'])
         router.post('/create', [controllers.Bracelets, 'store'])
         router.post('/assign', [controllers.Bracelets, 'assign'])
+        router.get('/models', [controllers.Bracelets, 'models'])
       })
       .prefix('bracelet')
       .use(middleware.auth())

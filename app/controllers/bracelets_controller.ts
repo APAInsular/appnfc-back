@@ -155,4 +155,8 @@ export default class BraceletsController {
       .where('user_id', user.id)
       .firstOrFail()
   }
+
+  async models({}: HttpContext) {
+    return ['mifare_ultralight_EV1_128_Byte']
+  }
 }
