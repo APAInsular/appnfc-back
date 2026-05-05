@@ -156,6 +156,10 @@ export default class BraceletsController {
       .firstOrFail()
   }
 
+  /**
+   * @models
+   * @summary List all supported models
+   */
   async models({}: HttpContext) {
     return ['mifare_ultralight_EV1_128_Byte']
   }

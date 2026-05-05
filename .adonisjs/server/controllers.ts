@@ -7,8 +7,8 @@ export const controllers = {
   AccessToken: () => import('#controllers/access_token_controller'),
   Bracelets: () => import('#controllers/bracelets_controller'),
   Data: () => import('#controllers/data_controller'),
-  Us: () => import('#controllers/us_controller'),
   Medplum: () => import('#controllers/medplum_controller'),
   NewAccount: () => import('#controllers/new_account_controller'),
   Profile: () => import('#controllers/profile_controller'),
+  Us: () => import('#controllers/us_controller'),
 }
