@@ -108,6 +108,29 @@ components:
           $ref: "#/components/schemas/User"
           example: null
       description: "MedPlumUser (Model)"
+    MedplumConfig:
+      type: "object"
+      required: []
+      properties:
+        id:
+          type: "number"
+          example: 451
+        key:
+          type: "string"
+          example: "Lorem Ipsum"
+        value:
+          type: "string"
+          example: "Lorem Ipsum"
+        description:
+          type: "string"
+          example: "Lorem ipsum dolor sit amet"
+        created_at:
+          $ref: "#/components/schemas/DateTime<boolean>"
+          example: null
+        updated_at:
+          $ref: "#/components/schemas/DateTime<boolean>"
+          example: null
+      description: "MedplumConfig (Model)"
     User:
       type: "object"
       required: []
@@ -175,11 +198,21 @@ components:
       properties:
         id:
           type: "number"
-          example: 397
+          example: 718
           required: true
       example:
-        id: 397
+        id: 718
       description: "idParamValidator (Validator)"
+    storeCondition:
+      type: "object"
+      properties:
+        id:
+          type: "string"
+          example: "Lorem Ipsum"
+          required: true
+      example:
+        id: "Lorem Ipsum"
+      description: "storeCondition (Validator)"
     adminSignupValidator:
       type: "object"
       properties:
@@ -271,7 +304,7 @@ components:
           maxLength: 254
         role:
           type: "number"
-          example: 151
+          example: 125
           choices:
             - "Patient"
             - "Practitioner"
@@ -292,7 +325,7 @@ components:
         firstName: "Lorem Ipsum"
         surnames: "Lorem Ipsum"
         email: "Lorem Ipsum"
-        role: 151
+        role: 125
         password: "Lorem Ipsum"
         passwordConfirmation: "Lorem Ipsum"
       description: "signupValidator (Validator)"
@@ -331,7 +364,7 @@ paths:
               firstName: "Lorem Ipsum"
               surnames: "Lorem Ipsum"
               email: "Lorem Ipsum"
-              role: 151
+              role: 125
               password: "Lorem Ipsum"
               passwordConfirmation: "Lorem Ipsum"
   /api/v1/auth/login:
@@ -581,6 +614,162 @@ paths:
       security:
         - BearerAuth:
             - "access"
+  /api/v1/bracelet/models:
+    get:
+      summary: "List all supported models (models)"
+      description: "\n\n _app/controllers/bracelets_controller.ts_ - **models**"
+      parameters: []
+      tags:
+        - "BRACELET"
+      responses:
+        401:
+          description: "Returns **401** (Unauthorized)"
+        403:
+          description: "Returns **403** (Forbidden)"
+      security:
+        - BearerAuth:
+            - "access"
+  /api/v1/data:
+    get:
+      summary: "All SNOMEDE_CT form data (show)"
+      description: "Returns **200** (OK) as **text/plain**\n\n _app/controllers/data_controller.ts_ - **show**"
+      parameters: []
+      tags:
+        - "DATA"
+      responses:
+        200:
+          content:
+            text/plain:
+              example: "{terminology: 'SNOMEDE_CT', language_scope: 'en-US', clinical_data: { allergies: [{}]} }"
+          description: "Returns **200** (OK) as **text/plain**"
+      security: []
+  /api/v1/data/allergies:
+    get:
+      summary: " (allergies)"
+      description: "\n\n _app/controllers/data_controller.ts_ - **allergies**"
+      parameters: []
+      tags:
+        - "DATA"
+      responses:
+        200:
+          description: "OK"
+          content:
+            application/json: {}
+      security: []
+  /api/v1/data/medications:
+    get:
+      summary: " (medications)"
+      description: "\n\n _app/controllers/data_controller.ts_ - **medications**"
+      parameters: []
+      tags:
+        - "DATA"
+      responses:
+        200:
+          description: "OK"
+          content:
+            application/json: {}
+      security: []
+  /api/v1/data/pathologies:
+    get:
+      summary: " (pathologies)"
+      description: "\n\n _app/controllers/data_controller.ts_ - **pathologies**"
+      parameters: []
+      tags:
+        - "DATA"
+      responses:
+        200:
+          description: "OK"
+          content:
+            application/json: {}
+      security: []
+  /api/v1/data/implant-devices:
+    get:
+      summary: " (inplantDevices)"
+      description: "\n\n _app/controllers/data_controller.ts_ - **inplantDevices**"
+      parameters: []
+      tags:
+        - "DATA"
+      responses:
+        200:
+          description: "OK"
+          content:
+            application/json: {}
+      security: []
+  /api/v1/data/neurological-status:
+    get:
+      summary: " (neurologicalStatus)"
+      description: "\n\n _app/controllers/data_controller.ts_ - **neurologicalStatus**"
+      parameters: []
+      tags:
+        - "DATA"
+      responses:
+        200:
+          description: "OK"
+          content:
+            application/json: {}
+      security: []
+  /api/v1/data/blood-types:
+    get:
+      summary: " (bloodTypes)"
+      description: "\n\n _app/controllers/data_controller.ts_ - **bloodTypes**"
+      parameters: []
+      tags:
+        - "DATA"
+      responses:
+        200:
+          description: "OK"
+          content:
+            application/json: {}
+      security: []
+  /api/v1/me:
+    get:
+      summary: "Get a single instance of me (show)"
+      description: "\n\n _app/controllers/us_controller.ts_ - **show**"
+      parameters: []
+      tags:
+        - "ME"
+      responses:
+        401:
+          description: "Returns **401** (Unauthorized)"
+        403:
+          description: "Returns **403** (Forbidden)"
+      security:
+        - BearerAuth:
+            - "access"
+    put:
+      summary: "Update me (update)"
+      description: "\n\n _app/controllers/us_controller.ts_ - **update**"
+      parameters: []
+      tags:
+        - "ME"
+      responses:
+        401:
+          description: "Returns **401** (Unauthorized)"
+        403:
+          description: "Returns **403** (Forbidden)"
+      security:
+        - BearerAuth:
+            - "access"
+      requestBody:
+        content:
+          application/json: {}
+    post:
+      summary: "Create me (store)"
+      description: "\n\n _app/controllers/us_controller.ts_ - **store**"
+      parameters: []
+      tags:
+        - "ME"
+      responses:
+        401:
+          description: "Returns **401** (Unauthorized)"
+        403:
+          description: "Returns **403** (Forbidden)"
+      security:
+        - BearerAuth:
+            - "access"
+      requestBody:
+        content:
+          application/json: {}
   /api/v1/proxy/profiles/{profileType}:
     get:
       summary: "List all medplum profiles (index)"
@@ -734,5 +923,9 @@ tags:
     description: "Everything related to ACCOUNT"
   - name: "BRACELET"
     description: "Everything related to BRACELET"
+  - name: "DATA"
+    description: "Everything related to DATA"
+  - name: "ME"
+    description: "Everything related to ME"
   - name: "PROXY"
     description: "Everything related to PROXY"
