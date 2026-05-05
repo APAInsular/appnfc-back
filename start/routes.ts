@@ -79,9 +79,9 @@ router
 
     router
       .group(() => {
-        // router.get('/', [controllers.Me, 'show'])
-        // router.put('/', [controllers.Me, 'update'])
-        // router.post('/', [controllers.Me, 'store'])
+        router.get('/', [controllers.Us, 'show'])
+        router.put('/', [controllers.Us, 'update'])
+        router.post('/', [controllers.Us, 'store'])
       })
       .prefix('me')
       .use(middleware.auth())

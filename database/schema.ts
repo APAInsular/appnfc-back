@@ -76,6 +76,23 @@ export class MedPlumUserSchema extends BaseModel {
   declare userId: number
 }
 
+export class MedplumConfigSchema extends BaseModel {
+  static $columns = ['createdAt', 'description', 'id', 'key', 'updatedAt', 'value'] as const
+  $columns = MedplumConfigSchema.$columns
+  @column.dateTime({ autoCreate: true })
+  declare createdAt: DateTime | null
+  @column()
+  declare description: string | null
+  @column({ isPrimary: true })
+  declare id: number
+  @column()
+  declare key: string
+  @column.dateTime({ autoCreate: true, autoUpdate: true })
+  declare updatedAt: DateTime | null
+  @column()
+  declare value: string
+}
+
 export class UserSchema extends BaseModel {
   static $columns = ['createdAt', 'email', 'firstName', 'id', 'password', 'role', 'surnames', 'uid', 'updatedAt'] as const
   $columns = UserSchema.$columns

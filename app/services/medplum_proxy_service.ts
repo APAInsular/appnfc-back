@@ -6,6 +6,7 @@ import { TransactionClientContract } from '@adonisjs/lucid/types/database'
 import { ResourceArray, WithId } from '@medplum/core'
 import {
   AllergyIntolerance,
+  Condition,
   OperationOutcome,
   Patient,
   Practitioner,
@@ -127,7 +128,8 @@ export default class MedplumProxyService {
   }
 
   static async getResource<RT extends ResourceType>(
-    patientId: string, resourceType: RT
+    patientId: string,
+    resourceType: RT
   ): Promise<ResourceArray<WithId<AllergyIntolerance>>> {
     try {
       const allergies = await medplum.searchResources(resourceType, {
@@ -143,5 +145,78 @@ export default class MedplumProxyService {
       console.error('Error getting allergies:', error)
       return [] as unknown as ResourceArray<WithId<AllergyIntolerance>>
     }
+  }
+
+  static async createSnomedValueSet(title: string, codes: { id: string; term: string }[]) {
+    return medplum.createResource({
+      resourceType: 'ValueSet',
+      title: title,
+      status: 'active',
+      compose: {
+        include: [
+          {
+            system: 'http://snomed.info/sct',
+            concept: codes.map((c) => ({
+              code: c.id,
+              display: c.term,
+            })),
+          },
+        ],
+      },
+    })
+  }
+
+  static async getValueSetConcepts(valueSetId: string) {
+    const valueSet = await medplum.get(`fhir/R4/ValueSet/${valueSetId}/$expand`)
+
+    const concepts: Record<string, string> = {}
+
+    valueSet.expansion?.contains?.forEach((concept: any) => {
+      if (concept.code && concept.display) {
+        concepts[concept.code] = concept.display
+      }
+    })
+
+    return concepts
+  }
+
+  static async createCondition(
+    patientId: string,
+    membershipId: string,
+    snomedId: string,
+    valueSetId: string 
+  ): Promise<Condition> {
+    const concepts = await this.getValueSetConcepts(valueSetId)
+    const term = concepts[snomedId]
+
+    if (!term) {
+      throw new Error(`El código ${snomedId} no se encuentra en el ValueSet ${valueSetId}`)
+    }
+
+    return medplum.createResource(
+      {
+        resourceType: 'Condition',
+        subject: { reference: `Patient/${patientId}` },
+        code: {
+          coding: [
+            {
+              system: 'http://snomed.info/sct',
+              code: snomedId,
+              display: term, 
+            },
+          ],
+          text: term, 
+        },
+        clinicalStatus: {
+          coding: [
+            {
+              system: 'http://terminology.hl7.org/CodeSystem/condition-clinical',
+              code: 'active',
+            },
+          ],
+        },
+      },
+      { headers: this.onBehalfOfHeaders(membershipId) }
+    )
   }
 }
