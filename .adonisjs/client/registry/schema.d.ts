@@ -239,24 +239,24 @@ export interface Registry {
     methods: ["PUT"]
     pattern: '/api/v1/me'
     types: {
-      body: {}
+      body: ExtractBody<InferInput<(typeof import('#validators/us').storeCondition)>>
       paramsTuple: []
       params: {}
-      query: {}
+      query: ExtractQuery<InferInput<(typeof import('#validators/us').storeCondition)>>
       response: ExtractResponse<Awaited<ReturnType<import('#controllers/us_controller').default['update']>>>
-      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/us_controller').default['update']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/us_controller').default['update']>>> | { status: 422; response: { errors: SimpleError[] } }
     }
   }
   'us.store': {
     methods: ["POST"]
     pattern: '/api/v1/me'
     types: {
-      body: {}
+      body: ExtractBody<InferInput<(typeof import('#validators/us').storeCondition)>>
       paramsTuple: []
       params: {}
-      query: {}
+      query: ExtractQuery<InferInput<(typeof import('#validators/us').storeCondition)>>
       response: ExtractResponse<Awaited<ReturnType<import('#controllers/us_controller').default['store']>>>
-      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/us_controller').default['store']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/us_controller').default['store']>>> | { status: 422; response: { errors: SimpleError[] } }
     }
   }
   'medplum.index': {

@@ -114,7 +114,7 @@ components:
       properties:
         id:
           type: "number"
-          example: 53
+          example: 423
         key:
           type: "string"
           example: "Lorem Ipsum"
@@ -198,20 +198,115 @@ components:
       properties:
         id:
           type: "number"
-          example: 697
+          example: 345
           required: true
       example:
-        id: 697
+        id: 345
       description: "idParamValidator (Validator)"
     storeCondition:
       type: "object"
       properties:
-        id:
+        allergies:
+          type: "array"
+          items:
+            type: "number"
+            example: 442
+          required: true
+          properties:
+            items:
+              type: "string"
+              example: "Lorem Ipsum"
+        medications:
+          type: "array"
+          items:
+            type: "number"
+            example: 154
+          required: true
+          properties:
+            items:
+              type: "string"
+              example: "Lorem Ipsum"
+        pathologies:
+          type: "array"
+          items:
+            type: "number"
+            example: 183
+          required: true
+          properties:
+            items:
+              type: "string"
+              example: "Lorem Ipsum"
+        inplantDevices:
+          type: "array"
+          items:
+            type: "number"
+            example: 141
+          required: true
+          properties:
+            items:
+              type: "string"
+              example: "Lorem Ipsum"
+        neurologicalStatus:
+          type: "array"
+          items:
+            type: "number"
+            example: 396
+          required: true
+          properties:
+            items:
+              type: "string"
+              example: "Lorem Ipsum"
+        firstName:
           type: "string"
           example: "Lorem Ipsum"
           required: true
+        surnames:
+          type: "string"
+          example: "Lorem Ipsum"
+          required: true
+        language:
+          type: "number"
+          example: 334
+          choices:
+            - "ES"
+            - "EN"
+          required: true
+        biologicalSex:
+          type: "number"
+          example: 975
+          choices:
+            - "M"
+            - "F"
+          required: true
+        bloodType:
+          type: "number"
+          example: 973
+          choices:
+            - "O+"
+            - "O-"
+            - "A+"
+            - "A-"
+            - "B+"
+            - "B-"
+            - "AB+"
+            - "AB-"
+          required: true
       example:
-        id: "Lorem Ipsum"
+        allergies:
+          - "Lorem Ipsum"
+        medications:
+          - "Lorem Ipsum"
+        pathologies:
+          - "Lorem Ipsum"
+        inplantDevices:
+          - "Lorem Ipsum"
+        neurologicalStatus:
+          - "Lorem Ipsum"
+        firstName: "Lorem Ipsum"
+        surnames: "Lorem Ipsum"
+        language: 334
+        biologicalSex: 975
+        bloodType: 973
       description: "storeCondition (Validator)"
     adminSignupValidator:
       type: "object"
@@ -304,7 +399,7 @@ components:
           maxLength: 254
         role:
           type: "number"
-          example: 997
+          example: 237
           choices:
             - "Patient"
             - "Practitioner"
@@ -325,7 +420,7 @@ components:
         firstName: "Lorem Ipsum"
         surnames: "Lorem Ipsum"
         email: "Lorem Ipsum"
-        role: 997
+        role: 237
         password: "Lorem Ipsum"
         passwordConfirmation: "Lorem Ipsum"
       description: "signupValidator (Validator)"
@@ -364,7 +459,7 @@ paths:
               firstName: "Lorem Ipsum"
               surnames: "Lorem Ipsum"
               email: "Lorem Ipsum"
-              role: 997
+              role: 237
               password: "Lorem Ipsum"
               passwordConfirmation: "Lorem Ipsum"
   /api/v1/auth/login:
@@ -696,7 +791,7 @@ paths:
       security: []
   /api/v1/me:
     get:
-      summary: "Get a single instance of me (show)"
+      summary: "Get self medical data (show)"
       description: "\n\n _app/controllers/us_controller.ts_ - **show**"
       parameters: []
       tags:
@@ -710,12 +805,20 @@ paths:
         - BearerAuth:
             - "access"
     put:
-      summary: "Update me (update)"
-      description: "\n\n _app/controllers/us_controller.ts_ - **update**"
+      summary: "Update self medical data (update)"
+      description: "Replace all data (be careful bro)\n\n _app/controllers/us_controller.ts_ - **update**"
       parameters: []
       tags:
         - "ME"
       responses:
+        200:
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties: {}
+              example: {}
+          description: "Returns **200** (OK) as **application/json**"
         401:
           description: "Returns **401** (Unauthorized)"
         403:
@@ -725,14 +828,40 @@ paths:
             - "access"
       requestBody:
         content:
-          application/json: {}
+          application/json:
+            schema:
+              $ref: "#/components/schemas/storeCondition"
+            example:
+              allergies:
+                - "Lorem Ipsum"
+              medications:
+                - "Lorem Ipsum"
+              pathologies:
+                - "Lorem Ipsum"
+              inplantDevices:
+                - "Lorem Ipsum"
+              neurologicalStatus:
+                - "Lorem Ipsum"
+              firstName: "Lorem Ipsum"
+              surnames: "Lorem Ipsum"
+              language: 334
+              biologicalSex: 975
+              bloodType: 973
     post:
-      summary: "Create me (store)"
-      description: "\n\n _app/controllers/us_controller.ts_ - **store**"
+      summary: "Store patient medical conditions (store)"
+      description: "Creates allergies, pathologies and other conditions for authenticated user\n\n _app/controllers/us_controller.ts_ - **store**"
       parameters: []
       tags:
         - "ME"
       responses:
+        200:
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties: {}
+              example: {}
+          description: "Returns **200** (OK) as **application/json**"
         401:
           description: "Returns **401** (Unauthorized)"
         403:
@@ -742,7 +871,25 @@ paths:
             - "access"
       requestBody:
         content:
-          application/json: {}
+          application/json:
+            schema:
+              $ref: "#/components/schemas/storeCondition"
+            example:
+              allergies:
+                - "Lorem Ipsum"
+              medications:
+                - "Lorem Ipsum"
+              pathologies:
+                - "Lorem Ipsum"
+              inplantDevices:
+                - "Lorem Ipsum"
+              neurologicalStatus:
+                - "Lorem Ipsum"
+              firstName: "Lorem Ipsum"
+              surnames: "Lorem Ipsum"
+              language: 334
+              biologicalSex: 975
+              bloodType: 973
   /api/v1/proxy/profiles/{profileType}:
     get:
       summary: "List all medplum profiles (index)"

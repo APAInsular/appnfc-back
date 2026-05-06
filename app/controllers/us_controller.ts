@@ -31,6 +31,10 @@ export default class UsController {
     ])
   }
 
+  /**
+   * @show
+   * @summary Get self medical data
+   */
   async show({ auth }: HttpContext) {
     const user = await auth.getUserOrFail()
     const medplumUser = await MedPlumUser.findByOrFail('userId', user.id)
@@ -51,6 +55,13 @@ export default class UsController {
     }
   }
 
+  /**
+   * @update
+   * @summary Update self medical data
+   * @description Replace all data (be careful bro)
+   * @requestBody <storeCondition>
+   * @responseBody 200 - {}
+   */
   async update({ auth, request }: HttpContext) {
     const {
       allergies,
