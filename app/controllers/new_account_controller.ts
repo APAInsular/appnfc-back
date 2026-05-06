@@ -41,7 +41,7 @@ export default class NewAccountController {
       await trx.rollback()
 
       if (medplumUser) {
-        await MedplumProxyService.deleteAsAdmin({
+        await MedplumProxyService.deleteUserAsAdmin({
           profileId: medplumUser.profileId!,
           membershipId: medplumUser.medplumMembershipId!,
           profileType: role,

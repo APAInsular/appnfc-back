@@ -70,12 +70,28 @@ test.group('Conditions - Store', (group) => {
       .post('/api/v1/me')
       .bearerToken(token)
       .json({
-        ...VALID_PAYLOAD
+        ...VALID_PAYLOAD,
       })
+
+/*  const response2 = await client
+      .get('/api/v1/me')
+      .bearerToken(token)
+
+    console.log(response2.body()); */
 
     response.assertStatus(200)
   })
 
+/*   test('show stored conditions', async ({ client }) => {
+    const response = await client
+      .get('/api/v1/me')
+      .bearerToken(token)
+
+    console.log(response.body());
+    
+    response.assertStatus(200)
+  })
+ */
   test('fails with invalid snomed code', async ({ client }) => {
     const response = await client
       .post('/api/v1/me')

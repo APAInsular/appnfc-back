@@ -73,7 +73,7 @@ export const cleanupUser = async (email: string) => {
 
   if (medplumUser?.profileId && medplumUser?.medplumMembershipId) {
     try {
-      await MedplumProxyService.deleteAsAdmin({
+      await MedplumProxyService.deleteUserAsAdmin({
         profileId: medplumUser.profileId,
         membershipId: medplumUser.medplumMembershipId,
         profileType: capitalizeProfileType(medplumUser.profileType),

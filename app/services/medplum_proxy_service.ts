@@ -106,6 +106,7 @@ export default class MedplumProxyService {
     return bundle.entry?.map((e) => e.resource as Patient & Practitioner) ?? []
   }
 
+  // TODO: Check security of this
   static async updateProfile<T extends Patient | Practitioner>(
     params: UpdateProfileParams<T>
   ): Promise<T> {
@@ -114,17 +115,27 @@ export default class MedplumProxyService {
     return medplum.updateResource({ ...existing, ...params.data }, { headers }) as Promise<T>
   }
 
-  static async deleteAsAdmin(
+  static async deleteUserAsAdmin(
     params: Omit<DeleteMedplumUserParams, 'behalfMembershipId'>
   ): Promise<void> {
     await medplum.deleteResource(params.profileType, params.profileId)
     await medplum.deleteResource('ProjectMembership', params.membershipId)
   }
 
-  static async delete(params: Required<DeleteMedplumUserParams>): Promise<void> {
+  static async deleteUser(params: Required<DeleteMedplumUserParams>): Promise<void> {
     const headers = this.onBehalfOfHeaders(params.behalfMembershipId)
     await medplum.deleteResource(params.profileType, params.profileId, { headers })
     await medplum.deleteResource('ProjectMembership', params.membershipId)
+  }
+
+  static async deleteResource(
+    resourceType: ResourceType,
+    resourceId: string,
+    membershipId: string
+  ): Promise<void> {
+    await medplum.deleteResource(resourceType, resourceId, {
+      headers: this.onBehalfOfHeaders(membershipId),
+    })
   }
 
   static async getResource<RT extends ResourceType>(
