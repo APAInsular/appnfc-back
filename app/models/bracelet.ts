@@ -18,7 +18,7 @@ export default class Bracelet extends BraceletSchema {
   // @example(ABC123456)
   declare serialNumber: string
 
-  // @example(DesfireEV3_4K)
+  // @example(desfire_EV3_4K)
   declare model: string | null
 
   @belongsTo(() => User)

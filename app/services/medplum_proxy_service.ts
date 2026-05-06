@@ -170,8 +170,8 @@ export default class MedplumProxyService {
     try {
       const valueSet = await medplum.get(`fhir/R4/ValueSet/${valueSetId}`)
       const concepts: Record<string, string> = {}
-      console.log(concepts);
-      
+      console.log(concepts)
+
       valueSet.compose?.include?.forEach((include: any) => {
         include.concept?.forEach((concept: any) => {
           if (concept.code && concept.display) {
@@ -187,6 +187,33 @@ export default class MedplumProxyService {
       }
       throw err
     }
+  }
+
+  static async createConditionFromConcepts(
+    patientId: string,
+    membershipId: string,
+    snomedId: string,
+    concepts: Record<string, string>
+  ): Promise<Condition> {
+    const term = concepts[snomedId]
+    if (!term) throw new Error(`Code ${snomedId} not found in ValueSet`)
+
+    return medplum.createResource(
+      {
+        resourceType: 'Condition',
+        subject: { reference: `Patient/${patientId}` },
+        code: {
+          coding: [{ system: 'http://snomed.info/sct', code: snomedId, display: term }],
+          text: term,
+        },
+        clinicalStatus: {
+          coding: [
+            { system: 'http://terminology.hl7.org/CodeSystem/condition-clinical', code: 'active' },
+          ],
+        },
+      },
+      { headers: this.onBehalfOfHeaders(membershipId) }
+    )
   }
 
   static async createCondition(

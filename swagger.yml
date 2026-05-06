@@ -95,7 +95,7 @@ components:
           example: "ABC123456"
         model:
           type: "string"
-          example: "DesfireEV3_4K"
+          example: "desfire_EV3_4K"
         user:
           $ref: "#/components/schemas/User"
           example: null
@@ -114,7 +114,7 @@ components:
       properties:
         id:
           type: "number"
-          example: 989
+          example: 53
         key:
           type: "string"
           example: "Lorem Ipsum"
@@ -198,10 +198,10 @@ components:
       properties:
         id:
           type: "number"
-          example: 274
+          example: 697
           required: true
       example:
-        id: 274
+        id: 697
       description: "idParamValidator (Validator)"
     storeCondition:
       type: "object"
@@ -304,7 +304,7 @@ components:
           maxLength: 254
         role:
           type: "number"
-          example: 530
+          example: 997
           choices:
             - "Patient"
             - "Practitioner"
@@ -325,7 +325,7 @@ components:
         firstName: "Lorem Ipsum"
         surnames: "Lorem Ipsum"
         email: "Lorem Ipsum"
-        role: 530
+        role: 997
         password: "Lorem Ipsum"
         passwordConfirmation: "Lorem Ipsum"
       description: "signupValidator (Validator)"
@@ -364,7 +364,7 @@ paths:
               firstName: "Lorem Ipsum"
               surnames: "Lorem Ipsum"
               email: "Lorem Ipsum"
-              role: 530
+              role: 997
               password: "Lorem Ipsum"
               passwordConfirmation: "Lorem Ipsum"
   /api/v1/auth/login:
@@ -488,7 +488,7 @@ paths:
                 state: "unassigned"
                 assign_date: "2024-01-15"
                 serial_number: "ABC123456"
-                model: "DesfireEV3_4K"
+                model: "desfire_EV3_4K"
           description: "Returns **200** (OK) as **application/json**"
         401:
           description: "Returns **401** (Unauthorized)"
@@ -517,7 +517,7 @@ paths:
                   state: "unassigned"
                   assign_date: "2024-01-15"
                   serial_number: "ABC123456"
-                  model: "DesfireEV3_4K"
+                  model: "desfire_EV3_4K"
                   user:
                     uid: "550e8400-e29b-41d4-a716-446655440000"
                     first_name: "Pepito"
@@ -555,7 +555,7 @@ paths:
                 state: "unassigned"
                 assign_date: "2024-01-15"
                 serial_number: "ABC123456"
-                model: "DesfireEV3_4K"
+                model: "desfire_EV3_4K"
           description: "Returns **200** (OK) as **application/json**"
         401:
           description: "Returns **401** (Unauthorized)"

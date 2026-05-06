@@ -125,7 +125,7 @@
           },
           "model": {
             "type": "string",
-            "example": "DesfireEV3_4K"
+            "example": "desfire_EV3_4K"
           },
           "user": {
             "$ref": "#/components/schemas/User",
@@ -151,7 +151,7 @@
         "properties": {
           "id": {
             "type": "number",
-            "example": 989
+            "example": 53
           },
           "key": {
             "type": "string",
@@ -264,12 +264,12 @@
         "properties": {
           "id": {
             "type": "number",
-            "example": 274,
+            "example": 697,
             "required": true
           }
         },
         "example": {
-          "id": 274
+          "id": 697
         },
         "description": "idParamValidator (Validator)"
       },
@@ -399,7 +399,7 @@
           },
           "role": {
             "type": "number",
-            "example": 530,
+            "example": 997,
             "choices": [
               "Patient",
               "Practitioner"
@@ -425,7 +425,7 @@
           "firstName": "Lorem Ipsum",
           "surnames": "Lorem Ipsum",
           "email": "Lorem Ipsum",
-          "role": 530,
+          "role": 997,
           "password": "Lorem Ipsum",
           "passwordConfirmation": "Lorem Ipsum"
         },
@@ -478,7 +478,7 @@
                 "firstName": "Lorem Ipsum",
                 "surnames": "Lorem Ipsum",
                 "email": "Lorem Ipsum",
-                "role": 530,
+                "role": 997,
                 "password": "Lorem Ipsum",
                 "passwordConfirmation": "Lorem Ipsum"
               }
@@ -671,7 +671,7 @@
                   "state": "unassigned",
                   "assign_date": "2024-01-15",
                   "serial_number": "ABC123456",
-                  "model": "DesfireEV3_4K"
+                  "model": "desfire_EV3_4K"
                 }
               }
             },
@@ -717,7 +717,7 @@
                     "state": "unassigned",
                     "assign_date": "2024-01-15",
                     "serial_number": "ABC123456",
-                    "model": "DesfireEV3_4K",
+                    "model": "desfire_EV3_4K",
                     "user": {
                       "uid": "550e8400-e29b-41d4-a716-446655440000",
                       "first_name": "Pepito",
@@ -776,7 +776,7 @@
                   "state": "unassigned",
                   "assign_date": "2024-01-15",
                   "serial_number": "ABC123456",
-                  "model": "DesfireEV3_4K"
+                  "model": "desfire_EV3_4K"
                 }
               }
             },
