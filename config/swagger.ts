@@ -31,4 +31,5 @@ export default {
   persistAuthorization: true, // persist authorization between reloads on the swagger page
   showFullPath: false, // the path displayed after endpoint summary
 
+  
 }

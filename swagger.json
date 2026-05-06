@@ -151,7 +151,7 @@
         "properties": {
           "id": {
             "type": "number",
-            "example": 451
+            "example": 989
           },
           "key": {
             "type": "string",
@@ -264,12 +264,12 @@
         "properties": {
           "id": {
             "type": "number",
-            "example": 718,
+            "example": 274,
             "required": true
           }
         },
         "example": {
-          "id": 718
+          "id": 274
         },
         "description": "idParamValidator (Validator)"
       },
@@ -399,7 +399,7 @@
           },
           "role": {
             "type": "number",
-            "example": 125,
+            "example": 530,
             "choices": [
               "Patient",
               "Practitioner"
@@ -425,7 +425,7 @@
           "firstName": "Lorem Ipsum",
           "surnames": "Lorem Ipsum",
           "email": "Lorem Ipsum",
-          "role": 125,
+          "role": 530,
           "password": "Lorem Ipsum",
           "passwordConfirmation": "Lorem Ipsum"
         },
@@ -478,7 +478,7 @@
                 "firstName": "Lorem Ipsum",
                 "surnames": "Lorem Ipsum",
                 "email": "Lorem Ipsum",
-                "role": 125,
+                "role": 530,
                 "password": "Lorem Ipsum",
                 "passwordConfirmation": "Lorem Ipsum"
               }
@@ -907,31 +907,10 @@
         ]
       }
     },
-    "/api/v1/data": {
-      "get": {
-        "summary": "All SNOMEDE_CT form data (show)",
-        "description": "Returns **200** (OK) as **text/plain**\n\n _app/controllers/data_controller.ts_ - **show**",
-        "parameters": [],
-        "tags": [
-          "DATA"
-        ],
-        "responses": {
-          "200": {
-            "content": {
-              "text/plain": {
-                "example": "{terminology: 'SNOMEDE_CT', language_scope: 'en-US', clinical_data: { allergies: [{}]} }"
-              }
-            },
-            "description": "Returns **200** (OK) as **text/plain**"
-          }
-        },
-        "security": []
-      }
-    },
     "/api/v1/data/allergies": {
       "get": {
-        "summary": " (allergies)",
-        "description": "\n\n _app/controllers/data_controller.ts_ - **allergies**",
+        "summary": "Available allergies (allergies)",
+        "description": "List all allergies in SNOMEDE_CT estandard\n\n _app/controllers/data_controller.ts_ - **allergies**",
         "parameters": [],
         "tags": [
           "DATA"
@@ -949,8 +928,8 @@
     },
     "/api/v1/data/medications": {
       "get": {
-        "summary": " (medications)",
-        "description": "\n\n _app/controllers/data_controller.ts_ - **medications**",
+        "summary": "Available medications (medications)",
+        "description": "List all medications in SNOMEDE_CT estandard\n\n _app/controllers/data_controller.ts_ - **medications**",
         "parameters": [],
         "tags": [
           "DATA"
@@ -968,8 +947,8 @@
     },
     "/api/v1/data/pathologies": {
       "get": {
-        "summary": " (pathologies)",
-        "description": "\n\n _app/controllers/data_controller.ts_ - **pathologies**",
+        "summary": "Available pathologies (pathologies)",
+        "description": "List all pathologies in SNOMEDE_CT estandard\n\n _app/controllers/data_controller.ts_ - **pathologies**",
         "parameters": [],
         "tags": [
           "DATA"
@@ -987,8 +966,8 @@
     },
     "/api/v1/data/implant-devices": {
       "get": {
-        "summary": " (inplantDevices)",
-        "description": "\n\n _app/controllers/data_controller.ts_ - **inplantDevices**",
+        "summary": "Available inplant devices (inplantDevices)",
+        "description": "List all inplant devices in SNOMEDE_CT estandard\n\n _app/controllers/data_controller.ts_ - **inplantDevices**",
         "parameters": [],
         "tags": [
           "DATA"
@@ -1006,27 +985,8 @@
     },
     "/api/v1/data/neurological-status": {
       "get": {
-        "summary": " (neurologicalStatus)",
-        "description": "\n\n _app/controllers/data_controller.ts_ - **neurologicalStatus**",
-        "parameters": [],
-        "tags": [
-          "DATA"
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {}
-            }
-          }
-        },
-        "security": []
-      }
-    },
-    "/api/v1/data/blood-types": {
-      "get": {
-        "summary": " (bloodTypes)",
-        "description": "\n\n _app/controllers/data_controller.ts_ - **bloodTypes**",
+        "summary": "Available neurological status devices (neurologicalStatus)",
+        "description": "List all neurological status in SNOMEDE_CT estandard\n\n _app/controllers/data_controller.ts_ - **neurologicalStatus**",
         "parameters": [],
         "tags": [
           "DATA"
