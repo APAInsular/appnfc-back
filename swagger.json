@@ -151,7 +151,7 @@
         "properties": {
           "id": {
             "type": "number",
-            "example": 423
+            "example": 747
           },
           "key": {
             "type": "string",
@@ -264,14 +264,28 @@
         "properties": {
           "id": {
             "type": "number",
-            "example": 345,
+            "example": 146,
             "required": true
           }
         },
         "example": {
-          "id": 345
+          "id": 146
         },
         "description": "idParamValidator (Validator)"
+      },
+      "uidValidator": {
+        "type": "object",
+        "properties": {
+          "uid": {
+            "type": "string",
+            "example": "Lorem Ipsum",
+            "required": true
+          }
+        },
+        "example": {
+          "uid": "Lorem Ipsum"
+        },
+        "description": "uidValidator (Validator)"
       },
       "storeCondition": {
         "type": "object",
@@ -280,7 +294,7 @@
             "type": "array",
             "items": {
               "type": "number",
-              "example": 442
+              "example": 114
             },
             "required": true,
             "properties": {
@@ -294,7 +308,7 @@
             "type": "array",
             "items": {
               "type": "number",
-              "example": 154
+              "example": 909
             },
             "required": true,
             "properties": {
@@ -308,7 +322,7 @@
             "type": "array",
             "items": {
               "type": "number",
-              "example": 183
+              "example": 166
             },
             "required": true,
             "properties": {
@@ -322,7 +336,7 @@
             "type": "array",
             "items": {
               "type": "number",
-              "example": 141
+              "example": 372
             },
             "required": true,
             "properties": {
@@ -336,7 +350,7 @@
             "type": "array",
             "items": {
               "type": "number",
-              "example": 396
+              "example": 497
             },
             "required": true,
             "properties": {
@@ -358,7 +372,7 @@
           },
           "language": {
             "type": "number",
-            "example": 334,
+            "example": 370,
             "choices": [
               "ES",
               "EN"
@@ -367,7 +381,7 @@
           },
           "biologicalSex": {
             "type": "number",
-            "example": 975,
+            "example": 431,
             "choices": [
               "M",
               "F"
@@ -376,7 +390,7 @@
           },
           "bloodType": {
             "type": "number",
-            "example": 973,
+            "example": 45,
             "choices": [
               "O+",
               "O-",
@@ -408,9 +422,9 @@
           ],
           "firstName": "Lorem Ipsum",
           "surnames": "Lorem Ipsum",
-          "language": 334,
-          "biologicalSex": 975,
-          "bloodType": 973
+          "language": 370,
+          "biologicalSex": 431,
+          "bloodType": 45
         },
         "description": "storeCondition (Validator)"
       },
@@ -526,7 +540,7 @@
           },
           "role": {
             "type": "number",
-            "example": 237,
+            "example": 595,
             "choices": [
               "Patient",
               "Practitioner"
@@ -552,7 +566,7 @@
           "firstName": "Lorem Ipsum",
           "surnames": "Lorem Ipsum",
           "email": "Lorem Ipsum",
-          "role": 237,
+          "role": 595,
           "password": "Lorem Ipsum",
           "passwordConfirmation": "Lorem Ipsum"
         },
@@ -605,7 +619,7 @@
                 "firstName": "Lorem Ipsum",
                 "surnames": "Lorem Ipsum",
                 "email": "Lorem Ipsum",
-                "role": 237,
+                "role": 595,
                 "password": "Lorem Ipsum",
                 "passwordConfirmation": "Lorem Ipsum"
               }
@@ -1211,9 +1225,9 @@
                 ],
                 "firstName": "Lorem Ipsum",
                 "surnames": "Lorem Ipsum",
-                "language": 334,
-                "biologicalSex": 975,
-                "bloodType": 973
+                "language": 370,
+                "biologicalSex": 431,
+                "bloodType": 45
               }
             }
           }
@@ -1277,13 +1291,81 @@
                 ],
                 "firstName": "Lorem Ipsum",
                 "surnames": "Lorem Ipsum",
-                "language": 334,
-                "biologicalSex": 975,
-                "bloodType": 973
+                "language": 370,
+                "biologicalSex": 431,
+                "bloodType": 45
               }
             }
           }
         }
+      }
+    },
+    "/api/v1/me/{userUid}": {
+      "get": {
+        "summary": "Get user medical data by UID (showByUid)",
+        "description": "\n\n _app/controllers/us_controller.ts_ - **showByUid**",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "userUid",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "tags": [
+          "ME"
+        ],
+        "responses": {
+          "401": {
+            "description": "Returns **401** (Unauthorized)"
+          },
+          "403": {
+            "description": "Returns **403** (Forbidden)"
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": [
+              "access"
+            ]
+          }
+        ]
+      }
+    },
+    "/api/v1/me/{braceletUid}": {
+      "get": {
+        "summary": "Get user medical data by UID (showByBraceletUid)",
+        "description": "\n\n _app/controllers/us_controller.ts_ - **showByBraceletUid**",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "braceletUid",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "tags": [
+          "ME"
+        ],
+        "responses": {
+          "401": {
+            "description": "Returns **401** (Unauthorized)"
+          },
+          "403": {
+            "description": "Returns **403** (Forbidden)"
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": [
+              "access"
+            ]
+          }
+        ]
       }
     },
     "/api/v1/proxy/profiles/{profileType}": {

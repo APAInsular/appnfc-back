@@ -1,3 +1,4 @@
+import Bracelet from '#models/bracelet'
 import MedPlumUser from '#models/med_plum_user'
 import MedplumConfig from '#models/medplum_config'
 import User from '#models/user'
@@ -77,14 +78,53 @@ export default class UsController {
   /**
    * @showByUid
    * @summary Get user medical data by UID
-   * @requestBody <uidValidator>
    */
-  async showByUid({ request }: HttpContext) {
+  async showByUid({ params }: HttpContext) {
     logger.info('Processing user medical request')
-    const { uid } =
-      await request.validateUsing(uidValidator)
 
-    const requested_user = await User.findByOrFail('uid', uid)
+  
+    const requested_user = await User.findByOrFail('uid', params.userUid)
+    const medplumUser = await MedPlumUser.findByOrFail('userId', requested_user.id)
+
+    let profile = null
+    let existingConditions: any = []
+
+    try {
+      profile = await MedplumProxyService.getProfile({
+        profileType: 'Patient',
+        membershipId: medplumUser.medplumMembershipId,
+        profileId: medplumUser.profileId!,
+      })
+    } catch (error) {
+      logger.warn(`Profile not found for user ${requested_user.id} in Medplum`)
+      profile = null
+    }
+
+    try {
+      existingConditions = await MedplumProxyService.getResource(
+        medplumUser.medplumUserId!,
+        'Condition'
+      )
+    } catch (error) {
+      logger.warn(`No conditions found for Medplum ID ${medplumUser.medplumUserId}`)
+      existingConditions = []
+    }
+
+    return {
+      profile,
+      conditions: existingConditions,
+    }
+  }
+
+  /**
+   * @showByBraceletUid
+   * @summary Get user medical data by UID
+   */
+  async showByBraceletUid({ params }: HttpContext) {
+    logger.info('Processing user medical request')
+
+    const requested_bracelet = await Bracelet.findByOrFail('uid', params.braceletUid)
+    const requested_user = await User.findByOrFail('id', requested_bracelet.userId)
     const medplumUser = await MedPlumUser.findByOrFail('userId', requested_user.id)
 
     let profile = null

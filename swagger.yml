@@ -114,7 +114,7 @@ components:
       properties:
         id:
           type: "number"
-          example: 423
+          example: 747
         key:
           type: "string"
           example: "Lorem Ipsum"
@@ -198,11 +198,21 @@ components:
       properties:
         id:
           type: "number"
-          example: 345
+          example: 146
           required: true
       example:
-        id: 345
+        id: 146
       description: "idParamValidator (Validator)"
+    uidValidator:
+      type: "object"
+      properties:
+        uid:
+          type: "string"
+          example: "Lorem Ipsum"
+          required: true
+      example:
+        uid: "Lorem Ipsum"
+      description: "uidValidator (Validator)"
     storeCondition:
       type: "object"
       properties:
@@ -210,7 +220,7 @@ components:
           type: "array"
           items:
             type: "number"
-            example: 442
+            example: 114
           required: true
           properties:
             items:
@@ -220,7 +230,7 @@ components:
           type: "array"
           items:
             type: "number"
-            example: 154
+            example: 909
           required: true
           properties:
             items:
@@ -230,7 +240,7 @@ components:
           type: "array"
           items:
             type: "number"
-            example: 183
+            example: 166
           required: true
           properties:
             items:
@@ -240,7 +250,7 @@ components:
           type: "array"
           items:
             type: "number"
-            example: 141
+            example: 372
           required: true
           properties:
             items:
@@ -250,7 +260,7 @@ components:
           type: "array"
           items:
             type: "number"
-            example: 396
+            example: 497
           required: true
           properties:
             items:
@@ -266,21 +276,21 @@ components:
           required: true
         language:
           type: "number"
-          example: 334
+          example: 370
           choices:
             - "ES"
             - "EN"
           required: true
         biologicalSex:
           type: "number"
-          example: 975
+          example: 431
           choices:
             - "M"
             - "F"
           required: true
         bloodType:
           type: "number"
-          example: 973
+          example: 45
           choices:
             - "O+"
             - "O-"
@@ -304,9 +314,9 @@ components:
           - "Lorem Ipsum"
         firstName: "Lorem Ipsum"
         surnames: "Lorem Ipsum"
-        language: 334
-        biologicalSex: 975
-        bloodType: 973
+        language: 370
+        biologicalSex: 431
+        bloodType: 45
       description: "storeCondition (Validator)"
     adminSignupValidator:
       type: "object"
@@ -399,7 +409,7 @@ components:
           maxLength: 254
         role:
           type: "number"
-          example: 237
+          example: 595
           choices:
             - "Patient"
             - "Practitioner"
@@ -420,7 +430,7 @@ components:
         firstName: "Lorem Ipsum"
         surnames: "Lorem Ipsum"
         email: "Lorem Ipsum"
-        role: 237
+        role: 595
         password: "Lorem Ipsum"
         passwordConfirmation: "Lorem Ipsum"
       description: "signupValidator (Validator)"
@@ -459,7 +469,7 @@ paths:
               firstName: "Lorem Ipsum"
               surnames: "Lorem Ipsum"
               email: "Lorem Ipsum"
-              role: 237
+              role: 595
               password: "Lorem Ipsum"
               passwordConfirmation: "Lorem Ipsum"
   /api/v1/auth/login:
@@ -844,9 +854,9 @@ paths:
                 - "Lorem Ipsum"
               firstName: "Lorem Ipsum"
               surnames: "Lorem Ipsum"
-              language: 334
-              biologicalSex: 975
-              bloodType: 973
+              language: 370
+              biologicalSex: 431
+              bloodType: 45
     post:
       summary: "Store patient medical conditions (store)"
       description: "Creates allergies, pathologies and other conditions for authenticated user\n\n _app/controllers/us_controller.ts_ - **store**"
@@ -887,9 +897,49 @@ paths:
                 - "Lorem Ipsum"
               firstName: "Lorem Ipsum"
               surnames: "Lorem Ipsum"
-              language: 334
-              biologicalSex: 975
-              bloodType: 973
+              language: 370
+              biologicalSex: 431
+              bloodType: 45
+  /api/v1/me/{userUid}:
+    get:
+      summary: "Get user medical data by UID (showByUid)"
+      description: "\n\n _app/controllers/us_controller.ts_ - **showByUid**"
+      parameters:
+        - in: "path"
+          name: "userUid"
+          schema:
+            type: "string"
+          required: true
+      tags:
+        - "ME"
+      responses:
+        401:
+          description: "Returns **401** (Unauthorized)"
+        403:
+          description: "Returns **403** (Forbidden)"
+      security:
+        - BearerAuth:
+            - "access"
+  /api/v1/me/{braceletUid}:
+    get:
+      summary: "Get user medical data by UID (showByBraceletUid)"
+      description: "\n\n _app/controllers/us_controller.ts_ - **showByBraceletUid**"
+      parameters:
+        - in: "path"
+          name: "braceletUid"
+          schema:
+            type: "string"
+          required: true
+      tags:
+        - "ME"
+      responses:
+        401:
+          description: "Returns **401** (Unauthorized)"
+        403:
+          description: "Returns **403** (Forbidden)"
+      security:
+        - BearerAuth:
+            - "access"
   /api/v1/proxy/profiles/{profileType}:
     get:
       summary: "List all medplum profiles (index)"

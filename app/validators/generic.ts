@@ -11,3 +11,4 @@ export const uidValidator = vine.create(
     uid: vine.string(),
   }
 )
+

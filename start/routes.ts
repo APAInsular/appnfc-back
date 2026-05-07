@@ -80,6 +80,8 @@ router
     router
       .group(() => {
         router.get('/', [controllers.Us, 'show'])
+        router.get('/:userUid', [controllers.Us, 'showByUid'])
+        router.get('/:braceletUid', [controllers.Us, 'showByBraceletUid'])
         router.put('/', [controllers.Us, 'update'])
         router.post('/', [controllers.Us, 'store'])
       })
