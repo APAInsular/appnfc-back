@@ -38,12 +38,11 @@ export default class UsController {
    */
   async show({ auth }: HttpContext) {
     logger.info('Processing user medical request')
-
     const user = await auth.getUserOrFail()
 
-    logger.debug('from user: ', { user: user.email })
-
     const medplumUser = await MedPlumUser.findByOrFail('userId', user.id)
+
+    logger.debug(`User with medplum profileId: ${medplumUser.profileId}`)
 
     const profile = await MedplumProxyService.getProfile({
       profileType: 'Patient',
@@ -51,8 +50,9 @@ export default class UsController {
       profileId: medplumUser.profileId!,
     })
 
-    logger.debug('medplum user: ', { medplumUser: medplumUser.id })
-    logger.debug('medplum profile: ', { profileTelecom: profile.telecom })
+    logger.debug(
+      `Medplum user id: ${medplumUser.medplumUserId}`
+    )
 
     let existingConditions = null
     try {
@@ -60,15 +60,19 @@ export default class UsController {
         medplumUser.medplumUserId!,
         'Condition'
       )
-    } catch (error) {
-      logger.error('Error getting clinical data:', error)
-      throw error
+    } catch (error: any) {
+      if (error.status === 404 || error.outcome?.id === 'not-found') {
+        logger.warn(`The user ${medplumUser.medplumUserId} does not have Condition type resources in Medplum.`)
+        existingConditions = [] 
+      } else {
+       
+        logger.error('Error in obtaining unexpected clinical data:', error)
+        existingConditions = null 
+      }
     }
+    
 
-    return {
-      profile,
-      conditions: existingConditions,
-    }
+    return { profile, conditions: existingConditions }
   }
 
   /**
