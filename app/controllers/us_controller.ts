@@ -1,6 +1,8 @@
 import MedPlumUser from '#models/med_plum_user'
 import MedplumConfig from '#models/medplum_config'
+import User from '#models/user'
 import MedplumProxyService from '#services/medplum_proxy_service'
+import { uidValidator } from '#validators/generic'
 import { storeCondition } from '#validators/us'
 import type { HttpContext } from '@adonisjs/core/http'
 import logger from '@adonisjs/core/services/logger'
@@ -38,41 +40,81 @@ export default class UsController {
    */
   async show({ auth }: HttpContext) {
     logger.info('Processing user medical request')
-    const user = await auth.getUserOrFail()
 
+    const user = await auth.getUserOrFail()
     const medplumUser = await MedPlumUser.findByOrFail('userId', user.id)
 
-    logger.debug(`User with medplum profileId: ${medplumUser.profileId}`)
+    let profile = null
+    let existingConditions: any = []
 
-    const profile = await MedplumProxyService.getProfile({
-      profileType: 'Patient',
-      membershipId: medplumUser.medplumMembershipId,
-      profileId: medplumUser.profileId!,
-    })
+    try {
+      profile = await MedplumProxyService.getProfile({
+        profileType: 'Patient',
+        membershipId: medplumUser.medplumMembershipId,
+        profileId: medplumUser.profileId!,
+      })
+    } catch (error) {
+      logger.warn(`Profile not found for user ${user.id} in Medplum`)
+      profile = null
+    }
 
-    logger.debug(
-      `Medplum user id: ${medplumUser.medplumUserId}`
-    )
-
-    let existingConditions = null
     try {
       existingConditions = await MedplumProxyService.getResource(
         medplumUser.medplumUserId!,
         'Condition'
       )
-    } catch (error: any) {
-      if (error.status === 404 || error.outcome?.id === 'not-found') {
-        logger.warn(`The user ${medplumUser.medplumUserId} does not have Condition type resources in Medplum.`)
-        existingConditions = [] 
-      } else {
-       
-        logger.error('Error in obtaining unexpected clinical data:', error)
-        existingConditions = null 
-      }
+    } catch (error) {
+      logger.warn(`No conditions found for Medplum ID ${medplumUser.medplumUserId}`)
+      existingConditions = []
     }
-    
 
-    return { profile, conditions: existingConditions }
+    return {
+      profile,
+      conditions: existingConditions,
+    }
+  }
+
+  /**
+   * @showByUid
+   * @summary Get user medical data by UID
+   * @requestBody <uidValidator>
+   */
+  async showByUid({ request }: HttpContext) {
+    logger.info('Processing user medical request')
+    const { uid } =
+      await request.validateUsing(uidValidator)
+
+    const requested_user = await User.findByOrFail('uid', uid)
+    const medplumUser = await MedPlumUser.findByOrFail('userId', requested_user.id)
+
+    let profile = null
+    let existingConditions: any = []
+
+    try {
+      profile = await MedplumProxyService.getProfile({
+        profileType: 'Patient',
+        membershipId: medplumUser.medplumMembershipId,
+        profileId: medplumUser.profileId!,
+      })
+    } catch (error) {
+      logger.warn(`Profile not found for user ${requested_user.id} in Medplum`)
+      profile = null
+    }
+
+    try {
+      existingConditions = await MedplumProxyService.getResource(
+        medplumUser.medplumUserId!,
+        'Condition'
+      )
+    } catch (error) {
+      logger.warn(`No conditions found for Medplum ID ${medplumUser.medplumUserId}`)
+      existingConditions = []
+    }
+
+    return {
+      profile,
+      conditions: existingConditions,
+    }
   }
 
   /**
