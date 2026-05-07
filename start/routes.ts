@@ -84,7 +84,7 @@ router
         router.post('/', [controllers.Us, 'store'])
       })
       .prefix('me')
-      .use([middleware.auth(), middleware.role(['Patient'])])
+      .use([middleware.auth(), middleware.role(['Patient', 'Practitioner'])])
 
     // ? Medplum Proxy
     router
