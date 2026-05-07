@@ -3,6 +3,7 @@ import MedplumConfig from '#models/medplum_config'
 import MedplumProxyService from '#services/medplum_proxy_service'
 import { storeCondition } from '#validators/us'
 import type { HttpContext } from '@adonisjs/core/http'
+import logger from '@adonisjs/core/services/logger'
 
 export default class UsController {
   private static async getAllValueSets() {
@@ -36,7 +37,12 @@ export default class UsController {
    * @summary Get self medical data
    */
   async show({ auth }: HttpContext) {
+    logger.info('Processing user medical request')
+
     const user = await auth.getUserOrFail()
+
+    logger.debug('from user: ', { user: user.email })
+
     const medplumUser = await MedPlumUser.findByOrFail('userId', user.id)
 
     const profile = await MedplumProxyService.getProfile({
@@ -44,10 +50,20 @@ export default class UsController {
       membershipId: medplumUser.medplumMembershipId,
       profileId: medplumUser.profileId!,
     })
-    const existingConditions = await MedplumProxyService.getResource(
-      medplumUser.medplumUserId!,
-      'Condition'
-    )
+
+    logger.debug('medplum user: ', { medplumUser: medplumUser.id })
+    logger.debug('medplum profile: ', { profileTelecom: profile.telecom })
+
+    let existingConditions = null
+    try {
+      existingConditions = await MedplumProxyService.getResource(
+        medplumUser.medplumUserId!,
+        'Condition'
+      )
+    } catch (error) {
+      logger.error('Error getting clinical data:', error)
+      throw error
+    }
 
     return {
       profile,
