@@ -18,10 +18,9 @@ export default class MedplumController {
    * @description List all profiles from a specific role
    * @responseBody 200 - [{ "membershipId": "123", "profileType": "Practitioner" }]
    */
-  async index({ auth, params, response }: HttpContext) {
+  async index({ auth, params }: HttpContext) {
     const profileType = params.profileType as ProfileType
     const user = await auth.getUserOrFail()
-    if (profileType === 'Practitioner' && requireAdmin(user, response)) return
 
     const medplumUser = await this.getMedplumUser(user.id)
     return MedplumProxyService.getProfiles({
@@ -35,10 +34,9 @@ export default class MedplumController {
    * @summary Show all medplum users
    * @responseBody 200 - { "membershipId": "123", "profileType": "Practitioner", profileId: 1 }
    */
-  async show({ auth, params, response }: HttpContext) {
+  async show({ auth, params }: HttpContext) {
     const profileType = params.profileType as ProfileType
     const user = await auth.getUserOrFail()
-    if (profileType === 'Practitioner' && requireAdmin(user, response)) return
 
     const medplumUser = await this.getMedplumUser(user.id)
     return MedplumProxyService.getProfile({

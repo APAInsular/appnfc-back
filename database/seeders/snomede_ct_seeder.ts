@@ -31,14 +31,14 @@ export default class extends BaseSeeder {
             id: '300916003',
             term: 'Allergy to bee venom',
             translations: { es: 'Alergia al veneno de abeja' },
-          }, 
+          },
           { id: '414285001', term: 'Food allergy', translations: { es: 'Alergia alimentaria' } },
           {
             id: '293586001',
             term: 'Allergy to morphine',
             translations: { es: 'Alergia a la morfina' },
-          }, 
-          { id: '372741009', term: 'Allergy to iodine', translations: { es: 'Alergia al yodo' } }, 
+          },
+          { id: '372741009', term: 'Allergy to iodine', translations: { es: 'Alergia al yodo' } },
           { id: '416098002', term: 'Allergy to NSAIDs', translations: { es: 'Alergia a AINEs' } },
         ],
       },
@@ -183,18 +183,33 @@ export default class extends BaseSeeder {
   }
 
   private async syncValueSet(def: { key: string; title: string; codes: any[] }) {
-    let config = await MedplumConfig.findBy('key', def.key)
-    if (config) {
-      console.log(`[${def.key}] Already in DB: ${config.value}`)
-      return
-    }
-
     const existing = await medplum.searchResources('ValueSet', { title: def.title })
     let valueSetId: string
 
     if (existing.length > 0) {
       valueSetId = existing[0].id as string
-      console.log(`[${def.key}] Found in Medplum: ${valueSetId}`)
+      console.log(`[${def.key}] Found in Medplum: ${valueSetId}, updating...`)
+      await medplum.updateResource({
+        resourceType: 'ValueSet',
+        id: valueSetId,
+        title: def.title,
+        status: 'active',
+        compose: {
+          include: [
+            {
+              system: 'http://snomed.info/sct',
+              concept: def.codes.map((c) => ({
+                code: c.id,
+                display: c.term,
+                designation: Object.entries(c.translations ?? {}).map(([language, value]) => ({
+                  language,
+                  value: value as string,
+                })),
+              })),
+            },
+          ],
+        },
+      })
     } else {
       console.log(`[${def.key}] Creating new resource...`)
       const newVS = await medplum.createResource({
@@ -213,10 +228,15 @@ export default class extends BaseSeeder {
       valueSetId = newVS.id as string
     }
 
-    await MedplumConfig.create({
-      key: def.key,
-      value: valueSetId,
-      description: `Medplum ID for ${def.title}`,
-    })
+    let config = await MedplumConfig.findBy('key', def.key)
+    if (!config) {
+      // console.log(`[${def.key}] Already in DB: ${config.value}`)
+      console.info('Creating medplum config entry for: ', def.key)
+      await MedplumConfig.create({
+        key: def.key,
+        value: valueSetId,
+        description: `Medplum ID for ${def.title}`,
+      })
+    }
   }
 }

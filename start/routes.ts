@@ -59,12 +59,11 @@ router
         router.get('/models', [controllers.Bracelets, 'models'])
         router.get('/user/:userUid', [controllers.Bracelets, 'showByUser'])
         router.get('/:uid', [controllers.Bracelets, 'show'])
-        
+
         router.post('/create', [controllers.Bracelets, 'store'])
         router.post('/assign', [controllers.Bracelets, 'assign'])
 
         router.patch('/ban/:braceletUuid', [controllers.Bracelets, 'banByUid'])
-        
       })
       .prefix('bracelet')
       .use(middleware.auth())
@@ -85,7 +84,7 @@ router
         router.get('/', [controllers.Us, 'show'])
         router.get('/uid/:userUid', [controllers.Us, 'showByUid'])
         router.get('/bracelet/:braceletUid', [controllers.Us, 'showByBraceletUid'])
-      
+
         router.put('/', [controllers.Us, 'update'])
         router.post('/', [controllers.Us, 'store'])
       })
@@ -97,10 +96,21 @@ router
       .group(() => {
         router
           .group(() => {
-            router.get('/:profileType', [controllers.Medplum, 'index'])
-            router.get('/:profileType/:id', [controllers.Medplum, 'show'])
-            router.put('/:profileType/:id', [controllers.Medplum, 'update'])
-            router.delete('/:profileType/:id', [controllers.Medplum, 'destroy'])
+            router
+              .get('/:profileType/:id', [controllers.Medplum, 'show'])
+              .use(middleware.role(['Admin', 'Practitioner']))
+
+            router
+              .get('/:profileType', [controllers.Medplum, 'index'])
+              .use(middleware.role(['Admin', 'Practitioner']))
+
+            router
+              .put('/:profileType/:id', [controllers.Medplum, 'update'])
+              .use(middleware.role(['Admin', 'Practitioner']))
+
+            router
+              .delete('/:profileType/:id', [controllers.Medplum, 'destroy'])
+              .use(middleware.role(['Admin']))
           })
           .prefix('profiles')
 
@@ -109,9 +119,10 @@ router
             router.get('/:profileType/:id/:resourceType', [controllers.Medplum, 'getInfo'])
           })
           .prefix('clinical')
+          .use(middleware.role(['Admin', 'Practitioner']))
       })
       .prefix('proxy')
-      .use(middleware.auth())
+      .use([middleware.auth()])
 
     router.get('/swagger', async () => {
       return AutoSwagger.default.docs(router.toJSON(), swagger)
