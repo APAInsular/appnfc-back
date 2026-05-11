@@ -123,7 +123,9 @@ export default class UsController {
   async showByBraceletUid({ params }: HttpContext) {
     logger.info('Processing user medical request')
 
-    logger.debug('Params: ', {params})
+
+    logger.info({ params }, 'Params') 
+    logger.debug({ params }, 'Params') 
 
     const requested_bracelet = await Bracelet.findByOrFail('uid', params.braceletUid)
     const requested_user = await User.findByOrFail('id', requested_bracelet.userId)
