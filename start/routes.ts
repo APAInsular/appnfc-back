@@ -55,13 +55,16 @@ router
     router
       .group(() => {
         // router.put('/:id', [controllers.Bracelets, 'update'])
-        router.get('/:uid', [controllers.Bracelets, 'show'])
         router.get('/', [controllers.Bracelets, 'index'])
+        router.get('/models', [controllers.Bracelets, 'models'])
         router.get('/user/:userUid', [controllers.Bracelets, 'showByUser'])
-        router.patch('/ban/:braceletUuid', [controllers.Bracelets, 'banByUid'])
+        router.get('/:uid', [controllers.Bracelets, 'show'])
+        
         router.post('/create', [controllers.Bracelets, 'store'])
         router.post('/assign', [controllers.Bracelets, 'assign'])
-        router.get('/models', [controllers.Bracelets, 'models'])
+
+        router.patch('/ban/:braceletUuid', [controllers.Bracelets, 'banByUid'])
+        
       })
       .prefix('bracelet')
       .use(middleware.auth())
@@ -82,6 +85,7 @@ router
         router.get('/', [controllers.Us, 'show'])
         router.get('/uid/:userUid', [controllers.Us, 'showByUid'])
         router.get('/bracelet/:braceletUid', [controllers.Us, 'showByBraceletUid'])
+      
         router.put('/', [controllers.Us, 'update'])
         router.post('/', [controllers.Us, 'store'])
       })
