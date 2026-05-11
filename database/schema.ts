@@ -56,6 +56,7 @@ export class BraceletSchema extends BaseModel {
 }
 
 export class MedPlumUserSchema extends BaseModel {
+  static table = 'med_plum_users'
   static $columns = ['createdAt', 'id', 'medplumMembershipId', 'medplumUserId', 'profileId', 'profileType', 'updatedAt', 'userId'] as const
   $columns = MedPlumUserSchema.$columns
   @column.dateTime({ autoCreate: true })
