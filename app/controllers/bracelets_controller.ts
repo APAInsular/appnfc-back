@@ -138,7 +138,7 @@ export default class BraceletsController {
   async show({ params }: HttpContext) {
     logger.info('Obtaining bracelet by UID.')
 
-    return await Bracelet.findByOrFail('uid', params.userUid)
+    return await Bracelet.findByOrFail('uid', params.uid)
   }
 
   /**
