@@ -28,7 +28,7 @@ jobs:
             HOST=${{ vars.HOST }}
             NODE_ENV=production
 
-            LOG_LEVEL=info
+            LOG_LEVEL=${{ vars.LOG_LEVEL }}
             APP_KEY=${{ secrets.APP_KEY }}
             APP_URL=${{ vars.APP_URL }}
 
