@@ -97,6 +97,10 @@ export default class MedplumProxyService {
     })
   }
 
+  static async getProfileAdmin(params: Omit<GetProfileParams, 'membershipId'>): Promise<Patient | Practitioner> {
+    return medplum.readResource(params.profileType, params.profileId)
+  }
+
   static async getProfiles(
     params: Pick<GetProfileParams, 'profileType' | 'membershipId'>
   ): Promise<Patient[] | Practitioner[]> {

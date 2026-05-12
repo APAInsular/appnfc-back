@@ -6,6 +6,11 @@ import { cleanupUser } from '#tests/helpers/auth'
 import { requireAdmin } from '../helpers/index.ts'
 import logger from '@adonisjs/core/services/logger'
 
+// TODO:
+// ! Avoid Q-Vida Admins consult medplum's users data
+// ! rethink medplum_proxy_service.ts code
+// ! Add audit logging
+
 type ProfileType = 'Patient' | 'Practitioner'
 
 export default class MedplumController {
@@ -56,13 +61,12 @@ export default class MedplumController {
    * @summary Show all medplum users
    * @responseBody 200 - { "membershipId": "123", "profileType": "Practitioner", profileId: 1 }
    */
-  async show({ auth, params }: HttpContext) {
+  async show({ params }: HttpContext) {
     const profileType = params.profileType as ProfileType
-    const user = await auth.getUserOrFail()
+    // const user = await auth.getUserOrFail()
 
-    const medplumUser = await this.getMedplumUser(user.id)
-    return MedplumProxyService.getProfile({
-      membershipId: medplumUser.medplumMembershipId,
+    // const medplumUser = await this.getMedplumUser(user.id)
+    return MedplumProxyService.getProfileAdmin({
       profileType,
       profileId: params.id,
     })
