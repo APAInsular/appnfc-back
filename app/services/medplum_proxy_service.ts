@@ -106,6 +106,13 @@ export default class MedplumProxyService {
     return bundle.entry?.map((e) => e.resource as Patient & Practitioner) ?? []
   }
 
+  static async getProfilesAdmin(
+    params: Pick<GetProfileParams, 'profileType'>
+  ): Promise<Patient[] | Practitioner[]> {
+    const bundle = await medplum.search(params.profileType, undefined)
+    return bundle.entry?.map((e) => e.resource as Patient & Practitioner) ?? []
+  }
+
   // TODO: Check security of this
   static async updateProfile<T extends Patient | Practitioner>(
     params: UpdateProfileParams<T>
