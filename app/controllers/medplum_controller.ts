@@ -65,10 +65,13 @@ export default class MedplumController {
     const profileType = params.profileType as ProfileType
     // const user = await auth.getUserOrFail()
 
+    const requested_user = await User.findByOrFail('uid', params.userUid)
+    const medplumUser = await MedPlumUser.findByOrFail('userId', requested_user.id)
+
     // const medplumUser = await this.getMedplumUser(user.id)
     return MedplumProxyService.getProfileAdmin({
       profileType,
-      profileId: params.id,
+      profileId: medplumUser.profileId!,
     })
   }
 
@@ -80,9 +83,12 @@ export default class MedplumController {
   async update({ params, request }: HttpContext) {
     const profileType = params.profileType as ProfileType
 
+    const requested_user = await User.findByOrFail('uid', params.userUid)
+    const medplumUser = await MedPlumUser.findByOrFail('userId', requested_user.id)
+
     return MedplumProxyService.updateProfileAdmin({
       data: request.all(),
-      profileId: params.id,
+      profileId: medplumUser.profileId!,
       profileType,
     })
   }
@@ -94,6 +100,7 @@ export default class MedplumController {
   async destroy({ params }: HttpContext) {
 
     const target = await User.findByOrFail('uid', params.userUid)
+    logger.debug("Destroying user: ", { target })
     await cleanupUser(target.email)
   }
 
@@ -104,7 +111,9 @@ export default class MedplumController {
   async getInfo({ params }: HttpContext) {
     const resourceType = params.resourceType
 
-    const medplumUser = await this.getMedplumUser(params.id)
+    const requested_user = await User.findByOrFail('uid', params.userUid)
+    const medplumUser = await MedPlumUser.findByOrFail('userId', requested_user.id)
+
 
     const content = await MedplumProxyService.getResource(medplumUser.profileId!, resourceType)
 

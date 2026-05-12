@@ -98,7 +98,7 @@ router
         router
           .group(() => {
             router
-              .get('/:profileType/:id', [controllers.Medplum, 'show'])
+              .get('/:profileType/:userUid', [controllers.Medplum, 'show'])
               .use(middleware.role(['Admin', 'Practitioner']))
 
             router
@@ -117,7 +117,7 @@ router
 
         router
           .group(() => {
-            router.get('/:profileType/:id/:resourceType', [controllers.Medplum, 'getInfo'])
+            router.get('/:profileType/:userUid/:resourceType', [controllers.Medplum, 'getInfo'])
           })
           .prefix('clinical')
           .use(middleware.role(['Admin', 'Practitioner']))
