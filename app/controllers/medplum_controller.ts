@@ -77,15 +77,11 @@ export default class MedplumController {
    * @summary Update profile data
    * @responseBody 200 - { data: {}, "membershipId": "123", "profileType": "Practitioner", profileId: 1 }
    */
-  async update({ auth, params, request, response }: HttpContext) {
+  async update({ params, request }: HttpContext) {
     const profileType = params.profileType as ProfileType
-    const user = await auth.getUserOrFail()
-    if (profileType === 'Practitioner' && requireAdmin(user, response)) return
 
-    const medplumUser = await this.getMedplumUser(user.id)
-    return MedplumProxyService.updateProfile({
+    return MedplumProxyService.updateProfileAdmin({
       data: request.all(),
-      membershipId: medplumUser.medplumMembershipId,
       profileId: params.id,
       profileType,
     })
@@ -95,11 +91,9 @@ export default class MedplumController {
    * @destroy
    * @summary Deletes an medplum user
    */
-  async destroy({ auth, params, response }: HttpContext) {
-    const user = await auth.getUserOrFail()
-    if (requireAdmin(user, response)) return
+  async destroy({ params }: HttpContext) {
 
-    const target = await User.findOrFail(params.id)
+    const target = await User.findByOrFail('uid', params.userUid)
     await cleanupUser(target.email)
   }
 

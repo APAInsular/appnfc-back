@@ -97,7 +97,9 @@ export default class MedplumProxyService {
     })
   }
 
-  static async getProfileAdmin(params: Omit<GetProfileParams, 'membershipId'>): Promise<Patient | Practitioner> {
+  static async getProfileAdmin(
+    params: Omit<GetProfileParams, 'membershipId'>
+  ): Promise<Patient | Practitioner> {
     return medplum.readResource(params.profileType, params.profileId)
   }
 
@@ -124,6 +126,14 @@ export default class MedplumProxyService {
     const headers = this.onBehalfOfHeaders(params.membershipId)
     const existing = await medplum.readResource(params.profileType, params.profileId, { headers })
     return medplum.updateResource({ ...existing, ...params.data }, { headers }) as Promise<T>
+  }
+
+  // TODO: Check security of this
+  static async updateProfileAdmin<T extends Patient | Practitioner>(
+    params: Omit<UpdateProfileParams<T>, 'membershipId'>
+  ): Promise<T> {
+    const existing = await medplum.readResource(params.profileType, params.profileId)
+    return medplum.updateResource({ ...existing, ...params.data }) as Promise<T>
   }
 
   static async deleteUserAsAdmin(

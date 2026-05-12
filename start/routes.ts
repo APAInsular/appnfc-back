@@ -105,11 +105,11 @@ router
               .use(middleware.role(['Admin', 'Practitioner']))
 
             router
-              .put('/:profileType/:id', [controllers.Medplum, 'update'])
+              .put('/:profileType/:userUid', [controllers.Medplum, 'update'])
               .use(middleware.role(['Admin', 'Practitioner']))
 
             router
-              .delete('/:profileType/:id', [controllers.Medplum, 'destroy'])
+              .delete('/:profileType/:userUid', [controllers.Medplum, 'destroy'])
               .use(middleware.role(['Admin']))
           })
           .prefix('profiles')
