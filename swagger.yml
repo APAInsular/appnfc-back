@@ -114,7 +114,7 @@ components:
       properties:
         id:
           type: "number"
-          example: 747
+          example: 678
         key:
           type: "string"
           example: "Lorem Ipsum"
@@ -198,10 +198,10 @@ components:
       properties:
         id:
           type: "number"
-          example: 146
+          example: 824
           required: true
       example:
-        id: 146
+        id: 824
       description: "idParamValidator (Validator)"
     uidValidator:
       type: "object"
@@ -220,7 +220,7 @@ components:
           type: "array"
           items:
             type: "number"
-            example: 114
+            example: 139
           required: true
           properties:
             items:
@@ -230,7 +230,7 @@ components:
           type: "array"
           items:
             type: "number"
-            example: 909
+            example: 393
           required: true
           properties:
             items:
@@ -240,7 +240,7 @@ components:
           type: "array"
           items:
             type: "number"
-            example: 166
+            example: 147
           required: true
           properties:
             items:
@@ -250,7 +250,7 @@ components:
           type: "array"
           items:
             type: "number"
-            example: 372
+            example: 569
           required: true
           properties:
             items:
@@ -260,7 +260,7 @@ components:
           type: "array"
           items:
             type: "number"
-            example: 497
+            example: 812
           required: true
           properties:
             items:
@@ -276,21 +276,21 @@ components:
           required: true
         language:
           type: "number"
-          example: 370
+          example: 351
           choices:
             - "ES"
             - "EN"
           required: true
         biologicalSex:
           type: "number"
-          example: 431
+          example: 329
           choices:
             - "M"
             - "F"
           required: true
         bloodType:
           type: "number"
-          example: 45
+          example: 755
           choices:
             - "O+"
             - "O-"
@@ -314,9 +314,9 @@ components:
           - "Lorem Ipsum"
         firstName: "Lorem Ipsum"
         surnames: "Lorem Ipsum"
-        language: 370
-        biologicalSex: 431
-        bloodType: 45
+        language: 351
+        biologicalSex: 329
+        bloodType: 755
       description: "storeCondition (Validator)"
     adminSignupValidator:
       type: "object"
@@ -409,7 +409,7 @@ components:
           maxLength: 254
         role:
           type: "number"
-          example: 595
+          example: 91
           choices:
             - "Patient"
             - "Practitioner"
@@ -430,7 +430,7 @@ components:
         firstName: "Lorem Ipsum"
         surnames: "Lorem Ipsum"
         email: "Lorem Ipsum"
-        role: 595
+        role: 91
         password: "Lorem Ipsum"
         passwordConfirmation: "Lorem Ipsum"
       description: "signupValidator (Validator)"
@@ -469,7 +469,7 @@ paths:
               firstName: "Lorem Ipsum"
               surnames: "Lorem Ipsum"
               email: "Lorem Ipsum"
-              role: 595
+              role: 91
               password: "Lorem Ipsum"
               passwordConfirmation: "Lorem Ipsum"
   /api/v1/auth/login:
@@ -570,38 +570,6 @@ paths:
       security:
         - BearerAuth:
             - "access"
-  /api/v1/bracelet/{uid}:
-    get:
-      summary: "Show bracelet by uid (show)"
-      description: "Returns **200** (OK) as **application/json**\n\n _app/controllers/bracelets_controller.ts_ - **show**"
-      parameters:
-        - in: "path"
-          name: "uid"
-          schema:
-            type: "string"
-          required: true
-      tags:
-        - "BRACELET"
-      responses:
-        200:
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Bracelet"
-              example:
-                uid: "550e8400-e29b-41d4-a716-446655440000"
-                state: "unassigned"
-                assign_date: "2024-01-15"
-                serial_number: "ABC123456"
-                model: "desfire_EV3_4K"
-          description: "Returns **200** (OK) as **application/json**"
-        401:
-          description: "Returns **401** (Unauthorized)"
-        403:
-          description: "Returns **403** (Forbidden)"
-      security:
-        - BearerAuth:
-            - "access"
   /api/v1/bracelet:
     get:
       summary: "List all bracelets (index)"
@@ -630,6 +598,21 @@ paths:
                     email: "johndoe@example.com"
                     role: "Patient"
           description: "Returns **200** (OK) as **application/json**"
+        401:
+          description: "Returns **401** (Unauthorized)"
+        403:
+          description: "Returns **403** (Forbidden)"
+      security:
+        - BearerAuth:
+            - "access"
+  /api/v1/bracelet/models:
+    get:
+      summary: "List all supported models (models)"
+      description: "\n\n _app/controllers/bracelets_controller.ts_ - **models**"
+      parameters: []
+      tags:
+        - "BRACELET"
+      responses:
         401:
           description: "Returns **401** (Unauthorized)"
         403:
@@ -669,19 +652,31 @@ paths:
       security:
         - BearerAuth:
             - "access"
-  /api/v1/bracelet/ban/{braceletUuid}:
-    patch:
-      summary: "Bans a bracelet (banByUid)"
-      description: "\n\n _app/controllers/bracelets_controller.ts_ - **banByUid**"
+  /api/v1/bracelet/{uid}:
+    get:
+      summary: "Show bracelet by uid (show)"
+      description: "Returns **200** (OK) as **application/json**\n\n _app/controllers/bracelets_controller.ts_ - **show**"
       parameters:
         - in: "path"
-          name: "braceletUuid"
+          name: "uid"
           schema:
             type: "string"
           required: true
       tags:
         - "BRACELET"
       responses:
+        200:
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Bracelet"
+              example:
+                uid: "550e8400-e29b-41d4-a716-446655440000"
+                state: "unassigned"
+                assign_date: "2024-01-15"
+                serial_number: "ABC123456"
+                model: "desfire_EV3_4K"
+          description: "Returns **200** (OK) as **application/json**"
         401:
           description: "Returns **401** (Unauthorized)"
         403:
@@ -719,11 +714,16 @@ paths:
       security:
         - BearerAuth:
             - "access"
-  /api/v1/bracelet/models:
-    get:
-      summary: "List all supported models (models)"
-      description: "\n\n _app/controllers/bracelets_controller.ts_ - **models**"
-      parameters: []
+  /api/v1/bracelet/ban/{braceletUuid}:
+    patch:
+      summary: "Bans a bracelet (banByUid)"
+      description: "\n\n _app/controllers/bracelets_controller.ts_ - **banByUid**"
+      parameters:
+        - in: "path"
+          name: "braceletUuid"
+          schema:
+            type: "string"
+          required: true
       tags:
         - "BRACELET"
       responses:
@@ -854,9 +854,9 @@ paths:
                 - "Lorem Ipsum"
               firstName: "Lorem Ipsum"
               surnames: "Lorem Ipsum"
-              language: 370
-              biologicalSex: 431
-              bloodType: 45
+              language: 351
+              biologicalSex: 329
+              bloodType: 755
     post:
       summary: "Store patient medical conditions (store)"
       description: "Creates allergies, pathologies and other conditions for authenticated user\n\n _app/controllers/us_controller.ts_ - **store**"
@@ -897,10 +897,10 @@ paths:
                 - "Lorem Ipsum"
               firstName: "Lorem Ipsum"
               surnames: "Lorem Ipsum"
-              language: 370
-              biologicalSex: 431
-              bloodType: 45
-  /api/v1/me/{userUid}:
+              language: 351
+              biologicalSex: 329
+              bloodType: 755
+  /api/v1/me/uid/{userUid}:
     get:
       summary: "Get user medical data by UID (showByUid)"
       description: "\n\n _app/controllers/us_controller.ts_ - **showByUid**"
@@ -920,7 +920,55 @@ paths:
       security:
         - BearerAuth:
             - "access"
-  /api/v1/me/{braceletUid}:
+    post:
+      summary: "Store patient medical conditions by Uid (storeByUid)"
+      description: "Creates allergies, pathologies and other conditions for authenticated user\n\n _app/controllers/us_controller.ts_ - **storeByUid**"
+      parameters:
+        - in: "path"
+          name: "userUid"
+          schema:
+            type: "string"
+          required: true
+      tags:
+        - "ME"
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties: {}
+              example: {}
+          description: "Returns **200** (OK) as **application/json**"
+        401:
+          description: "Returns **401** (Unauthorized)"
+        403:
+          description: "Returns **403** (Forbidden)"
+      security:
+        - BearerAuth:
+            - "access"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/storeCondition"
+            example:
+              allergies:
+                - "Lorem Ipsum"
+              medications:
+                - "Lorem Ipsum"
+              pathologies:
+                - "Lorem Ipsum"
+              inplantDevices:
+                - "Lorem Ipsum"
+              neurologicalStatus:
+                - "Lorem Ipsum"
+              firstName: "Lorem Ipsum"
+              surnames: "Lorem Ipsum"
+              language: 351
+              biologicalSex: 329
+              bloodType: 755
+  /api/v1/me/bracelet/{braceletUid}:
     get:
       summary: "Get user medical data by UID (showByBraceletUid)"
       description: "\n\n _app/controllers/us_controller.ts_ - **showByBraceletUid**"
@@ -932,6 +980,89 @@ paths:
           required: true
       tags:
         - "ME"
+      responses:
+        401:
+          description: "Returns **401** (Unauthorized)"
+        403:
+          description: "Returns **403** (Forbidden)"
+      security:
+        - BearerAuth:
+            - "access"
+  /api/v1/proxy/profiles/{profileType}/{userUid}:
+    get:
+      summary: "Show all medplum users (show)"
+      description: "Returns **200** (OK) as **text/plain**\n\n _app/controllers/medplum_controller.ts_ - **show**"
+      parameters:
+        - in: "path"
+          name: "profileType"
+          schema:
+            type: "string"
+          required: true
+        - in: "path"
+          name: "userUid"
+          schema:
+            type: "string"
+          required: true
+      tags:
+        - "PROXY"
+      responses:
+        200:
+          content:
+            text/plain:
+              example: "{ \"membershipId\": \"123\", \"profileType\": \"Practitioner\", profileId: 1 }"
+          description: "Returns **200** (OK) as **text/plain**"
+        401:
+          description: "Returns **401** (Unauthorized)"
+        403:
+          description: "Returns **403** (Forbidden)"
+      security:
+        - BearerAuth:
+            - "access"
+    put:
+      summary: "Update profile data (update)"
+      description: "\n\n _app/controllers/medplum_controller.ts_ - **update**"
+      parameters:
+        - in: "path"
+          name: "profileType"
+          schema:
+            type: "string"
+          required: true
+        - in: "path"
+          name: "userUid"
+          schema:
+            type: "string"
+          required: true
+      tags:
+        - "PROXY"
+      responses:
+        200:
+          content:
+            text/plain:
+              example: "{ data: {}, \"membershipId\": \"123\", \"profileType\": \"Practitioner\", profileId: 1 }"
+          description: "Returns **200** (OK) as **text/plain**"
+        401:
+          description: "Returns **401** (Unauthorized)"
+        403:
+          description: "Returns **403** (Forbidden)"
+      security:
+        - BearerAuth:
+            - "access"
+    delete:
+      summary: "Deletes an medplum user (destroy)"
+      description: "\n\n _app/controllers/medplum_controller.ts_ - **destroy**"
+      parameters:
+        - in: "path"
+          name: "profileType"
+          schema:
+            type: "string"
+          required: true
+        - in: "path"
+          name: "userUid"
+          schema:
+            type: "string"
+          required: true
+      tags:
+        - "PROXY"
       responses:
         401:
           description: "Returns **401** (Unauthorized)"
@@ -971,90 +1102,7 @@ paths:
       security:
         - BearerAuth:
             - "access"
-  /api/v1/proxy/profiles/{profileType}/{id}:
-    get:
-      summary: "Show all medplum users (show)"
-      description: "Returns **200** (OK) as **text/plain**\n\n _app/controllers/medplum_controller.ts_ - **show**"
-      parameters:
-        - in: "path"
-          name: "profileType"
-          schema:
-            type: "string"
-          required: true
-        - in: "path"
-          name: "id"
-          schema:
-            type: "string"
-          required: true
-      tags:
-        - "PROXY"
-      responses:
-        200:
-          content:
-            text/plain:
-              example: "{ \"membershipId\": \"123\", \"profileType\": \"Practitioner\", profileId: 1 }"
-          description: "Returns **200** (OK) as **text/plain**"
-        401:
-          description: "Returns **401** (Unauthorized)"
-        403:
-          description: "Returns **403** (Forbidden)"
-      security:
-        - BearerAuth:
-            - "access"
-    put:
-      summary: "Update profile data (update)"
-      description: "\n\n _app/controllers/medplum_controller.ts_ - **update**"
-      parameters:
-        - in: "path"
-          name: "profileType"
-          schema:
-            type: "string"
-          required: true
-        - in: "path"
-          name: "id"
-          schema:
-            type: "string"
-          required: true
-      tags:
-        - "PROXY"
-      responses:
-        200:
-          content:
-            text/plain:
-              example: "{ data: {}, \"membershipId\": \"123\", \"profileType\": \"Practitioner\", profileId: 1 }"
-          description: "Returns **200** (OK) as **text/plain**"
-        401:
-          description: "Returns **401** (Unauthorized)"
-        403:
-          description: "Returns **403** (Forbidden)"
-      security:
-        - BearerAuth:
-            - "access"
-    delete:
-      summary: "Deletes an medplum user (destroy)"
-      description: "\n\n _app/controllers/medplum_controller.ts_ - **destroy**"
-      parameters:
-        - in: "path"
-          name: "profileType"
-          schema:
-            type: "string"
-          required: true
-        - in: "path"
-          name: "id"
-          schema:
-            type: "string"
-          required: true
-      tags:
-        - "PROXY"
-      responses:
-        401:
-          description: "Returns **401** (Unauthorized)"
-        403:
-          description: "Returns **403** (Forbidden)"
-      security:
-        - BearerAuth:
-            - "access"
-  /api/v1/proxy/clinical/{profileType}/{id}/{resourceType}:
+  /api/v1/proxy/clinical/{profileType}/{userUid}/{resourceType}:
     get:
       summary: "Gets info (getInfo)"
       description: "\n\n _app/controllers/medplum_controller.ts_ - **getInfo**"
@@ -1065,7 +1113,7 @@ paths:
             type: "string"
           required: true
         - in: "path"
-          name: "id"
+          name: "userUid"
           schema:
             type: "string"
           required: true
