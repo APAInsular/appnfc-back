@@ -87,6 +87,7 @@ router
 
         router.put('/', [controllers.Us, 'update'])
         router.post('/', [controllers.Us, 'store'])
+        router.post('/uid/:userUid', [controllers.Us, 'storeByUid'])
       })
       .prefix('me')
       .use([middleware.auth(), middleware.role(['Patient', 'Practitioner'])])

@@ -81,7 +81,6 @@ export default class UsController {
   async showByUid({ params }: HttpContext) {
     logger.info('Processing user medical request')
 
-  
     const requested_user = await User.findByOrFail('uid', params.userUid)
     const medplumUser = await MedPlumUser.findByOrFail('userId', requested_user.id)
 
@@ -122,7 +121,7 @@ export default class UsController {
   async showByBraceletUid({ params }: HttpContext) {
     logger.info('Processing user medical request')
 
-    logger.debug({ params }, 'Params') 
+    logger.debug({ params }, 'Params')
 
     const requested_bracelet = await Bracelet.findByOrFail('uid', params.braceletUid)
     const requested_user = await User.findByOrFail('id', requested_bracelet.userId)
@@ -369,6 +368,115 @@ export default class UsController {
             MedplumProxyService.createConditionFromConcepts(
               medplumUser.medplumUserId!,
               medplumUser.medplumMembershipId,
+              code,
+              neuro_c
+            )
+          ),
+        ])
+      })(),
+    ])
+    return {}
+  }
+
+  /**
+   * @storeByUid
+   * @summary Store patient medical conditions by Uid
+   * @description Creates allergies, pathologies and other conditions for authenticated user
+   * @requestBody <storeCondition>
+   * @responseBody 200 - {}
+   */
+  async storeByUid({ auth, request, params }: HttpContext) {
+    const {
+      allergies,
+      biologicalSex,
+      inplantDevices,
+      medications,
+      neurologicalStatus,
+      pathologies,
+      bloodType,
+      firstName,
+      surnames,
+      language,
+    } = await request.validateUsing(storeCondition)
+
+    const target_user = await User.findByOrFail('uid', params.userUid)
+    const auth_user = await auth.getUserOrFail()
+
+    const medplumUser = await MedPlumUser.findByOrFail('userId', target_user.id)
+
+    const medplumAuthUser = await MedPlumUser.findByOrFail('userId', auth_user.id)
+
+    const [allergies_vs, medications_vs, pathologies_vs, devices_vs, neuro_vs] =
+      await UsController.getAllValueSets()
+
+    await Promise.all([
+      MedplumProxyService.updateProfile({
+        profileType: 'Patient',
+        profileId: medplumUser.profileId!,
+        membershipId: medplumAuthUser.medplumMembershipId,
+        data: {
+          name: [{ family: surnames, given: [firstName] }],
+          gender: biologicalSex === 'M' ? 'male' : 'female',
+          communication: [
+            { language: { coding: [{ system: 'urn:ietf:bcp:47', code: language.toLowerCase() }] } },
+          ],
+          extension: [
+            {
+              url: 'http://hl7.org/fhir/StructureDefinition/patient-bloodType',
+              valueCodeableConcept: {
+                coding: [{ system: 'http://snomed.info/sct', code: bloodType }],
+              },
+            },
+          ],
+        },
+      }),
+
+      (async () => {
+        const [allergies_c, medications_c, pathologies_c, devices_c, neuro_c] =
+          await UsController.getAllConcepts(
+            allergies_vs,
+            medications_vs,
+            pathologies_vs,
+            devices_vs,
+            neuro_vs
+          )
+        await Promise.all([
+          ...allergies.map((code) =>
+            MedplumProxyService.createConditionFromConcepts(
+              medplumUser.medplumUserId!,
+              medplumAuthUser.medplumMembershipId,
+              code,
+              allergies_c
+            )
+          ),
+          ...medications.map((code) =>
+            MedplumProxyService.createConditionFromConcepts(
+              medplumUser.medplumUserId!,
+              medplumAuthUser.medplumMembershipId,
+              code,
+              medications_c
+            )
+          ),
+          ...pathologies.map((code) =>
+            MedplumProxyService.createConditionFromConcepts(
+              medplumUser.medplumUserId!,
+              medplumAuthUser.medplumMembershipId,
+              code,
+              pathologies_c
+            )
+          ),
+          ...inplantDevices.map((code) =>
+            MedplumProxyService.createConditionFromConcepts(
+              medplumUser.medplumUserId!,
+              medplumAuthUser.medplumMembershipId,
+              code,
+              devices_c
+            )
+          ),
+          ...neurologicalStatus.map((code) =>
+            MedplumProxyService.createConditionFromConcepts(
+              medplumUser.medplumUserId!,
+              medplumAuthUser.medplumMembershipId,
               code,
               neuro_c
             )
