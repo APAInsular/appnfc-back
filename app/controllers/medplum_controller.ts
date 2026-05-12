@@ -27,7 +27,11 @@ export default class MedplumController {
     const user = await auth.getUserOrFail()
     logger.debug('Authenticated user', { userId: user.id })
 
-    const medplumUser = await this.getMedplumUser(user.id)
+    const medplumUser = await this.getMedplumUser(user.id).catch((err) => {
+      logger.warn('Medplum user not found', { userId: user.id, error: err.message })
+      throw err
+    })
+    
     logger.debug('Medplum user resolved', {
       userId: user.id,
       medplumMembershipId: medplumUser.medplumMembershipId,
