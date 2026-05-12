@@ -4,6 +4,7 @@ import MedPlumUser from '#models/med_plum_user'
 import User from '#models/user'
 import { cleanupUser } from '#tests/helpers/auth'
 import { requireAdmin } from '../helpers/index.ts'
+import logger from '@adonisjs/core/services/logger'
 
 type ProfileType = 'Patient' | 'Practitioner'
 
@@ -20,13 +21,28 @@ export default class MedplumController {
    */
   async index({ auth, params }: HttpContext) {
     const profileType = params.profileType as ProfileType
+
+    logger.info('Listing medplum profiles', { profileType })
+
     const user = await auth.getUserOrFail()
+    logger.debug('Authenticated user', { userId: user.id })
 
     const medplumUser = await this.getMedplumUser(user.id)
-    return MedplumProxyService.getProfiles({
+    logger.debug('Medplum user resolved', {
+      userId: user.id,
+      medplumMembershipId: medplumUser.medplumMembershipId,
+    })
+
+    const result = await MedplumProxyService.getProfiles({
       membershipId: medplumUser.medplumMembershipId,
       profileType,
     })
+    logger.debug('Profiles fetched', {
+      profileType,
+      count: Array.isArray(result) ? result.length : undefined,
+    })
+
+    return result
   }
 
   /**
@@ -76,7 +92,6 @@ export default class MedplumController {
     const target = await User.findOrFail(params.id)
     await cleanupUser(target.email)
   }
-
 
   /**
    * @getInfo
