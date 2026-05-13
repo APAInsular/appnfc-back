@@ -118,12 +118,19 @@ export default class UsController {
    * @showByBraceletUid
    * @summary Get user medical data by UID
    */
-  async showByBraceletUid({ params }: HttpContext) {
+  async showByBraceletUid({ params, response }: HttpContext) {
     logger.info('Processing user medical request')
 
     logger.debug({ params }, 'Params')
 
     const requested_bracelet = await Bracelet.findByOrFail('uid', params.braceletUid)
+
+    if (requested_bracelet.state === 'banned')
+      return response.forbidden({ message: 'Bracelet banned.' })
+    
+    if (requested_bracelet.state === 'unassigned')
+      return response.unprocessableEntity({ message: 'Bracelet unassigned.' })
+
     const requested_user = await User.findByOrFail('id', requested_bracelet.userId)
     const medplumUser = await MedPlumUser.findByOrFail('userId', requested_user.id)
 
