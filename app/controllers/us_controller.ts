@@ -185,21 +185,34 @@ export default class UsController {
       language,
     } = await request.validateUsing(storeCondition)
 
+    logger.info("Request for medical info update.")
+
     const user = await auth.getUserOrFail()
     const medplumUser = await MedPlumUser.findByOrFail('userId', user.id)
 
+    logger.debug("User and Medplum user found.")
+
     const [allergies_vs, medications_vs, pathologies_vs, devices_vs, neuro_vs] =
       await UsController.getAllValueSets()
+
+    logger.debug("Loaded valuesets.")
 
     const existingConditions = await MedplumProxyService.getResource(
       medplumUser.medplumUserId!,
       'Condition'
     )
+
+    logger.debug("Sucefully obtained previous conditions.", { existingConditions })
+
     await Promise.all(
       existingConditions.map((c) =>
         MedplumProxyService.deleteResource('Condition', c.id!, medplumUser.medplumMembershipId)
       )
     )
+
+    logger.warn("Deleted previous conditions.")
+
+    logger.info("Updating profile.")
 
     await Promise.all([
       MedplumProxyService.updateProfile({
