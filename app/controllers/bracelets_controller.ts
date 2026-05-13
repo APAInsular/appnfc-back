@@ -103,7 +103,11 @@ export default class BraceletsController {
 
     const auth_user = auth.getUserOrFail()
 
+    if (!auth_user) logger.warn("Auth user not found.");
+
     const request_user = await User.findByOrFail('uid', user_uuid)
+
+    if (!request_user) logger.warn("Target user not found.");
 
     if (request_user.role === UserRole.Admin) {
       return response.forbidden({ message: 'Access denied A.' })
@@ -114,6 +118,8 @@ export default class BraceletsController {
     }
 
     const bracelet = await Bracelet.findByOrFail('uid', bracelet_uuid)
+
+    if (!bracelet) logger.warn("Bracelet not found.")
 
     await bracelet
       .merge({

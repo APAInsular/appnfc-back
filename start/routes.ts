@@ -45,6 +45,7 @@ router
     // ? Profile management routes
     router
       .group(() => {
+        router.get('/', [controllers.Profile, 'index']).use(middleware.role(['Admin', 'Practitioner']))
         router.get('/profile', [controllers.Profile, 'show'])
       })
       .prefix('account')
