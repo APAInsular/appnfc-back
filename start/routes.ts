@@ -89,6 +89,7 @@ router
 
         router.put('/', [controllers.Us, 'update'])
         router.post('/', [controllers.Us, 'store'])
+        router.put('/uid/:userUid', [controllers.Us, 'updateByUid'])
         router.post('/uid/:userUid', [controllers.Us, 'storeByUid'])
       })
       .prefix('me')
