@@ -47,6 +47,7 @@ router
       .group(() => {
         router.get('/', [controllers.Profile, 'index']).use(middleware.role(['Admin', 'Practitioner']))
         router.get('/profile', [controllers.Profile, 'show'])
+        router.get('/by-email/:email', [controllers.Profile, 'byEmail'])
       })
       .prefix('account')
       .as('profile')

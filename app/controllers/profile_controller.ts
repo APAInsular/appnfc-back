@@ -11,7 +11,20 @@ export default class ProfileController {
     return serialize(UserTransformer.transform(auth.getUserOrFail()))
   }
 
+  /**
+   * @index
+   * @summary Get a list of all existing accounts
+   */
   async index({}: HttpContext) {
     return await UserTransformer.transform(await User.all())
+  }
+
+  /**
+   * @byEmail
+   * @summary Find a user by email
+   */
+  async byEmail({ params }: HttpContext) {
+    const user = await User.findByOrFail('email', params.email)
+    return new UserTransformer(user).toObject()
   }
 }
