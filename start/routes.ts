@@ -50,7 +50,7 @@ router
           .get('/', [controllers.Profile, 'index'])
           .use(middleware.role(['Admin', 'Practitioner']))
         router.get('/profile', [controllers.Profile, 'show'])
-        router.get('/access-code', [controllers.Profile, 'showAccessCode']).use(middleware.role(['Patient'])).use(middleware.role(['Practitioner']))
+        router.get('/access-code', [controllers.Profile, 'showAccessCode']).use(middleware.role(['Practitioner']))
         router.get('/by-email/:email', [controllers.Profile, 'byEmail'])
         router.put('/profile', [controllers.Profile, 'updateProfile']).use(middleware.role(['Patient']))
         router.put('/profile/uid/:userUid', [controllers.Profile, 'updateProfileByUid']) .use(middleware.role(['Practitioner']))
