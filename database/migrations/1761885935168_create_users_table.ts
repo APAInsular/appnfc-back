@@ -1,3 +1,4 @@
+import TokenService from '#services/token_service'
 import { BaseSchema } from '@adonisjs/lucid/schema'
 
 export default class extends BaseSchema {
@@ -11,6 +12,7 @@ export default class extends BaseSchema {
       table.string('surnames').notNullable()
       table.string('email', 254).notNullable().unique()
       table.string('password').notNullable()
+      table.string('access_code').notNullable().defaultTo(TokenService.generateAccessCode(8))
       table.enum('role', ['Admin', 'Patient', 'Practitioner']).notNullable().defaultTo('Patient')
       table.timestamp('created_at').notNullable()
       table.timestamp('updated_at').nullable()

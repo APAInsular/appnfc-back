@@ -55,5 +55,10 @@ jobs:
             docker image prune -f --filter "until=24h"
             docker compose -f $COMPOSE_FILE stop app-backend
             docker compose -f $COMPOSE_FILE rm -f app-backend
-            docker compose -f $COMPOSE_FILE build app-backend
+
+            export DOCKER_BUILDKIT=1
+            export COMPOSE_DOCKER_CLI_BUILD=1
+
+            docker compose -f $COMPOSE_FILE build --progress=plain app-backend
+            docker compose -f $COMPOSE_FILE build --progress=plain app-backend
             docker compose -f $COMPOSE_FILE up -d app-backend

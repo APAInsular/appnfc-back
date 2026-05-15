@@ -18,11 +18,13 @@ WORKDIR /app
 
 COPY . .
 
+ENV NODE_ENV=development
+
 RUN --mount=type=cache,id=pnpm,target=/pnpm/store \
     NODE_OPTIONS="--max-old-space-size=512" \
-    pnpm exec node ace build --ignore-ts-errors
+    pnpm exec ace build --ignore-ts-errors
 
-FROM build AS pruned
+FROM deps AS pruned
 RUN pnpm prune --prod
 
 FROM base AS production
