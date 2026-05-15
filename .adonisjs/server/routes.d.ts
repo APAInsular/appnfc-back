@@ -9,59 +9,59 @@ export type ScannedRoutes = {
     'auth.access_token.destroy': { paramsTuple?: []; params?: {} }
     'new_account.store_admin_once': { paramsTuple?: []; params?: {} }
     'admin.new_account.store_admin': { paramsTuple?: []; params?: {} }
+    'profile.profile.index': { paramsTuple?: []; params?: {} }
     'profile.profile.show': { paramsTuple?: []; params?: {} }
-    'bracelets.show': { paramsTuple: [ParamValue]; params: {'uid': ParamValue} }
+    'profile.profile.by_email': { paramsTuple: [ParamValue]; params: {'email': ParamValue} }
     'bracelets.index': { paramsTuple?: []; params?: {} }
+    'bracelets.models': { paramsTuple?: []; params?: {} }
     'bracelets.show_by_user': { paramsTuple: [ParamValue]; params: {'userUid': ParamValue} }
-    'bracelets.ban_by_uid': { paramsTuple: [ParamValue]; params: {'braceletUuid': ParamValue} }
+    'bracelets.show': { paramsTuple: [ParamValue]; params: {'uid': ParamValue} }
     'bracelets.store': { paramsTuple?: []; params?: {} }
     'bracelets.assign': { paramsTuple?: []; params?: {} }
-    'bracelets.models': { paramsTuple?: []; params?: {} }
-    'data.allergies': { paramsTuple?: []; params?: {} }
-    'data.medications': { paramsTuple?: []; params?: {} }
-    'data.pathologies': { paramsTuple?: []; params?: {} }
-    'data.inplant_devices': { paramsTuple?: []; params?: {} }
-    'data.neurological_status': { paramsTuple?: []; params?: {} }
-    'us.show': { paramsTuple?: []; params?: {} }
-    'us.update': { paramsTuple?: []; params?: {} }
-    'us.store': { paramsTuple?: []; params?: {} }
+    'bracelets.ban_by_uid': { paramsTuple: [ParamValue]; params: {'braceletUuid': ParamValue} }
+    'medical_conditions.show': { paramsTuple?: []; params?: {} }
+    'medical_conditions.show_catalog': { paramsTuple?: []; params?: {} }
+    'medical_conditions.show_by_uid': { paramsTuple: [ParamValue]; params: {'userUid': ParamValue} }
+    'medical_conditions.show_by_bracelet_uid': { paramsTuple: [ParamValue]; params: {'braceletUid': ParamValue} }
+    'medical_conditions.update': { paramsTuple?: []; params?: {} }
+    'medical_conditions.update_by_uid': { paramsTuple: [ParamValue]; params: {'userUid': ParamValue} }
+    'medplum.show': { paramsTuple: [ParamValue,ParamValue]; params: {'profileType': ParamValue,'userUid': ParamValue} }
     'medplum.index': { paramsTuple: [ParamValue]; params: {'profileType': ParamValue} }
-    'medplum.show': { paramsTuple: [ParamValue,ParamValue]; params: {'profileType': ParamValue,'id': ParamValue} }
-    'medplum.update': { paramsTuple: [ParamValue,ParamValue]; params: {'profileType': ParamValue,'id': ParamValue} }
-    'medplum.destroy': { paramsTuple: [ParamValue,ParamValue]; params: {'profileType': ParamValue,'id': ParamValue} }
-    'medplum.get_info': { paramsTuple: [ParamValue,ParamValue,ParamValue]; params: {'profileType': ParamValue,'id': ParamValue,'resourceType': ParamValue} }
+    'medplum.update': { paramsTuple: [ParamValue,ParamValue]; params: {'profileType': ParamValue,'userUid': ParamValue} }
+    'medplum.destroy': { paramsTuple: [ParamValue,ParamValue]; params: {'profileType': ParamValue,'userUid': ParamValue} }
+    'medplum.get_info': { paramsTuple: [ParamValue,ParamValue,ParamValue]; params: {'profileType': ParamValue,'userUid': ParamValue,'resourceType': ParamValue} }
   }
   GET: {
+    'profile.profile.index': { paramsTuple?: []; params?: {} }
     'profile.profile.show': { paramsTuple?: []; params?: {} }
-    'bracelets.show': { paramsTuple: [ParamValue]; params: {'uid': ParamValue} }
+    'profile.profile.by_email': { paramsTuple: [ParamValue]; params: {'email': ParamValue} }
     'bracelets.index': { paramsTuple?: []; params?: {} }
-    'bracelets.show_by_user': { paramsTuple: [ParamValue]; params: {'userUid': ParamValue} }
     'bracelets.models': { paramsTuple?: []; params?: {} }
-    'data.allergies': { paramsTuple?: []; params?: {} }
-    'data.medications': { paramsTuple?: []; params?: {} }
-    'data.pathologies': { paramsTuple?: []; params?: {} }
-    'data.inplant_devices': { paramsTuple?: []; params?: {} }
-    'data.neurological_status': { paramsTuple?: []; params?: {} }
-    'us.show': { paramsTuple?: []; params?: {} }
+    'bracelets.show_by_user': { paramsTuple: [ParamValue]; params: {'userUid': ParamValue} }
+    'bracelets.show': { paramsTuple: [ParamValue]; params: {'uid': ParamValue} }
+    'medical_conditions.show': { paramsTuple?: []; params?: {} }
+    'medical_conditions.show_catalog': { paramsTuple?: []; params?: {} }
+    'medical_conditions.show_by_uid': { paramsTuple: [ParamValue]; params: {'userUid': ParamValue} }
+    'medical_conditions.show_by_bracelet_uid': { paramsTuple: [ParamValue]; params: {'braceletUid': ParamValue} }
+    'medplum.show': { paramsTuple: [ParamValue,ParamValue]; params: {'profileType': ParamValue,'userUid': ParamValue} }
     'medplum.index': { paramsTuple: [ParamValue]; params: {'profileType': ParamValue} }
-    'medplum.show': { paramsTuple: [ParamValue,ParamValue]; params: {'profileType': ParamValue,'id': ParamValue} }
-    'medplum.get_info': { paramsTuple: [ParamValue,ParamValue,ParamValue]; params: {'profileType': ParamValue,'id': ParamValue,'resourceType': ParamValue} }
+    'medplum.get_info': { paramsTuple: [ParamValue,ParamValue,ParamValue]; params: {'profileType': ParamValue,'userUid': ParamValue,'resourceType': ParamValue} }
   }
   HEAD: {
+    'profile.profile.index': { paramsTuple?: []; params?: {} }
     'profile.profile.show': { paramsTuple?: []; params?: {} }
-    'bracelets.show': { paramsTuple: [ParamValue]; params: {'uid': ParamValue} }
+    'profile.profile.by_email': { paramsTuple: [ParamValue]; params: {'email': ParamValue} }
     'bracelets.index': { paramsTuple?: []; params?: {} }
-    'bracelets.show_by_user': { paramsTuple: [ParamValue]; params: {'userUid': ParamValue} }
     'bracelets.models': { paramsTuple?: []; params?: {} }
-    'data.allergies': { paramsTuple?: []; params?: {} }
-    'data.medications': { paramsTuple?: []; params?: {} }
-    'data.pathologies': { paramsTuple?: []; params?: {} }
-    'data.inplant_devices': { paramsTuple?: []; params?: {} }
-    'data.neurological_status': { paramsTuple?: []; params?: {} }
-    'us.show': { paramsTuple?: []; params?: {} }
+    'bracelets.show_by_user': { paramsTuple: [ParamValue]; params: {'userUid': ParamValue} }
+    'bracelets.show': { paramsTuple: [ParamValue]; params: {'uid': ParamValue} }
+    'medical_conditions.show': { paramsTuple?: []; params?: {} }
+    'medical_conditions.show_catalog': { paramsTuple?: []; params?: {} }
+    'medical_conditions.show_by_uid': { paramsTuple: [ParamValue]; params: {'userUid': ParamValue} }
+    'medical_conditions.show_by_bracelet_uid': { paramsTuple: [ParamValue]; params: {'braceletUid': ParamValue} }
+    'medplum.show': { paramsTuple: [ParamValue,ParamValue]; params: {'profileType': ParamValue,'userUid': ParamValue} }
     'medplum.index': { paramsTuple: [ParamValue]; params: {'profileType': ParamValue} }
-    'medplum.show': { paramsTuple: [ParamValue,ParamValue]; params: {'profileType': ParamValue,'id': ParamValue} }
-    'medplum.get_info': { paramsTuple: [ParamValue,ParamValue,ParamValue]; params: {'profileType': ParamValue,'id': ParamValue,'resourceType': ParamValue} }
+    'medplum.get_info': { paramsTuple: [ParamValue,ParamValue,ParamValue]; params: {'profileType': ParamValue,'userUid': ParamValue,'resourceType': ParamValue} }
   }
   POST: {
     'auth.new_account.store': { paramsTuple?: []; params?: {} }
@@ -71,17 +71,17 @@ export type ScannedRoutes = {
     'admin.new_account.store_admin': { paramsTuple?: []; params?: {} }
     'bracelets.store': { paramsTuple?: []; params?: {} }
     'bracelets.assign': { paramsTuple?: []; params?: {} }
-    'us.store': { paramsTuple?: []; params?: {} }
   }
   PATCH: {
     'bracelets.ban_by_uid': { paramsTuple: [ParamValue]; params: {'braceletUuid': ParamValue} }
   }
   PUT: {
-    'us.update': { paramsTuple?: []; params?: {} }
-    'medplum.update': { paramsTuple: [ParamValue,ParamValue]; params: {'profileType': ParamValue,'id': ParamValue} }
+    'medical_conditions.update': { paramsTuple?: []; params?: {} }
+    'medical_conditions.update_by_uid': { paramsTuple: [ParamValue]; params: {'userUid': ParamValue} }
+    'medplum.update': { paramsTuple: [ParamValue,ParamValue]; params: {'profileType': ParamValue,'userUid': ParamValue} }
   }
   DELETE: {
-    'medplum.destroy': { paramsTuple: [ParamValue,ParamValue]; params: {'profileType': ParamValue,'id': ParamValue} }
+    'medplum.destroy': { paramsTuple: [ParamValue,ParamValue]; params: {'profileType': ParamValue,'userUid': ParamValue} }
   }
 }
 declare module '@adonisjs/core/types/http' {

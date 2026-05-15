@@ -12,6 +12,11 @@ dev:
     node ace serve --watch
 
 [group('Dev')]
+dev-test:
+    NODE_ENV=test node ace serve --watch
+
+
+[group('Dev')]
 build:
     node ace build --production
 

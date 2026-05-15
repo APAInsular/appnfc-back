@@ -36,17 +36,23 @@ const routes = {
     tokens: [{"old":"/api/v1/admin/register","type":0,"val":"api","end":""},{"old":"/api/v1/admin/register","type":0,"val":"v1","end":""},{"old":"/api/v1/admin/register","type":0,"val":"admin","end":""},{"old":"/api/v1/admin/register","type":0,"val":"register","end":""}],
     types: placeholder as Registry['admin.new_account.store_admin']['types'],
   },
+  'profile.profile.index': {
+    methods: ["GET","HEAD"],
+    pattern: '/api/v1/account',
+    tokens: [{"old":"/api/v1/account","type":0,"val":"api","end":""},{"old":"/api/v1/account","type":0,"val":"v1","end":""},{"old":"/api/v1/account","type":0,"val":"account","end":""}],
+    types: placeholder as Registry['profile.profile.index']['types'],
+  },
   'profile.profile.show': {
     methods: ["GET","HEAD"],
     pattern: '/api/v1/account/profile',
     tokens: [{"old":"/api/v1/account/profile","type":0,"val":"api","end":""},{"old":"/api/v1/account/profile","type":0,"val":"v1","end":""},{"old":"/api/v1/account/profile","type":0,"val":"account","end":""},{"old":"/api/v1/account/profile","type":0,"val":"profile","end":""}],
     types: placeholder as Registry['profile.profile.show']['types'],
   },
-  'bracelets.show': {
+  'profile.profile.by_email': {
     methods: ["GET","HEAD"],
-    pattern: '/api/v1/bracelet/:uid',
-    tokens: [{"old":"/api/v1/bracelet/:uid","type":0,"val":"api","end":""},{"old":"/api/v1/bracelet/:uid","type":0,"val":"v1","end":""},{"old":"/api/v1/bracelet/:uid","type":0,"val":"bracelet","end":""},{"old":"/api/v1/bracelet/:uid","type":1,"val":"uid","end":""}],
-    types: placeholder as Registry['bracelets.show']['types'],
+    pattern: '/api/v1/account/by-email/:email',
+    tokens: [{"old":"/api/v1/account/by-email/:email","type":0,"val":"api","end":""},{"old":"/api/v1/account/by-email/:email","type":0,"val":"v1","end":""},{"old":"/api/v1/account/by-email/:email","type":0,"val":"account","end":""},{"old":"/api/v1/account/by-email/:email","type":0,"val":"by-email","end":""},{"old":"/api/v1/account/by-email/:email","type":1,"val":"email","end":""}],
+    types: placeholder as Registry['profile.profile.by_email']['types'],
   },
   'bracelets.index': {
     methods: ["GET","HEAD"],
@@ -54,17 +60,23 @@ const routes = {
     tokens: [{"old":"/api/v1/bracelet","type":0,"val":"api","end":""},{"old":"/api/v1/bracelet","type":0,"val":"v1","end":""},{"old":"/api/v1/bracelet","type":0,"val":"bracelet","end":""}],
     types: placeholder as Registry['bracelets.index']['types'],
   },
+  'bracelets.models': {
+    methods: ["GET","HEAD"],
+    pattern: '/api/v1/bracelet/models',
+    tokens: [{"old":"/api/v1/bracelet/models","type":0,"val":"api","end":""},{"old":"/api/v1/bracelet/models","type":0,"val":"v1","end":""},{"old":"/api/v1/bracelet/models","type":0,"val":"bracelet","end":""},{"old":"/api/v1/bracelet/models","type":0,"val":"models","end":""}],
+    types: placeholder as Registry['bracelets.models']['types'],
+  },
   'bracelets.show_by_user': {
     methods: ["GET","HEAD"],
     pattern: '/api/v1/bracelet/user/:userUid',
     tokens: [{"old":"/api/v1/bracelet/user/:userUid","type":0,"val":"api","end":""},{"old":"/api/v1/bracelet/user/:userUid","type":0,"val":"v1","end":""},{"old":"/api/v1/bracelet/user/:userUid","type":0,"val":"bracelet","end":""},{"old":"/api/v1/bracelet/user/:userUid","type":0,"val":"user","end":""},{"old":"/api/v1/bracelet/user/:userUid","type":1,"val":"userUid","end":""}],
     types: placeholder as Registry['bracelets.show_by_user']['types'],
   },
-  'bracelets.ban_by_uid': {
-    methods: ["PATCH"],
-    pattern: '/api/v1/bracelet/ban/:braceletUuid',
-    tokens: [{"old":"/api/v1/bracelet/ban/:braceletUuid","type":0,"val":"api","end":""},{"old":"/api/v1/bracelet/ban/:braceletUuid","type":0,"val":"v1","end":""},{"old":"/api/v1/bracelet/ban/:braceletUuid","type":0,"val":"bracelet","end":""},{"old":"/api/v1/bracelet/ban/:braceletUuid","type":0,"val":"ban","end":""},{"old":"/api/v1/bracelet/ban/:braceletUuid","type":1,"val":"braceletUuid","end":""}],
-    types: placeholder as Registry['bracelets.ban_by_uid']['types'],
+  'bracelets.show': {
+    methods: ["GET","HEAD"],
+    pattern: '/api/v1/bracelet/:uid',
+    tokens: [{"old":"/api/v1/bracelet/:uid","type":0,"val":"api","end":""},{"old":"/api/v1/bracelet/:uid","type":0,"val":"v1","end":""},{"old":"/api/v1/bracelet/:uid","type":0,"val":"bracelet","end":""},{"old":"/api/v1/bracelet/:uid","type":1,"val":"uid","end":""}],
+    types: placeholder as Registry['bracelets.show']['types'],
   },
   'bracelets.store': {
     methods: ["POST"],
@@ -78,59 +90,53 @@ const routes = {
     tokens: [{"old":"/api/v1/bracelet/assign","type":0,"val":"api","end":""},{"old":"/api/v1/bracelet/assign","type":0,"val":"v1","end":""},{"old":"/api/v1/bracelet/assign","type":0,"val":"bracelet","end":""},{"old":"/api/v1/bracelet/assign","type":0,"val":"assign","end":""}],
     types: placeholder as Registry['bracelets.assign']['types'],
   },
-  'bracelets.models': {
-    methods: ["GET","HEAD"],
-    pattern: '/api/v1/bracelet/models',
-    tokens: [{"old":"/api/v1/bracelet/models","type":0,"val":"api","end":""},{"old":"/api/v1/bracelet/models","type":0,"val":"v1","end":""},{"old":"/api/v1/bracelet/models","type":0,"val":"bracelet","end":""},{"old":"/api/v1/bracelet/models","type":0,"val":"models","end":""}],
-    types: placeholder as Registry['bracelets.models']['types'],
+  'bracelets.ban_by_uid': {
+    methods: ["PATCH"],
+    pattern: '/api/v1/bracelet/ban/:braceletUuid',
+    tokens: [{"old":"/api/v1/bracelet/ban/:braceletUuid","type":0,"val":"api","end":""},{"old":"/api/v1/bracelet/ban/:braceletUuid","type":0,"val":"v1","end":""},{"old":"/api/v1/bracelet/ban/:braceletUuid","type":0,"val":"bracelet","end":""},{"old":"/api/v1/bracelet/ban/:braceletUuid","type":0,"val":"ban","end":""},{"old":"/api/v1/bracelet/ban/:braceletUuid","type":1,"val":"braceletUuid","end":""}],
+    types: placeholder as Registry['bracelets.ban_by_uid']['types'],
   },
-  'data.allergies': {
+  'medical_conditions.show': {
     methods: ["GET","HEAD"],
-    pattern: '/api/v1/data/allergies',
-    tokens: [{"old":"/api/v1/data/allergies","type":0,"val":"api","end":""},{"old":"/api/v1/data/allergies","type":0,"val":"v1","end":""},{"old":"/api/v1/data/allergies","type":0,"val":"data","end":""},{"old":"/api/v1/data/allergies","type":0,"val":"allergies","end":""}],
-    types: placeholder as Registry['data.allergies']['types'],
+    pattern: '/api/v1/medical-conditions',
+    tokens: [{"old":"/api/v1/medical-conditions","type":0,"val":"api","end":""},{"old":"/api/v1/medical-conditions","type":0,"val":"v1","end":""},{"old":"/api/v1/medical-conditions","type":0,"val":"medical-conditions","end":""}],
+    types: placeholder as Registry['medical_conditions.show']['types'],
   },
-  'data.medications': {
+  'medical_conditions.show_catalog': {
     methods: ["GET","HEAD"],
-    pattern: '/api/v1/data/medications',
-    tokens: [{"old":"/api/v1/data/medications","type":0,"val":"api","end":""},{"old":"/api/v1/data/medications","type":0,"val":"v1","end":""},{"old":"/api/v1/data/medications","type":0,"val":"data","end":""},{"old":"/api/v1/data/medications","type":0,"val":"medications","end":""}],
-    types: placeholder as Registry['data.medications']['types'],
+    pattern: '/api/v1/medical-conditions/catalog',
+    tokens: [{"old":"/api/v1/medical-conditions/catalog","type":0,"val":"api","end":""},{"old":"/api/v1/medical-conditions/catalog","type":0,"val":"v1","end":""},{"old":"/api/v1/medical-conditions/catalog","type":0,"val":"medical-conditions","end":""},{"old":"/api/v1/medical-conditions/catalog","type":0,"val":"catalog","end":""}],
+    types: placeholder as Registry['medical_conditions.show_catalog']['types'],
   },
-  'data.pathologies': {
+  'medical_conditions.show_by_uid': {
     methods: ["GET","HEAD"],
-    pattern: '/api/v1/data/pathologies',
-    tokens: [{"old":"/api/v1/data/pathologies","type":0,"val":"api","end":""},{"old":"/api/v1/data/pathologies","type":0,"val":"v1","end":""},{"old":"/api/v1/data/pathologies","type":0,"val":"data","end":""},{"old":"/api/v1/data/pathologies","type":0,"val":"pathologies","end":""}],
-    types: placeholder as Registry['data.pathologies']['types'],
+    pattern: '/api/v1/medical-conditions/uid/:userUid',
+    tokens: [{"old":"/api/v1/medical-conditions/uid/:userUid","type":0,"val":"api","end":""},{"old":"/api/v1/medical-conditions/uid/:userUid","type":0,"val":"v1","end":""},{"old":"/api/v1/medical-conditions/uid/:userUid","type":0,"val":"medical-conditions","end":""},{"old":"/api/v1/medical-conditions/uid/:userUid","type":0,"val":"uid","end":""},{"old":"/api/v1/medical-conditions/uid/:userUid","type":1,"val":"userUid","end":""}],
+    types: placeholder as Registry['medical_conditions.show_by_uid']['types'],
   },
-  'data.inplant_devices': {
+  'medical_conditions.show_by_bracelet_uid': {
     methods: ["GET","HEAD"],
-    pattern: '/api/v1/data/implant-devices',
-    tokens: [{"old":"/api/v1/data/implant-devices","type":0,"val":"api","end":""},{"old":"/api/v1/data/implant-devices","type":0,"val":"v1","end":""},{"old":"/api/v1/data/implant-devices","type":0,"val":"data","end":""},{"old":"/api/v1/data/implant-devices","type":0,"val":"implant-devices","end":""}],
-    types: placeholder as Registry['data.inplant_devices']['types'],
+    pattern: '/api/v1/medical-conditions/bracelet/:braceletUid',
+    tokens: [{"old":"/api/v1/medical-conditions/bracelet/:braceletUid","type":0,"val":"api","end":""},{"old":"/api/v1/medical-conditions/bracelet/:braceletUid","type":0,"val":"v1","end":""},{"old":"/api/v1/medical-conditions/bracelet/:braceletUid","type":0,"val":"medical-conditions","end":""},{"old":"/api/v1/medical-conditions/bracelet/:braceletUid","type":0,"val":"bracelet","end":""},{"old":"/api/v1/medical-conditions/bracelet/:braceletUid","type":1,"val":"braceletUid","end":""}],
+    types: placeholder as Registry['medical_conditions.show_by_bracelet_uid']['types'],
   },
-  'data.neurological_status': {
-    methods: ["GET","HEAD"],
-    pattern: '/api/v1/data/neurological-status',
-    tokens: [{"old":"/api/v1/data/neurological-status","type":0,"val":"api","end":""},{"old":"/api/v1/data/neurological-status","type":0,"val":"v1","end":""},{"old":"/api/v1/data/neurological-status","type":0,"val":"data","end":""},{"old":"/api/v1/data/neurological-status","type":0,"val":"neurological-status","end":""}],
-    types: placeholder as Registry['data.neurological_status']['types'],
-  },
-  'us.show': {
-    methods: ["GET","HEAD"],
-    pattern: '/api/v1/me',
-    tokens: [{"old":"/api/v1/me","type":0,"val":"api","end":""},{"old":"/api/v1/me","type":0,"val":"v1","end":""},{"old":"/api/v1/me","type":0,"val":"me","end":""}],
-    types: placeholder as Registry['us.show']['types'],
-  },
-  'us.update': {
+  'medical_conditions.update': {
     methods: ["PUT"],
-    pattern: '/api/v1/me',
-    tokens: [{"old":"/api/v1/me","type":0,"val":"api","end":""},{"old":"/api/v1/me","type":0,"val":"v1","end":""},{"old":"/api/v1/me","type":0,"val":"me","end":""}],
-    types: placeholder as Registry['us.update']['types'],
+    pattern: '/api/v1/medical-conditions',
+    tokens: [{"old":"/api/v1/medical-conditions","type":0,"val":"api","end":""},{"old":"/api/v1/medical-conditions","type":0,"val":"v1","end":""},{"old":"/api/v1/medical-conditions","type":0,"val":"medical-conditions","end":""}],
+    types: placeholder as Registry['medical_conditions.update']['types'],
   },
-  'us.store': {
-    methods: ["POST"],
-    pattern: '/api/v1/me',
-    tokens: [{"old":"/api/v1/me","type":0,"val":"api","end":""},{"old":"/api/v1/me","type":0,"val":"v1","end":""},{"old":"/api/v1/me","type":0,"val":"me","end":""}],
-    types: placeholder as Registry['us.store']['types'],
+  'medical_conditions.update_by_uid': {
+    methods: ["PUT"],
+    pattern: '/api/v1/medical-conditions/uid/:userUid',
+    tokens: [{"old":"/api/v1/medical-conditions/uid/:userUid","type":0,"val":"api","end":""},{"old":"/api/v1/medical-conditions/uid/:userUid","type":0,"val":"v1","end":""},{"old":"/api/v1/medical-conditions/uid/:userUid","type":0,"val":"medical-conditions","end":""},{"old":"/api/v1/medical-conditions/uid/:userUid","type":0,"val":"uid","end":""},{"old":"/api/v1/medical-conditions/uid/:userUid","type":1,"val":"userUid","end":""}],
+    types: placeholder as Registry['medical_conditions.update_by_uid']['types'],
+  },
+  'medplum.show': {
+    methods: ["GET","HEAD"],
+    pattern: '/api/v1/proxy/profiles/:profileType/:userUid',
+    tokens: [{"old":"/api/v1/proxy/profiles/:profileType/:userUid","type":0,"val":"api","end":""},{"old":"/api/v1/proxy/profiles/:profileType/:userUid","type":0,"val":"v1","end":""},{"old":"/api/v1/proxy/profiles/:profileType/:userUid","type":0,"val":"proxy","end":""},{"old":"/api/v1/proxy/profiles/:profileType/:userUid","type":0,"val":"profiles","end":""},{"old":"/api/v1/proxy/profiles/:profileType/:userUid","type":1,"val":"profileType","end":""},{"old":"/api/v1/proxy/profiles/:profileType/:userUid","type":1,"val":"userUid","end":""}],
+    types: placeholder as Registry['medplum.show']['types'],
   },
   'medplum.index': {
     methods: ["GET","HEAD"],
@@ -138,28 +144,22 @@ const routes = {
     tokens: [{"old":"/api/v1/proxy/profiles/:profileType","type":0,"val":"api","end":""},{"old":"/api/v1/proxy/profiles/:profileType","type":0,"val":"v1","end":""},{"old":"/api/v1/proxy/profiles/:profileType","type":0,"val":"proxy","end":""},{"old":"/api/v1/proxy/profiles/:profileType","type":0,"val":"profiles","end":""},{"old":"/api/v1/proxy/profiles/:profileType","type":1,"val":"profileType","end":""}],
     types: placeholder as Registry['medplum.index']['types'],
   },
-  'medplum.show': {
-    methods: ["GET","HEAD"],
-    pattern: '/api/v1/proxy/profiles/:profileType/:id',
-    tokens: [{"old":"/api/v1/proxy/profiles/:profileType/:id","type":0,"val":"api","end":""},{"old":"/api/v1/proxy/profiles/:profileType/:id","type":0,"val":"v1","end":""},{"old":"/api/v1/proxy/profiles/:profileType/:id","type":0,"val":"proxy","end":""},{"old":"/api/v1/proxy/profiles/:profileType/:id","type":0,"val":"profiles","end":""},{"old":"/api/v1/proxy/profiles/:profileType/:id","type":1,"val":"profileType","end":""},{"old":"/api/v1/proxy/profiles/:profileType/:id","type":1,"val":"id","end":""}],
-    types: placeholder as Registry['medplum.show']['types'],
-  },
   'medplum.update': {
     methods: ["PUT"],
-    pattern: '/api/v1/proxy/profiles/:profileType/:id',
-    tokens: [{"old":"/api/v1/proxy/profiles/:profileType/:id","type":0,"val":"api","end":""},{"old":"/api/v1/proxy/profiles/:profileType/:id","type":0,"val":"v1","end":""},{"old":"/api/v1/proxy/profiles/:profileType/:id","type":0,"val":"proxy","end":""},{"old":"/api/v1/proxy/profiles/:profileType/:id","type":0,"val":"profiles","end":""},{"old":"/api/v1/proxy/profiles/:profileType/:id","type":1,"val":"profileType","end":""},{"old":"/api/v1/proxy/profiles/:profileType/:id","type":1,"val":"id","end":""}],
+    pattern: '/api/v1/proxy/profiles/:profileType/:userUid',
+    tokens: [{"old":"/api/v1/proxy/profiles/:profileType/:userUid","type":0,"val":"api","end":""},{"old":"/api/v1/proxy/profiles/:profileType/:userUid","type":0,"val":"v1","end":""},{"old":"/api/v1/proxy/profiles/:profileType/:userUid","type":0,"val":"proxy","end":""},{"old":"/api/v1/proxy/profiles/:profileType/:userUid","type":0,"val":"profiles","end":""},{"old":"/api/v1/proxy/profiles/:profileType/:userUid","type":1,"val":"profileType","end":""},{"old":"/api/v1/proxy/profiles/:profileType/:userUid","type":1,"val":"userUid","end":""}],
     types: placeholder as Registry['medplum.update']['types'],
   },
   'medplum.destroy': {
     methods: ["DELETE"],
-    pattern: '/api/v1/proxy/profiles/:profileType/:id',
-    tokens: [{"old":"/api/v1/proxy/profiles/:profileType/:id","type":0,"val":"api","end":""},{"old":"/api/v1/proxy/profiles/:profileType/:id","type":0,"val":"v1","end":""},{"old":"/api/v1/proxy/profiles/:profileType/:id","type":0,"val":"proxy","end":""},{"old":"/api/v1/proxy/profiles/:profileType/:id","type":0,"val":"profiles","end":""},{"old":"/api/v1/proxy/profiles/:profileType/:id","type":1,"val":"profileType","end":""},{"old":"/api/v1/proxy/profiles/:profileType/:id","type":1,"val":"id","end":""}],
+    pattern: '/api/v1/proxy/profiles/:profileType/:userUid',
+    tokens: [{"old":"/api/v1/proxy/profiles/:profileType/:userUid","type":0,"val":"api","end":""},{"old":"/api/v1/proxy/profiles/:profileType/:userUid","type":0,"val":"v1","end":""},{"old":"/api/v1/proxy/profiles/:profileType/:userUid","type":0,"val":"proxy","end":""},{"old":"/api/v1/proxy/profiles/:profileType/:userUid","type":0,"val":"profiles","end":""},{"old":"/api/v1/proxy/profiles/:profileType/:userUid","type":1,"val":"profileType","end":""},{"old":"/api/v1/proxy/profiles/:profileType/:userUid","type":1,"val":"userUid","end":""}],
     types: placeholder as Registry['medplum.destroy']['types'],
   },
   'medplum.get_info': {
     methods: ["GET","HEAD"],
-    pattern: '/api/v1/proxy/clinical/:profileType/:id/:resourceType',
-    tokens: [{"old":"/api/v1/proxy/clinical/:profileType/:id/:resourceType","type":0,"val":"api","end":""},{"old":"/api/v1/proxy/clinical/:profileType/:id/:resourceType","type":0,"val":"v1","end":""},{"old":"/api/v1/proxy/clinical/:profileType/:id/:resourceType","type":0,"val":"proxy","end":""},{"old":"/api/v1/proxy/clinical/:profileType/:id/:resourceType","type":0,"val":"clinical","end":""},{"old":"/api/v1/proxy/clinical/:profileType/:id/:resourceType","type":1,"val":"profileType","end":""},{"old":"/api/v1/proxy/clinical/:profileType/:id/:resourceType","type":1,"val":"id","end":""},{"old":"/api/v1/proxy/clinical/:profileType/:id/:resourceType","type":1,"val":"resourceType","end":""}],
+    pattern: '/api/v1/proxy/clinical/:profileType/:userUid/:resourceType',
+    tokens: [{"old":"/api/v1/proxy/clinical/:profileType/:userUid/:resourceType","type":0,"val":"api","end":""},{"old":"/api/v1/proxy/clinical/:profileType/:userUid/:resourceType","type":0,"val":"v1","end":""},{"old":"/api/v1/proxy/clinical/:profileType/:userUid/:resourceType","type":0,"val":"proxy","end":""},{"old":"/api/v1/proxy/clinical/:profileType/:userUid/:resourceType","type":0,"val":"clinical","end":""},{"old":"/api/v1/proxy/clinical/:profileType/:userUid/:resourceType","type":1,"val":"profileType","end":""},{"old":"/api/v1/proxy/clinical/:profileType/:userUid/:resourceType","type":1,"val":"userUid","end":""},{"old":"/api/v1/proxy/clinical/:profileType/:userUid/:resourceType","type":1,"val":"resourceType","end":""}],
     types: placeholder as Registry['medplum.get_info']['types'],
   },
 } as const satisfies Record<string, AdonisEndpoint>

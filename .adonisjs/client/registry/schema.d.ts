@@ -67,6 +67,18 @@ export interface Registry {
       errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/new_account_controller').default['storeAdmin']>>> | { status: 422; response: { errors: SimpleError[] } }
     }
   }
+  'profile.profile.index': {
+    methods: ["GET","HEAD"]
+    pattern: '/api/v1/account'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/profile_controller').default['index']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/profile_controller').default['index']>>>
+    }
+  }
   'profile.profile.show': {
     methods: ["GET","HEAD"]
     pattern: '/api/v1/account/profile'
@@ -79,16 +91,16 @@ export interface Registry {
       errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/profile_controller').default['show']>>>
     }
   }
-  'bracelets.show': {
+  'profile.profile.by_email': {
     methods: ["GET","HEAD"]
-    pattern: '/api/v1/bracelet/:uid'
+    pattern: '/api/v1/account/by-email/:email'
     types: {
       body: {}
       paramsTuple: [ParamValue]
-      params: { uid: ParamValue }
+      params: { email: ParamValue }
       query: {}
-      response: ExtractResponse<Awaited<ReturnType<import('#controllers/bracelets_controller').default['show']>>>
-      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/bracelets_controller').default['show']>>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/profile_controller').default['byEmail']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/profile_controller').default['byEmail']>>>
     }
   }
   'bracelets.index': {
@@ -103,6 +115,18 @@ export interface Registry {
       errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/bracelets_controller').default['index']>>>
     }
   }
+  'bracelets.models': {
+    methods: ["GET","HEAD"]
+    pattern: '/api/v1/bracelet/models'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/bracelets_controller').default['models']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/bracelets_controller').default['models']>>>
+    }
+  }
   'bracelets.show_by_user': {
     methods: ["GET","HEAD"]
     pattern: '/api/v1/bracelet/user/:userUid'
@@ -115,16 +139,16 @@ export interface Registry {
       errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/bracelets_controller').default['showByUser']>>>
     }
   }
-  'bracelets.ban_by_uid': {
-    methods: ["PATCH"]
-    pattern: '/api/v1/bracelet/ban/:braceletUuid'
+  'bracelets.show': {
+    methods: ["GET","HEAD"]
+    pattern: '/api/v1/bracelet/:uid'
     types: {
       body: {}
       paramsTuple: [ParamValue]
-      params: { braceletUuid: ParamValue }
+      params: { uid: ParamValue }
       query: {}
-      response: ExtractResponse<Awaited<ReturnType<import('#controllers/bracelets_controller').default['banByUid']>>>
-      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/bracelets_controller').default['banByUid']>>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/bracelets_controller').default['show']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/bracelets_controller').default['show']>>>
     }
   }
   'bracelets.store': {
@@ -151,112 +175,100 @@ export interface Registry {
       errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/bracelets_controller').default['assign']>>> | { status: 422; response: { errors: SimpleError[] } }
     }
   }
-  'bracelets.models': {
+  'bracelets.ban_by_uid': {
+    methods: ["PATCH"]
+    pattern: '/api/v1/bracelet/ban/:braceletUuid'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { braceletUuid: ParamValue }
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/bracelets_controller').default['banByUid']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/bracelets_controller').default['banByUid']>>>
+    }
+  }
+  'medical_conditions.show': {
     methods: ["GET","HEAD"]
-    pattern: '/api/v1/bracelet/models'
+    pattern: '/api/v1/medical-conditions'
     types: {
       body: {}
       paramsTuple: []
       params: {}
       query: {}
-      response: ExtractResponse<Awaited<ReturnType<import('#controllers/bracelets_controller').default['models']>>>
-      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/bracelets_controller').default['models']>>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/medical_conditions_controller').default['show']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/medical_conditions_controller').default['show']>>>
     }
   }
-  'data.allergies': {
+  'medical_conditions.show_catalog': {
     methods: ["GET","HEAD"]
-    pattern: '/api/v1/data/allergies'
+    pattern: '/api/v1/medical-conditions/catalog'
     types: {
       body: {}
       paramsTuple: []
       params: {}
       query: {}
-      response: ExtractResponse<Awaited<ReturnType<import('#controllers/data_controller').default['allergies']>>>
-      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/data_controller').default['allergies']>>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/medical_conditions_controller').default['showCatalog']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/medical_conditions_controller').default['showCatalog']>>>
     }
   }
-  'data.medications': {
+  'medical_conditions.show_by_uid': {
     methods: ["GET","HEAD"]
-    pattern: '/api/v1/data/medications'
+    pattern: '/api/v1/medical-conditions/uid/:userUid'
     types: {
       body: {}
-      paramsTuple: []
-      params: {}
+      paramsTuple: [ParamValue]
+      params: { userUid: ParamValue }
       query: {}
-      response: ExtractResponse<Awaited<ReturnType<import('#controllers/data_controller').default['medications']>>>
-      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/data_controller').default['medications']>>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/medical_conditions_controller').default['showByUid']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/medical_conditions_controller').default['showByUid']>>>
     }
   }
-  'data.pathologies': {
+  'medical_conditions.show_by_bracelet_uid': {
     methods: ["GET","HEAD"]
-    pattern: '/api/v1/data/pathologies'
+    pattern: '/api/v1/medical-conditions/bracelet/:braceletUid'
     types: {
       body: {}
-      paramsTuple: []
-      params: {}
+      paramsTuple: [ParamValue]
+      params: { braceletUid: ParamValue }
       query: {}
-      response: ExtractResponse<Awaited<ReturnType<import('#controllers/data_controller').default['pathologies']>>>
-      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/data_controller').default['pathologies']>>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/medical_conditions_controller').default['showByBraceletUid']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/medical_conditions_controller').default['showByBraceletUid']>>>
     }
   }
-  'data.inplant_devices': {
-    methods: ["GET","HEAD"]
-    pattern: '/api/v1/data/implant-devices'
-    types: {
-      body: {}
-      paramsTuple: []
-      params: {}
-      query: {}
-      response: ExtractResponse<Awaited<ReturnType<import('#controllers/data_controller').default['inplantDevices']>>>
-      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/data_controller').default['inplantDevices']>>>
-    }
-  }
-  'data.neurological_status': {
-    methods: ["GET","HEAD"]
-    pattern: '/api/v1/data/neurological-status'
-    types: {
-      body: {}
-      paramsTuple: []
-      params: {}
-      query: {}
-      response: ExtractResponse<Awaited<ReturnType<import('#controllers/data_controller').default['neurologicalStatus']>>>
-      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/data_controller').default['neurologicalStatus']>>>
-    }
-  }
-  'us.show': {
-    methods: ["GET","HEAD"]
-    pattern: '/api/v1/me'
-    types: {
-      body: {}
-      paramsTuple: []
-      params: {}
-      query: {}
-      response: ExtractResponse<Awaited<ReturnType<import('#controllers/us_controller').default['show']>>>
-      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/us_controller').default['show']>>>
-    }
-  }
-  'us.update': {
+  'medical_conditions.update': {
     methods: ["PUT"]
-    pattern: '/api/v1/me'
+    pattern: '/api/v1/medical-conditions'
     types: {
-      body: ExtractBody<InferInput<(typeof import('#validators/us').storeCondition)>>
+      body: ExtractBody<InferInput<(typeof import('#validators/medical_conditions').updateConditions)>>
       paramsTuple: []
       params: {}
-      query: ExtractQuery<InferInput<(typeof import('#validators/us').storeCondition)>>
-      response: ExtractResponse<Awaited<ReturnType<import('#controllers/us_controller').default['update']>>>
-      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/us_controller').default['update']>>> | { status: 422; response: { errors: SimpleError[] } }
+      query: ExtractQuery<InferInput<(typeof import('#validators/medical_conditions').updateConditions)>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/medical_conditions_controller').default['update']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/medical_conditions_controller').default['update']>>> | { status: 422; response: { errors: SimpleError[] } }
     }
   }
-  'us.store': {
-    methods: ["POST"]
-    pattern: '/api/v1/me'
+  'medical_conditions.update_by_uid': {
+    methods: ["PUT"]
+    pattern: '/api/v1/medical-conditions/uid/:userUid'
     types: {
-      body: ExtractBody<InferInput<(typeof import('#validators/us').storeCondition)>>
-      paramsTuple: []
-      params: {}
-      query: ExtractQuery<InferInput<(typeof import('#validators/us').storeCondition)>>
-      response: ExtractResponse<Awaited<ReturnType<import('#controllers/us_controller').default['store']>>>
-      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/us_controller').default['store']>>> | { status: 422; response: { errors: SimpleError[] } }
+      body: ExtractBody<InferInput<(typeof import('#validators/medical_conditions').updateConditions)>>
+      paramsTuple: [ParamValue]
+      params: { userUid: ParamValue }
+      query: ExtractQuery<InferInput<(typeof import('#validators/medical_conditions').updateConditions)>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/medical_conditions_controller').default['updateByUid']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/medical_conditions_controller').default['updateByUid']>>> | { status: 422; response: { errors: SimpleError[] } }
+    }
+  }
+  'medplum.show': {
+    methods: ["GET","HEAD"]
+    pattern: '/api/v1/proxy/profiles/:profileType/:userUid'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue, ParamValue]
+      params: { profileType: ParamValue; userUid: ParamValue }
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/medplum_controller').default['show']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/medplum_controller').default['show']>>>
     }
   }
   'medplum.index': {
@@ -271,25 +283,13 @@ export interface Registry {
       errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/medplum_controller').default['index']>>>
     }
   }
-  'medplum.show': {
-    methods: ["GET","HEAD"]
-    pattern: '/api/v1/proxy/profiles/:profileType/:id'
-    types: {
-      body: {}
-      paramsTuple: [ParamValue, ParamValue]
-      params: { profileType: ParamValue; id: ParamValue }
-      query: {}
-      response: ExtractResponse<Awaited<ReturnType<import('#controllers/medplum_controller').default['show']>>>
-      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/medplum_controller').default['show']>>>
-    }
-  }
   'medplum.update': {
     methods: ["PUT"]
-    pattern: '/api/v1/proxy/profiles/:profileType/:id'
+    pattern: '/api/v1/proxy/profiles/:profileType/:userUid'
     types: {
       body: {}
       paramsTuple: [ParamValue, ParamValue]
-      params: { profileType: ParamValue; id: ParamValue }
+      params: { profileType: ParamValue; userUid: ParamValue }
       query: {}
       response: ExtractResponse<Awaited<ReturnType<import('#controllers/medplum_controller').default['update']>>>
       errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/medplum_controller').default['update']>>>
@@ -297,11 +297,11 @@ export interface Registry {
   }
   'medplum.destroy': {
     methods: ["DELETE"]
-    pattern: '/api/v1/proxy/profiles/:profileType/:id'
+    pattern: '/api/v1/proxy/profiles/:profileType/:userUid'
     types: {
       body: {}
       paramsTuple: [ParamValue, ParamValue]
-      params: { profileType: ParamValue; id: ParamValue }
+      params: { profileType: ParamValue; userUid: ParamValue }
       query: {}
       response: ExtractResponse<Awaited<ReturnType<import('#controllers/medplum_controller').default['destroy']>>>
       errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/medplum_controller').default['destroy']>>>
@@ -309,11 +309,11 @@ export interface Registry {
   }
   'medplum.get_info': {
     methods: ["GET","HEAD"]
-    pattern: '/api/v1/proxy/clinical/:profileType/:id/:resourceType'
+    pattern: '/api/v1/proxy/clinical/:profileType/:userUid/:resourceType'
     types: {
       body: {}
       paramsTuple: [ParamValue, ParamValue, ParamValue]
-      params: { profileType: ParamValue; id: ParamValue; resourceType: ParamValue }
+      params: { profileType: ParamValue; userUid: ParamValue; resourceType: ParamValue }
       query: {}
       response: ExtractResponse<Awaited<ReturnType<import('#controllers/medplum_controller').default['getInfo']>>>
       errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/medplum_controller').default['getInfo']>>>

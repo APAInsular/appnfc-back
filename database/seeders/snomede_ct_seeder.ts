@@ -1,242 +1,66 @@
-import MedplumConfig from '#models/medplum_config'
-import medplum from '#services/medplum'
+import ConditionCatalog from '#models/conditions_catalog'
 import { BaseSeeder } from '@adonisjs/lucid/seeders'
 
 export default class extends BaseSeeder {
   public async run() {
-    const definitions = [
-      {
-        key: 'SNOMED_ALLERGIES_VALUESET',
-        title: 'Snomed Allergies Collection',
-        description: 'Patient allergy status and specific allergies',
-        codes: [
-          {
-            id: '442557003',
-            term: 'No known allergies',
-            translations: { es: 'Sin alergias conocidas' },
-          },
-          {
-            id: '294505008',
-            term: 'Allergy to penicillin',
-            translations: { es: 'Alergia a la penicilina' },
-          },
-          {
-            id: '372687004',
-            term: 'Allergy to aspirin',
-            translations: { es: 'Alergia a la aspirina' },
-          },
-          { id: '419511003', term: 'Drug allergy', translations: { es: 'Alergia a medicamentos' } },
-          { id: '232347008', term: 'Latex allergy', translations: { es: 'Alergia al látex' } },
-          {
-            id: '300916003',
-            term: 'Allergy to bee venom',
-            translations: { es: 'Alergia al veneno de abeja' },
-          },
-          { id: '414285001', term: 'Food allergy', translations: { es: 'Alergia alimentaria' } },
-          {
-            id: '293586001',
-            term: 'Allergy to morphine',
-            translations: { es: 'Alergia a la morfina' },
-          },
-          { id: '372741009', term: 'Allergy to iodine', translations: { es: 'Alergia al yodo' } },
-          { id: '416098002', term: 'Allergy to NSAIDs', translations: { es: 'Alergia a AINEs' } },
-        ],
-      },
-      {
-        key: 'SNOMED_MEDICATIONS_PROGRESS_VALUESET',
-        title: 'Snomed Medications In Progress Collection',
-        description: 'Current active therapies and medication groups',
-        codes: [
-          { id: '260413007', term: 'None', translations: { es: 'Ninguno' } },
-          {
-            id: '418427003',
-            term: 'Patient on anticoagulant therapy',
-            translations: { es: 'Paciente en terapia anticoagulante' },
-          },
-          { id: '31252001', term: 'Insulin therapy', translations: { es: 'Terapia con insulina' } },
-          { id: '387207008', term: 'Opioid', translations: { es: 'Opioide' } },
-          {
-            id: '373264003',
-            term: 'Hypoglycemic agent',
-            translations: { es: 'Agente hipoglucemiante' },
-          },
-          { id: '387158006', term: 'Benzodiazepine', translations: { es: 'Benzodiazepina' } },
-          { id: '386452003', term: 'Antiepileptic', translations: { es: 'Antiepiléptico' } },
-          { id: '387081005', term: 'Corticosteroid', translations: { es: 'Corticosteroide' } },
-        ],
-      },
-      {
-        key: 'SNOMED_IMPLANT_DEVICES_VALUESET',
-        title: 'Snomed Implant Devices Collection',
-        description: 'Cardiac and other implantable medical devices',
-        codes: [
-          { id: '260413007', term: 'None', translations: { es: 'Ninguno' } },
-          {
-            id: '14106009',
-            term: 'Permanent cardiac pacemaker',
-            translations: { es: 'Marcapasos cardíaco permanente' },
-          },
-          {
-            id: '441509002',
-            term: 'Implantable cardioverter defibrillator',
-            translations: { es: 'Desfibrilador cardioversor implantable' },
-          },
-          {
-            id: '17137000',
-            term: 'Cardiac valve prosthesis',
-            translations: { es: 'Prótesis de válvula cardíaca' },
-          },
-          {
-            id: '271295000',
-            term: 'Ventricular shunt',
-            translations: { es: 'Derivación ventricular' },
-          },
-          {
-            id: '700448003',
-            term: 'Dialysis device',
-            translations: { es: 'Dispositivo de diálisis' },
-          },
-        ],
-      },
-      {
-        key: 'SNOMED_NEURO_STATUS_VALUESET',
-        title: 'Snomed Neurological Status Collection',
-        description: 'Consciousness state and dependency levels',
-        codes: [
-          {
-            id: '40739000',
-            term: 'Normal conscious state',
-            translations: { es: 'Estado de consciencia normal' },
-          },
-          {
-            id: '706868007',
-            term: 'Chronic confused state',
-            translations: { es: 'Estado confusional crónico' },
-          },
-          {
-            id: '128294001',
-            term: 'Chronic nervous system disorder',
-            translations: { es: 'Trastorno crónico del sistema nervioso' },
-          },
-          {
-            id: '365061000',
-            term: 'Independent in activities of daily living',
-            translations: { es: 'Independiente en actividades de la vida diaria' },
-          },
-          {
-            id: '371153006',
-            term: 'Partially dependent',
-            translations: { es: 'Parcialmente dependiente' },
-          },
-          { id: '129839007', term: 'Total dependency', translations: { es: 'Dependencia total' } },
-        ],
-      },
-      {
-        key: 'SNOMED_PATHOLOGIES_VALUESET',
-        title: 'Snomed Pathologies Collection',
-        description: 'Common chronic conditions and patient history',
-        codes: [
-          {
-            id: '160245001',
-            term: 'No current problems or disability',
-            translations: { es: 'Sin problemas ni discapacidad actuales' },
-          },
-          {
-            id: '49436004',
-            term: 'Atrial fibrillation',
-            translations: { es: 'Fibrilación auricular' },
-          },
-          { id: '73211009', term: 'Diabetes mellitus', translations: { es: 'Diabetes mellitus' } },
-          { id: '195967001', term: 'Asthma', translations: { es: 'Asma' } },
-          {
-            id: '13645005',
-            term: 'Chronic obstructive lung disease',
-            translations: { es: 'Enfermedad pulmonar obstructiva crónica' },
-          },
-          {
-            id: '709044004',
-            term: 'Chronic kidney disease',
-            translations: { es: 'Enfermedad renal crónica' },
-          },
-          {
-            id: '64770001',
-            term: 'Blood coagulation disorder',
-            translations: { es: 'Trastorno de la coagulación sanguínea' },
-          },
-          {
-            id: '161661002',
-            term: 'History of organ transplant',
-            translations: { es: 'Antecedente de trasplante de órgano' },
-          },
-          {
-            id: '370388006',
-            term: 'Patient immunocompromised',
-            translations: { es: 'Paciente inmunodeprimido' },
-          },
-        ],
-      },
+    const catalog: {
+      code: string
+      display: string
+      category: 'allergy' | 'medication' | 'pathology' | 'implant' | 'neuro'
+      allowsText: boolean
+    }[] = [
+      // ALLERGIES
+      { code: '442557003', display: 'Sin alergias conocidas',             category: 'allergy',    allowsText: false },
+      { code: '294505008', display: 'Alergia a la penicilina',            category: 'allergy',    allowsText: false },
+      { code: '372687004', display: 'Alergia a la aspirina',              category: 'allergy',    allowsText: false },
+      { code: '419511003', display: 'Alergia a medicamentos',             category: 'allergy',    allowsText: true  },
+      { code: '232347008', display: 'Alergia al látex',                   category: 'allergy',    allowsText: false },
+      { code: '300916003', display: 'Alergia al veneno de abeja',         category: 'allergy',    allowsText: false },
+      { code: '414285001', display: 'Alergia alimentaria',                category: 'allergy',    allowsText: true  },
+      { code: '293586001', display: 'Alergia a la morfina',               category: 'allergy',    allowsText: false },
+      { code: '372741009', display: 'Alergia al yodo',                    category: 'allergy',    allowsText: false },
+      { code: '416098002', display: 'Alergia a AINEs',                    category: 'allergy',    allowsText: false },
+
+      // MEDICATIONS
+      { code: '260413007', display: 'Ninguno',                            category: 'medication', allowsText: false },
+      { code: '418427003', display: 'Anticoagulantes',                    category: 'medication', allowsText: false },
+      { code: '31252001',  display: 'Insulina',                           category: 'medication', allowsText: false },
+      { code: '387207008', display: 'Opioides',                           category: 'medication', allowsText: false },
+      { code: '373264003', display: 'Hipoglucemiantes orales',            category: 'medication', allowsText: false },
+      { code: '387158006', display: 'Benzodiazepina',                     category: 'medication', allowsText: false },
+      { code: '386452003', display: 'Antiepilépticos',                    category: 'medication', allowsText: false },
+      { code: '387081005', display: 'Corticosónicos',                     category: 'medication', allowsText: false },
+
+      // PATHOLOGIES
+      { code: '160245001', display: 'Sin problemas actuales',             category: 'pathology',  allowsText: false },
+      { code: '49436004',  display: 'Cardiopatía',                        category: 'pathology',  allowsText: true  },
+      { code: '73211009',  display: 'Diabetes mellitus',                  category: 'pathology',  allowsText: false },
+      { code: '195967001', display: 'Asma',                               category: 'pathology',  allowsText: false },
+      { code: '13645005',  display: 'EPOC',                               category: 'pathology',  allowsText: false },
+      { code: '709044004', display: 'Insuficiencia renal',                category: 'pathology',  allowsText: false },
+      { code: '64770001',  display: 'Trastornos de la coagulación',       category: 'pathology',  allowsText: false },
+      { code: '161661002', display: 'Trasplantes',                        category: 'pathology',  allowsText: true  },
+      { code: '370388006', display: 'Inmunodepresión',                    category: 'pathology',  allowsText: true  },
+      { code: 'PATHOLOGY_OTHER', display: 'Otro',                         category: 'pathology',  allowsText: true  },
+
+      // IMPLANTS
+      { code: '14106009',  display: 'Marcapasos / DAI',                   category: 'implant',    allowsText: true  },
+      { code: '17137000',  display: 'Prótesis valvular',                  category: 'implant',    allowsText: false },
+      { code: '271295000', display: 'Derivación ventricular',             category: 'implant',    allowsText: false },
+      { code: '700448003', display: 'Diálisis',                           category: 'implant',    allowsText: false },
+      { code: 'IMPLANT_OTHER', display: 'Otro',                           category: 'implant',    allowsText: true  },
+
+      // NEURO
+      { code: '40739000',  display: 'Brillante normal',                   category: 'neuro',      allowsText: false },
+      { code: '706868007', display: 'Confusión crónica',                  category: 'neuro',      allowsText: false },
+      { code: '128294001', display: 'Déficits neurológicos preexistentes', category: 'neuro',     allowsText: false },
+      { code: '365061000', display: 'Autónomo',                           category: 'neuro',      allowsText: false },
+      { code: '371153006', display: 'Parcialmente dependiente',           category: 'neuro',      allowsText: false },
+      { code: '129839007', display: 'No autónomo / Asistido',             category: 'neuro',      allowsText: false },
     ]
 
-    for (const def of definitions) {
-      await this.syncValueSet(def)
-    }
-  }
-
-  private async syncValueSet(def: { key: string; title: string; codes: any[] }) {
-    const existing = await medplum.searchResources('ValueSet', { title: def.title })
-    let valueSetId: string
-
-    if (existing.length > 0) {
-      valueSetId = existing[0].id as string
-      console.log(`[${def.key}] Found in Medplum: ${valueSetId}, updating...`)
-      await medplum.updateResource({
-        resourceType: 'ValueSet',
-        id: valueSetId,
-        title: def.title,
-        status: 'active',
-        compose: {
-          include: [
-            {
-              system: 'http://snomed.info/sct',
-              concept: def.codes.map((c) => ({
-                code: c.id,
-                display: c.term,
-                designation: Object.entries(c.translations ?? {}).map(([language, value]) => ({
-                  language,
-                  value: value as string,
-                })),
-              })),
-            },
-          ],
-        },
-      })
-    } else {
-      console.log(`[${def.key}] Creating new resource...`)
-      const newVS = await medplum.createResource({
-        resourceType: 'ValueSet',
-        title: def.title,
-        status: 'active',
-        compose: {
-          include: [
-            {
-              system: 'http://snomed.info/sct',
-              concept: def.codes.map((c) => ({ code: c.id, display: c.term })),
-            },
-          ],
-        },
-      })
-      valueSetId = newVS.id as string
-    }
-
-    let config = await MedplumConfig.findBy('key', def.key)
-    if (!config) {
-      // console.log(`[${def.key}] Already in DB: ${config.value}`)
-      console.info('Creating medplum config entry for: ', def.key)
-      await MedplumConfig.create({
-        key: def.key,
-        value: valueSetId,
-        description: `Medplum ID for ${def.title}`,
-      })
+    for (const item of catalog) {
+      await ConditionCatalog.updateOrCreate({ code: item.code }, item)
     }
   }
 }

@@ -21,33 +21,31 @@ export interface ApiDefinition {
   }
   profile: {
     profile: {
+      index: typeof routes['profile.profile.index']
       show: typeof routes['profile.profile.show']
+      byEmail: typeof routes['profile.profile.by_email']
     }
   }
   bracelets: {
-    show: typeof routes['bracelets.show']
     index: typeof routes['bracelets.index']
+    models: typeof routes['bracelets.models']
     showByUser: typeof routes['bracelets.show_by_user']
-    banByUid: typeof routes['bracelets.ban_by_uid']
+    show: typeof routes['bracelets.show']
     store: typeof routes['bracelets.store']
     assign: typeof routes['bracelets.assign']
-    models: typeof routes['bracelets.models']
+    banByUid: typeof routes['bracelets.ban_by_uid']
   }
-  data: {
-    allergies: typeof routes['data.allergies']
-    medications: typeof routes['data.medications']
-    pathologies: typeof routes['data.pathologies']
-    inplantDevices: typeof routes['data.inplant_devices']
-    neurologicalStatus: typeof routes['data.neurological_status']
-  }
-  us: {
-    show: typeof routes['us.show']
-    update: typeof routes['us.update']
-    store: typeof routes['us.store']
+  medicalConditions: {
+    show: typeof routes['medical_conditions.show']
+    showCatalog: typeof routes['medical_conditions.show_catalog']
+    showByUid: typeof routes['medical_conditions.show_by_uid']
+    showByBraceletUid: typeof routes['medical_conditions.show_by_bracelet_uid']
+    update: typeof routes['medical_conditions.update']
+    updateByUid: typeof routes['medical_conditions.update_by_uid']
   }
   medplum: {
-    index: typeof routes['medplum.index']
     show: typeof routes['medplum.show']
+    index: typeof routes['medplum.index']
     update: typeof routes['medplum.update']
     destroy: typeof routes['medplum.destroy']
     getInfo: typeof routes['medplum.get_info']

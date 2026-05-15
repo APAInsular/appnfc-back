@@ -100,13 +100,44 @@ components:
           $ref: "#/components/schemas/User"
           example: null
       description: "Bracelet (Model)"
+    ConditionCatalog:
+      type: "object"
+      required: []
+      properties:
+        user:
+          $ref: "#/components/schemas/User"
+          example: null
+        id:
+          type: "number"
+          example: 910
+        category:
+          $ref: "#/components/schemas/'allergy'"
+          example: null
+        code:
+          type: "string"
+          example: "Lorem Ipsum"
+        display:
+          type: "string"
+          example: "Lorem Ipsum"
+        allows_text:
+          type: "boolean"
+          example: true
+      description: "ConditionCatalog (Model)"
+    MedPlumUser:
+      type: "object"
+      required: []
+      properties:
+        user:
+          $ref: "#/components/schemas/User"
+          example: null
+      description: "MedPlumUser (Model)"
     MedplumConfig:
       type: "object"
       required: []
       properties:
         id:
           type: "number"
-          example: 355
+          example: 321
         key:
           type: "string"
           example: "Lorem Ipsum"
@@ -123,14 +154,6 @@ components:
           $ref: "#/components/schemas/DateTime<boolean>"
           example: null
       description: "MedplumConfig (Model)"
-    MedPlumUser:
-      type: "object"
-      required: []
-      properties:
-        user:
-          $ref: "#/components/schemas/User"
-          example: null
-      description: "MedPlumUser (Model)"
     User:
       type: "object"
       required: []
@@ -152,6 +175,31 @@ components:
           type: "string"
           example: "Patient"
       description: "User (Model)"
+    UserCondition:
+      type: "object"
+      required: []
+      properties:
+        user:
+          $ref: "#/components/schemas/User"
+          example: null
+        id:
+          type: "number"
+          example: 33
+        category:
+          $ref: "#/components/schemas/'allergy'"
+          example: null
+        checked:
+          type: "boolean"
+          example: true
+        text_values:
+          type: "array"
+          items:
+            type: "string"
+            example: "Lorem Ipsum"
+        user_id:
+          type: "number"
+          example: 32
+      description: "UserCondition (Model)"
     assignBraceletValidator:
       type: "object"
       properties:
@@ -198,10 +246,10 @@ components:
       properties:
         id:
           type: "number"
-          example: 707
+          example: 282
           required: true
       example:
-        id: 707
+        id: 282
       description: "idParamValidator (Validator)"
     uidValidator:
       type: "object"
@@ -213,111 +261,40 @@ components:
       example:
         uid: "Lorem Ipsum"
       description: "uidValidator (Validator)"
-    storeCondition:
+    updateConditions:
       type: "object"
       properties:
-        allergies:
+        conditions:
           type: "array"
           items:
-            type: "number"
-            example: 830
+            type: "object"
+            properties:
+              code:
+                type: "number"
+                example: 605
+                required: true
+              textValues:
+                type: "array"
+                items:
+                  type: "number"
+                  example: 574
+                required: true
           required: true
           properties:
             items:
-              type: "string"
-              example: "Lorem Ipsum"
-        medications:
-          type: "array"
-          items:
-            type: "number"
-            example: 758
-          required: true
-          properties:
-            items:
-              type: "string"
-              example: "Lorem Ipsum"
-        pathologies:
-          type: "array"
-          items:
-            type: "number"
-            example: 240
-          required: true
-          properties:
-            items:
-              type: "string"
-              example: "Lorem Ipsum"
-        inplantDevices:
-          type: "array"
-          items:
-            type: "number"
-            example: 668
-          required: true
-          properties:
-            items:
-              type: "string"
-              example: "Lorem Ipsum"
-        neurologicalStatus:
-          type: "array"
-          items:
-            type: "number"
-            example: 85
-          required: true
-          properties:
-            items:
-              type: "string"
-              example: "Lorem Ipsum"
-        firstName:
-          type: "string"
-          example: "Lorem Ipsum"
-          required: true
-        surnames:
-          type: "string"
-          example: "Lorem Ipsum"
-          required: true
-        language:
-          type: "number"
-          example: 69
-          choices:
-            - "ES"
-            - "EN"
-          required: true
-        biologicalSex:
-          type: "number"
-          example: 270
-          choices:
-            - "M"
-            - "F"
-          required: true
-        bloodType:
-          type: "number"
-          example: 289
-          choices:
-            - "O+"
-            - "O-"
-            - "A+"
-            - "A-"
-            - "B+"
-            - "B-"
-            - "AB+"
-            - "AB-"
-          required: true
+              code:
+                type: "string"
+                example: "Lorem Ipsum"
+              textValues:
+                items:
+                  type: "string"
+                  example: "Lorem Ipsum"
       example:
-        allergies:
-          - "Lorem Ipsum"
-        medications:
-          - "Lorem Ipsum"
-        pathologies:
-          - "Lorem Ipsum"
-        inplantDevices:
-          - "Lorem Ipsum"
-        neurologicalStatus:
-          - "Lorem Ipsum"
-        firstName: "Lorem Ipsum"
-        surnames: "Lorem Ipsum"
-        language: 69
-        biologicalSex: 270
-        bloodType: 289
-      description: "storeCondition (Validator)"
+        conditions:
+          - code: "Lorem Ipsum"
+            textValues:
+              - "Lorem Ipsum"
+      description: "updateConditions (Validator)"
     adminSignupValidator:
       type: "object"
       properties:
@@ -409,7 +386,7 @@ components:
           maxLength: 254
         role:
           type: "number"
-          example: 605
+          example: 35
           choices:
             - "Patient"
             - "Practitioner"
@@ -430,7 +407,7 @@ components:
         firstName: "Lorem Ipsum"
         surnames: "Lorem Ipsum"
         email: "Lorem Ipsum"
-        role: 605
+        role: 35
         password: "Lorem Ipsum"
         passwordConfirmation: "Lorem Ipsum"
       description: "signupValidator (Validator)"
@@ -469,7 +446,7 @@ paths:
               firstName: "Lorem Ipsum"
               surnames: "Lorem Ipsum"
               email: "Lorem Ipsum"
-              role: 605
+              role: 35
               password: "Lorem Ipsum"
               passwordConfirmation: "Lorem Ipsum"
   /api/v1/auth/login:
@@ -769,79 +746,62 @@ paths:
       security:
         - BearerAuth:
             - "access"
-  /api/v1/data/allergies:
+  /api/v1/medical-conditions:
     get:
-      summary: "Available allergies (allergies)"
-      description: "List all allergies in SNOMEDE_CT estandard\n\n _app/controllers/data_controller.ts_ - **allergies**"
+      summary: "Get self medical conditions (show)"
+      description: "Returns **200** (OK) as **application/json**\n\n _app/controllers/medical_conditions_controller.ts_ - **show**"
       parameters: []
       tags:
-        - "DATA"
+        - "MEDICAL-CONDITIONS"
       responses:
         200:
-          description: "OK"
           content:
-            application/json: {}
-      security: []
-  /api/v1/data/medications:
-    get:
-      summary: "Available medications (medications)"
-      description: "List all medications in SNOMEDE_CT estandard\n\n _app/controllers/data_controller.ts_ - **medications**"
-      parameters: []
-      tags:
-        - "DATA"
-      responses:
-        200:
-          description: "OK"
-          content:
-            application/json: {}
-      security: []
-  /api/v1/data/pathologies:
-    get:
-      summary: "Available pathologies (pathologies)"
-      description: "List all pathologies in SNOMEDE_CT estandard\n\n _app/controllers/data_controller.ts_ - **pathologies**"
-      parameters: []
-      tags:
-        - "DATA"
-      responses:
-        200:
-          description: "OK"
-          content:
-            application/json: {}
-      security: []
-  /api/v1/data/implant-devices:
-    get:
-      summary: "Available inplant devices (inplantDevices)"
-      description: "List all inplant devices in SNOMEDE_CT estandard\n\n _app/controllers/data_controller.ts_ - **inplantDevices**"
-      parameters: []
-      tags:
-        - "DATA"
-      responses:
-        200:
-          description: "OK"
-          content:
-            application/json: {}
-      security: []
-  /api/v1/data/neurological-status:
-    get:
-      summary: "Available neurological status devices (neurologicalStatus)"
-      description: "List all neurological status in SNOMEDE_CT estandard\n\n _app/controllers/data_controller.ts_ - **neurologicalStatus**"
-      parameters: []
-      tags:
-        - "DATA"
-      responses:
-        200:
-          description: "OK"
-          content:
-            application/json: {}
-      security: []
-  /api/v1/me:
-    get:
-      summary: "Get self medical data (show)"
-      description: "\n\n _app/controllers/us_controller.ts_ - **show**"
-      parameters: []
-      tags:
-        - "ME"
-      responses:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  conditions:
+                    type: "object"
+                    properties:
+                      0:
+                        type: "object"
+                        properties:
+                          code: "14106009"
+                          display: "Marcapasos / DAI"
+                          category: "implant"
+                          allowsText: true
+                          checked: true
+                          textValues:
+                            type: "object"
+                            properties:
+                              0: "St. Jude 2019"
+                      1:
+                        type: "object"
+                        properties:
+                          code: "73211009"
+                          display: "Diabetes mellitus"
+                          category: "pathology"
+                          allowsText: false
+                          checked: false
+                          textValues:
+                            type: "object"
+                            properties: {}
+              example:
+                conditions:
+                  - code: "14106009"
+                    display: "Marcapasos / DAI"
+                    category: "implant"
+                    allowsText: true
+                    checked: true
+                    textValues:
+                      - "St. Jude 2019"
+                  - code: "73211009"
+                    display: "Diabetes mellitus"
+                    category: "pathology"
+                    allowsText: false
+                    checked: false
+                    textValues: []
+          description: "Returns **200** (OK) as **application/json**"
         401:
           description: "Returns **401** (Unauthorized)"
         403:
@@ -850,11 +810,11 @@ paths:
         - BearerAuth:
             - "access"
     put:
-      summary: "Update self medical data (update)"
-      description: "Replace all data (be careful bro)\n\n _app/controllers/us_controller.ts_ - **update**"
+      summary: "Update self medical conditions (update)"
+      description: "\n\n _app/controllers/medical_conditions_controller.ts_ - **update**"
       parameters: []
       tags:
-        - "ME"
+        - "MEDICAL-CONDITIONS"
       responses:
         200:
           content:
@@ -875,70 +835,45 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/storeCondition"
+              $ref: "#/components/schemas/updateConditions"
             example:
-              allergies:
-                - "Lorem Ipsum"
-              medications:
-                - "Lorem Ipsum"
-              pathologies:
-                - "Lorem Ipsum"
-              inplantDevices:
-                - "Lorem Ipsum"
-              neurologicalStatus:
-                - "Lorem Ipsum"
-              firstName: "Lorem Ipsum"
-              surnames: "Lorem Ipsum"
-              language: 69
-              biologicalSex: 270
-              bloodType: 289
-    post:
-      summary: "Store patient medical conditions (store)"
-      description: "Creates allergies, pathologies and other conditions for authenticated user\n\n _app/controllers/us_controller.ts_ - **store**"
-      parameters: []
-      tags:
-        - "ME"
-      responses:
-        200:
-          content:
-            application/json:
-              schema:
-                type: "object"
-                properties: {}
-              example: {}
-          description: "Returns **200** (OK) as **application/json**"
-        401:
-          description: "Returns **401** (Unauthorized)"
-        403:
-          description: "Returns **403** (Forbidden)"
-      security:
-        - BearerAuth:
-            - "access"
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/storeCondition"
-            example:
-              allergies:
-                - "Lorem Ipsum"
-              medications:
-                - "Lorem Ipsum"
-              pathologies:
-                - "Lorem Ipsum"
-              inplantDevices:
-                - "Lorem Ipsum"
-              neurologicalStatus:
-                - "Lorem Ipsum"
-              firstName: "Lorem Ipsum"
-              surnames: "Lorem Ipsum"
-              language: 69
-              biologicalSex: 270
-              bloodType: 289
-  /api/v1/me/uid/{userUid}:
+              conditions:
+                - code: "Lorem Ipsum"
+                  textValues:
+                    - "Lorem Ipsum"
+  /api/v1/medical-conditions/catalog:
     get:
-      summary: "Get user medical data by UID (showByUid)"
-      description: "\n\n _app/controllers/us_controller.ts_ - **showByUid**"
+      summary: "Get full condition catalog (showCatalog)"
+      description: "Returns **200** (OK) as **application/json**\n\n _app/controllers/medical_conditions_controller.ts_ - **showCatalog**"
+      parameters: []
+      tags:
+        - "MEDICAL-CONDITIONS"
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                type: "array"
+                items:
+                  type: "object"
+              example:
+                - id: 1
+                  code: "14106009"
+                  display: "Marcapasos / DAI"
+                  category: "implant"
+                  allowsText: true
+          description: "Returns **200** (OK) as **application/json**"
+        401:
+          description: "Returns **401** (Unauthorized)"
+        403:
+          description: "Returns **403** (Forbidden)"
+      security:
+        - BearerAuth:
+            - "access"
+  /api/v1/medical-conditions/uid/{userUid}:
+    get:
+      summary: "Get user medical conditions by UID (showByUid)"
+      description: "Returns **200** (OK) as **application/json**\n\n _app/controllers/medical_conditions_controller.ts_ - **showByUid**"
       parameters:
         - in: "path"
           name: "userUid"
@@ -946,8 +881,56 @@ paths:
             type: "string"
           required: true
       tags:
-        - "ME"
+        - "MEDICAL-CONDITIONS"
       responses:
+        200:
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  conditions:
+                    type: "object"
+                    properties:
+                      0:
+                        type: "object"
+                        properties:
+                          code: "14106009"
+                          display: "Marcapasos / DAI"
+                          category: "implant"
+                          allowsText: true
+                          checked: true
+                          textValues:
+                            type: "object"
+                            properties:
+                              0: "St. Jude 2019"
+                      1:
+                        type: "object"
+                        properties:
+                          code: "73211009"
+                          display: "Diabetes mellitus"
+                          category: "pathology"
+                          allowsText: false
+                          checked: false
+                          textValues:
+                            type: "object"
+                            properties: {}
+              example:
+                conditions:
+                  - code: "14106009"
+                    display: "Marcapasos / DAI"
+                    category: "implant"
+                    allowsText: true
+                    checked: true
+                    textValues:
+                      - "St. Jude 2019"
+                  - code: "73211009"
+                    display: "Diabetes mellitus"
+                    category: "pathology"
+                    allowsText: false
+                    checked: false
+                    textValues: []
+          description: "Returns **200** (OK) as **application/json**"
         401:
           description: "Returns **401** (Unauthorized)"
         403:
@@ -955,9 +938,9 @@ paths:
       security:
         - BearerAuth:
             - "access"
-    post:
-      summary: "Store patient medical conditions by Uid (storeByUid)"
-      description: "Creates allergies, pathologies and other conditions for authenticated user\n\n _app/controllers/us_controller.ts_ - **storeByUid**"
+    put:
+      summary: "Update medical conditions by user UID (updateByUid)"
+      description: "\n\n _app/controllers/medical_conditions_controller.ts_ - **updateByUid**"
       parameters:
         - in: "path"
           name: "userUid"
@@ -965,7 +948,7 @@ paths:
             type: "string"
           required: true
       tags:
-        - "ME"
+        - "MEDICAL-CONDITIONS"
       responses:
         200:
           content:
@@ -986,27 +969,16 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/storeCondition"
+              $ref: "#/components/schemas/updateConditions"
             example:
-              allergies:
-                - "Lorem Ipsum"
-              medications:
-                - "Lorem Ipsum"
-              pathologies:
-                - "Lorem Ipsum"
-              inplantDevices:
-                - "Lorem Ipsum"
-              neurologicalStatus:
-                - "Lorem Ipsum"
-              firstName: "Lorem Ipsum"
-              surnames: "Lorem Ipsum"
-              language: 69
-              biologicalSex: 270
-              bloodType: 289
-  /api/v1/me/bracelet/{braceletUid}:
+              conditions:
+                - code: "Lorem Ipsum"
+                  textValues:
+                    - "Lorem Ipsum"
+  /api/v1/medical-conditions/bracelet/{braceletUid}:
     get:
-      summary: "Get user medical data by UID (showByBraceletUid)"
-      description: "\n\n _app/controllers/us_controller.ts_ - **showByBraceletUid**"
+      summary: "Get user medical conditions by bracelet UID (showByBraceletUid)"
+      description: "Returns **200** (OK) as **application/json**\n\n _app/controllers/medical_conditions_controller.ts_ - **showByBraceletUid**"
       parameters:
         - in: "path"
           name: "braceletUid"
@@ -1014,8 +986,56 @@ paths:
             type: "string"
           required: true
       tags:
-        - "ME"
+        - "MEDICAL-CONDITIONS"
       responses:
+        200:
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  conditions:
+                    type: "object"
+                    properties:
+                      0:
+                        type: "object"
+                        properties:
+                          code: "14106009"
+                          display: "Marcapasos / DAI"
+                          category: "implant"
+                          allowsText: true
+                          checked: true
+                          textValues:
+                            type: "object"
+                            properties:
+                              0: "St. Jude 2019"
+                      1:
+                        type: "object"
+                        properties:
+                          code: "73211009"
+                          display: "Diabetes mellitus"
+                          category: "pathology"
+                          allowsText: false
+                          checked: false
+                          textValues:
+                            type: "object"
+                            properties: {}
+              example:
+                conditions:
+                  - code: "14106009"
+                    display: "Marcapasos / DAI"
+                    category: "implant"
+                    allowsText: true
+                    checked: true
+                    textValues:
+                      - "St. Jude 2019"
+                  - code: "73211009"
+                    display: "Diabetes mellitus"
+                    category: "pathology"
+                    allowsText: false
+                    checked: false
+                    textValues: []
+          description: "Returns **200** (OK) as **application/json**"
         401:
           description: "Returns **401** (Unauthorized)"
         403:
@@ -1176,9 +1196,7 @@ tags:
     description: "Everything related to ACCOUNT"
   - name: "BRACELET"
     description: "Everything related to BRACELET"
-  - name: "DATA"
-    description: "Everything related to DATA"
-  - name: "ME"
-    description: "Everything related to ME"
+  - name: "MEDICAL-CONDITIONS"
+    description: "Everything related to MEDICAL-CONDITIONS"
   - name: "PROXY"
     description: "Everything related to PROXY"

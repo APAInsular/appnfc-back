@@ -45,7 +45,9 @@ router
     // ? Profile management routes
     router
       .group(() => {
-        router.get('/', [controllers.Profile, 'index']).use(middleware.role(['Admin', 'Practitioner']))
+        router
+          .get('/', [controllers.Profile, 'index'])
+          .use(middleware.role(['Admin', 'Practitioner']))
         router.get('/profile', [controllers.Profile, 'show'])
         router.get('/by-email/:email', [controllers.Profile, 'byEmail'])
       })
@@ -72,27 +74,15 @@ router
 
     router
       .group(() => {
-        router.get('/allergies', [controllers.Data, 'allergies'])
-        router.get('/medications', [controllers.Data, 'medications'])
-        router.get('/pathologies', [controllers.Data, 'pathologies'])
-        router.get('/implant-devices', [controllers.Data, 'inplantDevices'])
-        router.get('/neurological-status', [controllers.Data, 'neurologicalStatus'])
-        // router.get('/blood-types', [controllers.Data, 'bloodTypes'])
-      })
-      .prefix('data')
+        router.get('/', [controllers.MedicalConditions, 'show'])
+        router.get('/catalog', [controllers.MedicalConditions, 'showCatalog'])
+        router.get('/uid/:userUid', [controllers.MedicalConditions, 'showByUid'])
+        router.get('/bracelet/:braceletUid', [controllers.MedicalConditions, 'showByBraceletUid'])
 
-    router
-      .group(() => {
-        router.get('/', [controllers.Us, 'show'])
-        router.get('/uid/:userUid', [controllers.Us, 'showByUid'])
-        router.get('/bracelet/:braceletUid', [controllers.Us, 'showByBraceletUid'])
-
-        router.put('/', [controllers.Us, 'update'])
-        router.post('/', [controllers.Us, 'store'])
-        router.put('/uid/:userUid', [controllers.Us, 'updateByUid'])
-        router.post('/uid/:userUid', [controllers.Us, 'storeByUid'])
+        router.put('/', [controllers.MedicalConditions, 'update'])
+        router.put('/uid/:userUid', [controllers.MedicalConditions, 'updateByUid'])
       })
-      .prefix('me')
+      .prefix('medical-conditions')
       .use([middleware.auth(), middleware.role(['Patient', 'Practitioner'])])
 
     // ? Medplum Proxy

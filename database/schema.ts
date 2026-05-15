@@ -55,8 +55,26 @@ export class BraceletSchema extends BaseModel {
   declare userId: number | null
 }
 
+export class ConditionCatalogSchema extends BaseModel {
+  static $columns = ['allowsText', 'category', 'code', 'createdAt', 'display', 'id', 'updatedAt'] as const
+  $columns = ConditionCatalogSchema.$columns
+  @column()
+  declare allowsText: boolean | null
+  @column()
+  declare category: string
+  @column()
+  declare code: string
+  @column.dateTime({ autoCreate: true })
+  declare createdAt: DateTime | null
+  @column()
+  declare display: string
+  @column({ isPrimary: true })
+  declare id: number
+  @column.dateTime({ autoCreate: true, autoUpdate: true })
+  declare updatedAt: DateTime | null
+}
+
 export class MedPlumUserSchema extends BaseModel {
-  static table = 'med_plum_users'
   static $columns = ['createdAt', 'id', 'medplumMembershipId', 'medplumUserId', 'profileId', 'profileType', 'updatedAt', 'userId'] as const
   $columns = MedPlumUserSchema.$columns
   @column.dateTime({ autoCreate: true })
@@ -92,6 +110,25 @@ export class MedplumConfigSchema extends BaseModel {
   declare updatedAt: DateTime | null
   @column()
   declare value: string
+}
+
+export class UserConditionSchema extends BaseModel {
+  static $columns = ['catalogId', 'checked', 'createdAt', 'id', 'textValues', 'updatedAt', 'userId'] as const
+  $columns = UserConditionSchema.$columns
+  @column()
+  declare catalogId: number
+  @column()
+  declare checked: boolean | null
+  @column.dateTime({ autoCreate: true })
+  declare createdAt: DateTime | null
+  @column({ isPrimary: true })
+  declare id: number
+  @column()
+  declare textValues: any | null
+  @column.dateTime({ autoCreate: true, autoUpdate: true })
+  declare updatedAt: DateTime | null
+  @column()
+  declare userId: number
 }
 
 export class UserSchema extends BaseModel {
