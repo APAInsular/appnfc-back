@@ -25,6 +25,7 @@ router
       .group(() => {
         router.post('register', [controllers.NewAccount, 'store'])
         router.post('login', [controllers.AccessToken, 'store'])
+        router.post('login-access-code', [controllers.AccessToken, 'accessWithCode'])
         router.post('logout', [controllers.AccessToken, 'destroy']).use(middleware.auth())
       })
       .prefix('auth')
@@ -49,8 +50,9 @@ router
           .get('/', [controllers.Profile, 'index'])
           .use(middleware.role(['Admin', 'Practitioner']))
         router.get('/profile', [controllers.Profile, 'show'])
+        router.get('/access-code', [controllers.Profile, 'showAccessCode']).use(middleware.role(['Patient'])).use(middleware.role(['Practitioner']))
         router.get('/by-email/:email', [controllers.Profile, 'byEmail'])
-        router.put('/profile', [controllers.Profile, 'updateProfile']) .use(middleware.role(['Patient']))
+        router.put('/profile', [controllers.Profile, 'updateProfile']).use(middleware.role(['Patient']))
         router.put('/profile/uid/:userUid', [controllers.Profile, 'updateProfileByUid']) .use(middleware.role(['Practitioner']))
       })
       .prefix('account')

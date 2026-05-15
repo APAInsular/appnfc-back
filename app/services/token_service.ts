@@ -1,17 +1,16 @@
 import crypto from 'node:crypto'
 
 export default class TokenService {
-  public static generateAccessCode(length: number = 8): string {
-
+  public static generateAccessCode(): string {
     const charset = '23456789ABCDEFGHJKLMNPQRSTUVWXYZ'
-    let result = ''
-    
-    const randomBytes = crypto.randomBytes(length)
 
-    for (let i = 0; i < length; i++) {
-      result += charset.charAt(randomBytes[i] % charset.length)
+    const bytes = crypto.randomBytes(8)
+
+    let raw = ''
+    for (let i = 0; i < 8; i++) {
+      raw += charset[bytes[i] % charset.length]
     }
 
-    return result
+    return `${raw.slice(0, 4)}-${raw.slice(4, 8)}`
   }
 }

@@ -132,8 +132,10 @@ export class UserConditionSchema extends BaseModel {
 }
 
 export class UserSchema extends BaseModel {
-  static $columns = ['createdAt', 'email', 'firstName', 'id', 'password', 'role', 'surnames', 'uid', 'updatedAt'] as const
+  static $columns = ['accessCode', 'createdAt', 'email', 'firstName', 'id', 'password', 'role', 'surnames', 'uid', 'updatedAt'] as const
   $columns = UserSchema.$columns
+  @column()
+  declare accessCode: string | null
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime
   @column()

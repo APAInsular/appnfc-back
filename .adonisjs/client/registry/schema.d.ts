@@ -31,6 +31,18 @@ export interface Registry {
       errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/access_token_controller').default['store']>>> | { status: 422; response: { errors: SimpleError[] } }
     }
   }
+  'auth.access_token.access_with_code': {
+    methods: ["POST"]
+    pattern: '/api/v1/auth/login-access-code'
+    types: {
+      body: ExtractBody<InferInput<(typeof import('#validators/user').loginCodeValidator)>>
+      paramsTuple: []
+      params: {}
+      query: ExtractQuery<InferInput<(typeof import('#validators/user').loginCodeValidator)>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/access_token_controller').default['accessWithCode']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/access_token_controller').default['accessWithCode']>>> | { status: 422; response: { errors: SimpleError[] } }
+    }
+  }
   'auth.access_token.destroy': {
     methods: ["POST"]
     pattern: '/api/v1/auth/logout'
@@ -89,6 +101,18 @@ export interface Registry {
       query: {}
       response: ExtractResponse<Awaited<ReturnType<import('#controllers/profile_controller').default['show']>>>
       errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/profile_controller').default['show']>>>
+    }
+  }
+  'profile.profile.show_access_code': {
+    methods: ["GET","HEAD"]
+    pattern: '/api/v1/account/access-code'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/profile_controller').default['showAccessCode']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/profile_controller').default['showAccessCode']>>>
     }
   }
   'profile.profile.by_email': {

@@ -22,6 +22,16 @@ export default class ProfileController {
     return await UserTransformer.transform(await User.all())
   }
 
+
+  /**
+  * @showAccessCode
+  * @summary Show access code to the user that owns it
+  */
+  async showAccessCode({ auth }: HttpContext) {
+    return auth.getUserOrFail().accessCode
+  }
+
+
   /**
    * @byEmail
    * @summary Find a user by email

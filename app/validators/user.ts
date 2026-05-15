@@ -46,3 +46,7 @@ export const loginValidator = vine.create({
   password: vine.string(),
 })
 
+export const loginCodeValidator = vine.create({
+  code: vine.string().fixedLength(9),
+})
+

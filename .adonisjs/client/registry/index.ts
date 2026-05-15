@@ -18,6 +18,12 @@ const routes = {
     tokens: [{"old":"/api/v1/auth/login","type":0,"val":"api","end":""},{"old":"/api/v1/auth/login","type":0,"val":"v1","end":""},{"old":"/api/v1/auth/login","type":0,"val":"auth","end":""},{"old":"/api/v1/auth/login","type":0,"val":"login","end":""}],
     types: placeholder as Registry['auth.access_token.store']['types'],
   },
+  'auth.access_token.access_with_code': {
+    methods: ["POST"],
+    pattern: '/api/v1/auth/login-access-code',
+    tokens: [{"old":"/api/v1/auth/login-access-code","type":0,"val":"api","end":""},{"old":"/api/v1/auth/login-access-code","type":0,"val":"v1","end":""},{"old":"/api/v1/auth/login-access-code","type":0,"val":"auth","end":""},{"old":"/api/v1/auth/login-access-code","type":0,"val":"login-access-code","end":""}],
+    types: placeholder as Registry['auth.access_token.access_with_code']['types'],
+  },
   'auth.access_token.destroy': {
     methods: ["POST"],
     pattern: '/api/v1/auth/logout',
@@ -47,6 +53,12 @@ const routes = {
     pattern: '/api/v1/account/profile',
     tokens: [{"old":"/api/v1/account/profile","type":0,"val":"api","end":""},{"old":"/api/v1/account/profile","type":0,"val":"v1","end":""},{"old":"/api/v1/account/profile","type":0,"val":"account","end":""},{"old":"/api/v1/account/profile","type":0,"val":"profile","end":""}],
     types: placeholder as Registry['profile.profile.show']['types'],
+  },
+  'profile.profile.show_access_code': {
+    methods: ["GET","HEAD"],
+    pattern: '/api/v1/account/access-code',
+    tokens: [{"old":"/api/v1/account/access-code","type":0,"val":"api","end":""},{"old":"/api/v1/account/access-code","type":0,"val":"v1","end":""},{"old":"/api/v1/account/access-code","type":0,"val":"account","end":""},{"old":"/api/v1/account/access-code","type":0,"val":"access-code","end":""}],
+    types: placeholder as Registry['profile.profile.show_access_code']['types'],
   },
   'profile.profile.by_email': {
     methods: ["GET","HEAD"],

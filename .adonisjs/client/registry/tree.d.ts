@@ -8,6 +8,7 @@ export interface ApiDefinition {
     }
     accessToken: {
       store: typeof routes['auth.access_token.store']
+      accessWithCode: typeof routes['auth.access_token.access_with_code']
       destroy: typeof routes['auth.access_token.destroy']
     }
   }
@@ -23,6 +24,7 @@ export interface ApiDefinition {
     profile: {
       index: typeof routes['profile.profile.index']
       show: typeof routes['profile.profile.show']
+      showAccessCode: typeof routes['profile.profile.show_access_code']
       byEmail: typeof routes['profile.profile.by_email']
       updateProfile: typeof routes['profile.profile.update_profile']
       updateProfileByUid: typeof routes['profile.profile.update_profile_by_uid']

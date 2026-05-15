@@ -6,11 +6,13 @@ export type ScannedRoutes = {
   ALL: {
     'auth.new_account.store': { paramsTuple?: []; params?: {} }
     'auth.access_token.store': { paramsTuple?: []; params?: {} }
+    'auth.access_token.access_with_code': { paramsTuple?: []; params?: {} }
     'auth.access_token.destroy': { paramsTuple?: []; params?: {} }
     'new_account.store_admin_once': { paramsTuple?: []; params?: {} }
     'admin.new_account.store_admin': { paramsTuple?: []; params?: {} }
     'profile.profile.index': { paramsTuple?: []; params?: {} }
     'profile.profile.show': { paramsTuple?: []; params?: {} }
+    'profile.profile.show_access_code': { paramsTuple?: []; params?: {} }
     'profile.profile.by_email': { paramsTuple: [ParamValue]; params: {'email': ParamValue} }
     'profile.profile.update_profile': { paramsTuple?: []; params?: {} }
     'profile.profile.update_profile_by_uid': { paramsTuple: [ParamValue]; params: {'userUid': ParamValue} }
@@ -36,6 +38,7 @@ export type ScannedRoutes = {
   GET: {
     'profile.profile.index': { paramsTuple?: []; params?: {} }
     'profile.profile.show': { paramsTuple?: []; params?: {} }
+    'profile.profile.show_access_code': { paramsTuple?: []; params?: {} }
     'profile.profile.by_email': { paramsTuple: [ParamValue]; params: {'email': ParamValue} }
     'bracelets.index': { paramsTuple?: []; params?: {} }
     'bracelets.models': { paramsTuple?: []; params?: {} }
@@ -52,6 +55,7 @@ export type ScannedRoutes = {
   HEAD: {
     'profile.profile.index': { paramsTuple?: []; params?: {} }
     'profile.profile.show': { paramsTuple?: []; params?: {} }
+    'profile.profile.show_access_code': { paramsTuple?: []; params?: {} }
     'profile.profile.by_email': { paramsTuple: [ParamValue]; params: {'email': ParamValue} }
     'bracelets.index': { paramsTuple?: []; params?: {} }
     'bracelets.models': { paramsTuple?: []; params?: {} }
@@ -68,6 +72,7 @@ export type ScannedRoutes = {
   POST: {
     'auth.new_account.store': { paramsTuple?: []; params?: {} }
     'auth.access_token.store': { paramsTuple?: []; params?: {} }
+    'auth.access_token.access_with_code': { paramsTuple?: []; params?: {} }
     'auth.access_token.destroy': { paramsTuple?: []; params?: {} }
     'new_account.store_admin_once': { paramsTuple?: []; params?: {} }
     'admin.new_account.store_admin': { paramsTuple?: []; params?: {} }
