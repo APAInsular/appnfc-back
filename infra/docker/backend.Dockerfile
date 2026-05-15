@@ -22,7 +22,8 @@ ENV NODE_ENV=development
 
 RUN --mount=type=cache,id=pnpm,target=/pnpm/store \
     NODE_OPTIONS="--max-old-space-size=512" \
-    pnpm exec ace build --ignore-ts-errors
+    node ace build --ignore-ts-errors
+
 
 FROM deps AS pruned
 RUN pnpm prune --prod
