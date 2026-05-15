@@ -4,7 +4,7 @@
   "private": true,
   "type": "module",
   "license": "MIT",
-  "packageManager": "pnpm@10.12.1",
+  "packageManager": "pnpm@11.1.2",
   "pnpm": {
     "executionEnv": {
       "nodeVersion": "22.15.0"
