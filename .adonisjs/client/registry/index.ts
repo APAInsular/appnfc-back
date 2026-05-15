@@ -54,6 +54,18 @@ const routes = {
     tokens: [{"old":"/api/v1/account/by-email/:email","type":0,"val":"api","end":""},{"old":"/api/v1/account/by-email/:email","type":0,"val":"v1","end":""},{"old":"/api/v1/account/by-email/:email","type":0,"val":"account","end":""},{"old":"/api/v1/account/by-email/:email","type":0,"val":"by-email","end":""},{"old":"/api/v1/account/by-email/:email","type":1,"val":"email","end":""}],
     types: placeholder as Registry['profile.profile.by_email']['types'],
   },
+  'profile.profile.update_profile': {
+    methods: ["PUT"],
+    pattern: '/api/v1/account/profile',
+    tokens: [{"old":"/api/v1/account/profile","type":0,"val":"api","end":""},{"old":"/api/v1/account/profile","type":0,"val":"v1","end":""},{"old":"/api/v1/account/profile","type":0,"val":"account","end":""},{"old":"/api/v1/account/profile","type":0,"val":"profile","end":""}],
+    types: placeholder as Registry['profile.profile.update_profile']['types'],
+  },
+  'profile.profile.update_profile_by_uid': {
+    methods: ["PUT"],
+    pattern: '/api/v1/account/profile/uid/:userUid',
+    tokens: [{"old":"/api/v1/account/profile/uid/:userUid","type":0,"val":"api","end":""},{"old":"/api/v1/account/profile/uid/:userUid","type":0,"val":"v1","end":""},{"old":"/api/v1/account/profile/uid/:userUid","type":0,"val":"account","end":""},{"old":"/api/v1/account/profile/uid/:userUid","type":0,"val":"profile","end":""},{"old":"/api/v1/account/profile/uid/:userUid","type":0,"val":"uid","end":""},{"old":"/api/v1/account/profile/uid/:userUid","type":1,"val":"userUid","end":""}],
+    types: placeholder as Registry['profile.profile.update_profile_by_uid']['types'],
+  },
   'bracelets.index': {
     methods: ["GET","HEAD"],
     pattern: '/api/v1/bracelet',

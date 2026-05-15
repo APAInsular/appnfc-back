@@ -109,7 +109,7 @@ components:
           example: null
         id:
           type: "number"
-          example: 910
+          example: 359
         category:
           $ref: "#/components/schemas/'allergy'"
           example: null
@@ -137,7 +137,7 @@ components:
       properties:
         id:
           type: "number"
-          example: 321
+          example: 152
         key:
           type: "string"
           example: "Lorem Ipsum"
@@ -184,7 +184,7 @@ components:
           example: null
         id:
           type: "number"
-          example: 33
+          example: 650
         category:
           $ref: "#/components/schemas/'allergy'"
           example: null
@@ -198,7 +198,7 @@ components:
             example: "Lorem Ipsum"
         user_id:
           type: "number"
-          example: 32
+          example: 84
       description: "UserCondition (Model)"
     assignBraceletValidator:
       type: "object"
@@ -246,10 +246,10 @@ components:
       properties:
         id:
           type: "number"
-          example: 282
+          example: 56
           required: true
       example:
-        id: 282
+        id: 56
       description: "idParamValidator (Validator)"
     uidValidator:
       type: "object"
@@ -271,13 +271,13 @@ components:
             properties:
               code:
                 type: "number"
-                example: 605
+                example: 982
                 required: true
               textValues:
                 type: "array"
                 items:
                   type: "number"
-                  example: 574
+                  example: 537
                 required: true
           required: true
           properties:
@@ -295,6 +295,41 @@ components:
             textValues:
               - "Lorem Ipsum"
       description: "updateConditions (Validator)"
+    updateProfile:
+      type: "object"
+      properties:
+        firstName:
+          type: "string"
+          example: "Lorem Ipsum"
+          required: true
+        surnames:
+          type: "string"
+          example: "Lorem Ipsum"
+          required: true
+        biologicalSex:
+          type: "number"
+          example: 152
+          choices:
+            - "M"
+            - "F"
+          required: true
+        language:
+          type: "string"
+          example: "Lorem Ipsum"
+          required: true
+          minLength: 2
+          maxLength: 5
+        bloodType:
+          type: "string"
+          example: "Lorem Ipsum"
+          required: true
+      example:
+        firstName: "Lorem Ipsum"
+        surnames: "Lorem Ipsum"
+        biologicalSex: 152
+        language: "Lorem Ipsum"
+        bloodType: "Lorem Ipsum"
+      description: "updateProfile (Validator)"
     adminSignupValidator:
       type: "object"
       properties:
@@ -386,7 +421,7 @@ components:
           maxLength: 254
         role:
           type: "number"
-          example: 35
+          example: 695
           choices:
             - "Patient"
             - "Practitioner"
@@ -407,7 +442,7 @@ components:
         firstName: "Lorem Ipsum"
         surnames: "Lorem Ipsum"
         email: "Lorem Ipsum"
-        role: 35
+        role: 695
         password: "Lorem Ipsum"
         passwordConfirmation: "Lorem Ipsum"
       description: "signupValidator (Validator)"
@@ -446,7 +481,7 @@ paths:
               firstName: "Lorem Ipsum"
               surnames: "Lorem Ipsum"
               email: "Lorem Ipsum"
-              role: 35
+              role: 695
               password: "Lorem Ipsum"
               passwordConfirmation: "Lorem Ipsum"
   /api/v1/auth/login:
@@ -562,6 +597,39 @@ paths:
       security:
         - BearerAuth:
             - "access"
+    put:
+      summary: "Update patient FHIR profile (updateProfile)"
+      description: "\n\n _app/controllers/profile_controller.ts_ - **updateProfile**"
+      parameters: []
+      tags:
+        - "ACCOUNT"
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties: {}
+              example: {}
+          description: "Returns **200** (OK) as **application/json**"
+        401:
+          description: "Returns **401** (Unauthorized)"
+        403:
+          description: "Returns **403** (Forbidden)"
+      security:
+        - BearerAuth:
+            - "access"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/updateProfile"
+            example:
+              firstName: "Lorem Ipsum"
+              surnames: "Lorem Ipsum"
+              biologicalSex: 152
+              language: "Lorem Ipsum"
+              bloodType: "Lorem Ipsum"
   /api/v1/account/by-email/{email}:
     get:
       summary: "Find a user by email (byEmail)"
@@ -582,6 +650,45 @@ paths:
       security:
         - BearerAuth:
             - "access"
+  /api/v1/account/profile/uid/{userUid}:
+    put:
+      summary: "Update patient FHIR profile by user UID (updateProfileByUid)"
+      description: "\n\n _app/controllers/profile_controller.ts_ - **updateProfileByUid**"
+      parameters:
+        - in: "path"
+          name: "userUid"
+          schema:
+            type: "string"
+          required: true
+      tags:
+        - "ACCOUNT"
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties: {}
+              example: {}
+          description: "Returns **200** (OK) as **application/json**"
+        401:
+          description: "Returns **401** (Unauthorized)"
+        403:
+          description: "Returns **403** (Forbidden)"
+      security:
+        - BearerAuth:
+            - "access"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/updateProfile"
+            example:
+              firstName: "Lorem Ipsum"
+              surnames: "Lorem Ipsum"
+              biologicalSex: 152
+              language: "Lorem Ipsum"
+              bloodType: "Lorem Ipsum"
   /api/v1/bracelet:
     get:
       summary: "List all bracelets (index)"

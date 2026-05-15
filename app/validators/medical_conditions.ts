@@ -10,3 +10,13 @@ export const updateConditions = vine.compile(
     ),
   })
 )
+
+export const updateProfile = vine.compile(
+  vine.object({
+    firstName: vine.string().trim(),
+    surnames: vine.string().trim(),
+    biologicalSex: vine.enum(['M', 'F']),
+    language: vine.string().trim().minLength(2).maxLength(5),
+    bloodType: vine.string().trim(),
+  })
+)

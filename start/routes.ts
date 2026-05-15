@@ -50,6 +50,8 @@ router
           .use(middleware.role(['Admin', 'Practitioner']))
         router.get('/profile', [controllers.Profile, 'show'])
         router.get('/by-email/:email', [controllers.Profile, 'byEmail'])
+        router.put('/profile', [controllers.Profile, 'updateProfile']) .use(middleware.role(['Patient']))
+        router.put('/profile/uid/:userUid', [controllers.Profile, 'updateProfileByUid']) .use(middleware.role(['Practitioner']))
       })
       .prefix('account')
       .as('profile')

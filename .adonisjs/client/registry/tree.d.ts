@@ -24,6 +24,8 @@ export interface ApiDefinition {
       index: typeof routes['profile.profile.index']
       show: typeof routes['profile.profile.show']
       byEmail: typeof routes['profile.profile.by_email']
+      updateProfile: typeof routes['profile.profile.update_profile']
+      updateProfileByUid: typeof routes['profile.profile.update_profile_by_uid']
     }
   }
   bracelets: {

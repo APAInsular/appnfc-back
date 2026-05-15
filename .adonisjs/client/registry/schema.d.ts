@@ -103,6 +103,30 @@ export interface Registry {
       errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/profile_controller').default['byEmail']>>>
     }
   }
+  'profile.profile.update_profile': {
+    methods: ["PUT"]
+    pattern: '/api/v1/account/profile'
+    types: {
+      body: ExtractBody<InferInput<(typeof import('#validators/medical_conditions').updateProfile)>>
+      paramsTuple: []
+      params: {}
+      query: ExtractQuery<InferInput<(typeof import('#validators/medical_conditions').updateProfile)>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/profile_controller').default['updateProfile']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/profile_controller').default['updateProfile']>>> | { status: 422; response: { errors: SimpleError[] } }
+    }
+  }
+  'profile.profile.update_profile_by_uid': {
+    methods: ["PUT"]
+    pattern: '/api/v1/account/profile/uid/:userUid'
+    types: {
+      body: ExtractBody<InferInput<(typeof import('#validators/medical_conditions').updateProfile)>>
+      paramsTuple: [ParamValue]
+      params: { userUid: ParamValue }
+      query: ExtractQuery<InferInput<(typeof import('#validators/medical_conditions').updateProfile)>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/profile_controller').default['updateProfileByUid']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/profile_controller').default['updateProfileByUid']>>> | { status: 422; response: { errors: SimpleError[] } }
+    }
+  }
   'bracelets.index': {
     methods: ["GET","HEAD"]
     pattern: '/api/v1/bracelet'

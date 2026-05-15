@@ -12,6 +12,8 @@ export type ScannedRoutes = {
     'profile.profile.index': { paramsTuple?: []; params?: {} }
     'profile.profile.show': { paramsTuple?: []; params?: {} }
     'profile.profile.by_email': { paramsTuple: [ParamValue]; params: {'email': ParamValue} }
+    'profile.profile.update_profile': { paramsTuple?: []; params?: {} }
+    'profile.profile.update_profile_by_uid': { paramsTuple: [ParamValue]; params: {'userUid': ParamValue} }
     'bracelets.index': { paramsTuple?: []; params?: {} }
     'bracelets.models': { paramsTuple?: []; params?: {} }
     'bracelets.show_by_user': { paramsTuple: [ParamValue]; params: {'userUid': ParamValue} }
@@ -72,13 +74,15 @@ export type ScannedRoutes = {
     'bracelets.store': { paramsTuple?: []; params?: {} }
     'bracelets.assign': { paramsTuple?: []; params?: {} }
   }
-  PATCH: {
-    'bracelets.ban_by_uid': { paramsTuple: [ParamValue]; params: {'braceletUuid': ParamValue} }
-  }
   PUT: {
+    'profile.profile.update_profile': { paramsTuple?: []; params?: {} }
+    'profile.profile.update_profile_by_uid': { paramsTuple: [ParamValue]; params: {'userUid': ParamValue} }
     'medical_conditions.update': { paramsTuple?: []; params?: {} }
     'medical_conditions.update_by_uid': { paramsTuple: [ParamValue]; params: {'userUid': ParamValue} }
     'medplum.update': { paramsTuple: [ParamValue,ParamValue]; params: {'profileType': ParamValue,'userUid': ParamValue} }
+  }
+  PATCH: {
+    'bracelets.ban_by_uid': { paramsTuple: [ParamValue]; params: {'braceletUuid': ParamValue} }
   }
   DELETE: {
     'medplum.destroy': { paramsTuple: [ParamValue,ParamValue]; params: {'profileType': ParamValue,'userUid': ParamValue} }
