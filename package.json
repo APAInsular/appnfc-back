@@ -4,6 +4,12 @@
   "private": true,
   "type": "module",
   "license": "MIT",
+  "packageManager": "pnpm@10.12.1",
+  "pnpm": {
+    "executionEnv": {
+      "nodeVersion": "22.15.0"
+    }
+  },
   "exports": {
     "./data": "./.adonisjs/client/data.d.ts",
     "./registry": "./.adonisjs/client/registry/index.ts"

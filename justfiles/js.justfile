@@ -1,69 +1,50 @@
-pkg_manager := "pnpm"
-runtime     := "node"
-
-x := if pkg_manager == "npm" { "npx" } else if pkg_manager == "bun" { "bunx" } else { "deno run -A" }
 
 [group('JS')]
-js-install *flags:
-    {{ pkg_manager }} install {{ flags }}
+install *flags:
+    pnpm install {{ flags }}
 
 [group('JS')]
-js-run script *flags:
-    {{ runtime }} run {{ flags }} {{ script }}
+run script *flags:
+    pnpm run {{ script }} {{ flags }}
+
 
 [group('JS')]
-js-test *flags:
-    {{ runtime }} test {{ flags }}
+add pkg *flags:
+    pnpm add {{ pkg }} {{ flags }}
 
 [group('JS')]
-js-add pkg *flags:
-    @if [ "{{ pkg_manager }}" = "npm" ]; then \
-        npm install {{ pkg }} {{ flags }}; \
-    else \
-        {{ pkg_manager }} add {{ pkg }} {{ flags }}; \
-    fi
-
-[group('JS')]
-js-clear:
+clear:
     @echo "Cleaning project..."
-    rm -rf node_modules bun.lockb package-lock.json deno.lock
+    rm -rf node_modules pnpm-lock.yaml
 
 [group('JS-Frameworks')]
 js-adonis name *flags:
-    @echo "Scaffolding AdonisJS..."
-    {{ x }} create-adonisjs@latest {{ name }} {{ flags }}
+    pnpm create adonisjs@latest {{ name }} {{ flags }}
 
 [group('JS-Frameworks')]
 js-vite name *flags:
-    @echo "Scaffolding ViteJS..."
-    {{ x }} create-vite {{ name }} {{ flags }}
+    pnpm create vite {{ name }} {{ flags }}
 
 [group('JS-Frameworks')]
 js-astro name *flags:
-    @echo "Scaffolding Astro..."
-    {{ x }} create-astro@latest {{ name }} {{ flags }}
+    pnpm create astro@latest {{ name }} {{ flags }}
 
 [group('JS-Frameworks')]
 js-elysia name *flags:
-    @echo "Scaffolding Elysia..."
-    {{ x }} create-elysia {{ name }} {{ flags }}
+    pnpm create elysia {{ name }} {{ flags }}
 
 [group('JS-Frameworks')]
 js-fastify name *flags:
-    @echo "Scaffolding Fastify..."
-    {{ x }} create-fastify {{ name }} {{ flags }}
+    pnpm create fastify {{ name }} {{ flags }}
 
 [group('JS-Frameworks')]
 js-next name *flags:
-    @echo "Scaffolding Next.js..."
-    {{ x }} create-next-app {{ name }} {{ flags }}
+    pnpm create next-app {{ name }} {{ flags }}
 
 [group('JS-Frameworks')]
 js-remix name *flags:
-    @echo "Scaffolding Remix..."
-    {{ x }} create-remix@latest {{ name }} {{ flags }}
+    pnpm create remix@latest {{ name }} {{ flags }}
 
 [group('JS-Frameworks')]
 js-hono name *flags:
-    @echo "Scaffolding Hono..."
-    {{ x }} create-hono {{ name }} {{ flags }}
+    pnpm create hono {{ name }} {{ flags }}
