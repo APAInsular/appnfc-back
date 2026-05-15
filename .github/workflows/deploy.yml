@@ -60,5 +60,4 @@ jobs:
             export COMPOSE_DOCKER_CLI_BUILD=1
 
             docker compose -f $COMPOSE_FILE build --progress=plain app-backend
-            docker compose -f $COMPOSE_FILE build --progress=plain app-backend
             docker compose -f $COMPOSE_FILE up -d app-backend
