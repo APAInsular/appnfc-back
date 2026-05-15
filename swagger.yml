@@ -109,7 +109,7 @@ components:
           example: null
         id:
           type: "number"
-          example: 359
+          example: 690
         category:
           $ref: "#/components/schemas/'allergy'"
           example: null
@@ -137,7 +137,7 @@ components:
       properties:
         id:
           type: "number"
-          example: 152
+          example: 789
         key:
           type: "string"
           example: "Lorem Ipsum"
@@ -184,7 +184,7 @@ components:
           example: null
         id:
           type: "number"
-          example: 650
+          example: 182
         category:
           $ref: "#/components/schemas/'allergy'"
           example: null
@@ -198,7 +198,7 @@ components:
             example: "Lorem Ipsum"
         user_id:
           type: "number"
-          example: 84
+          example: 167
       description: "UserCondition (Model)"
     assignBraceletValidator:
       type: "object"
@@ -246,10 +246,10 @@ components:
       properties:
         id:
           type: "number"
-          example: 56
+          example: 935
           required: true
       example:
-        id: 56
+        id: 935
       description: "idParamValidator (Validator)"
     uidValidator:
       type: "object"
@@ -271,13 +271,13 @@ components:
             properties:
               code:
                 type: "number"
-                example: 982
+                example: 471
                 required: true
               textValues:
                 type: "array"
                 items:
                   type: "number"
-                  example: 537
+                  example: 238
                 required: true
           required: true
           properties:
@@ -308,7 +308,7 @@ components:
           required: true
         biologicalSex:
           type: "number"
-          example: 152
+          example: 753
           choices:
             - "M"
             - "F"
@@ -326,7 +326,7 @@ components:
       example:
         firstName: "Lorem Ipsum"
         surnames: "Lorem Ipsum"
-        biologicalSex: 152
+        biologicalSex: 753
         language: "Lorem Ipsum"
         bloodType: "Lorem Ipsum"
       description: "updateProfile (Validator)"
@@ -362,6 +362,16 @@ components:
         password: "Lorem Ipsum"
         passwordConfirmation: "Lorem Ipsum"
       description: "adminSignupValidator (Validator)"
+    loginCodeValidator:
+      type: "object"
+      properties:
+        code:
+          type: "string"
+          example: "Lorem Ipsum"
+          required: true
+      example:
+        code: "Lorem Ipsum"
+      description: "loginCodeValidator (Validator)"
     loginValidator:
       type: "object"
       properties:
@@ -421,7 +431,7 @@ components:
           maxLength: 254
         role:
           type: "number"
-          example: 695
+          example: 380
           choices:
             - "Patient"
             - "Practitioner"
@@ -442,7 +452,7 @@ components:
         firstName: "Lorem Ipsum"
         surnames: "Lorem Ipsum"
         email: "Lorem Ipsum"
-        role: 695
+        role: 380
         password: "Lorem Ipsum"
         passwordConfirmation: "Lorem Ipsum"
       description: "signupValidator (Validator)"
@@ -481,7 +491,7 @@ paths:
               firstName: "Lorem Ipsum"
               surnames: "Lorem Ipsum"
               email: "Lorem Ipsum"
-              role: 695
+              role: 380
               password: "Lorem Ipsum"
               passwordConfirmation: "Lorem Ipsum"
   /api/v1/auth/login:
@@ -505,6 +515,26 @@ paths:
             example:
               email: "Lorem Ipsum"
               password: "Lorem Ipsum"
+  /api/v1/auth/login-access-code:
+    post:
+      summary: "Login an account through code (accessWithCode)"
+      description: "\n\n _app/controllers/access_token_controller.ts_ - **accessWithCode**"
+      parameters: []
+      tags:
+        - "AUTH"
+      responses:
+        201:
+          description: "Created"
+          content:
+            application/json: {}
+      security: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/loginCodeValidator"
+            example:
+              code: "Lorem Ipsum"
   /api/v1/auth/logout:
     post:
       summary: "Logout (destroy)"
@@ -627,9 +657,24 @@ paths:
             example:
               firstName: "Lorem Ipsum"
               surnames: "Lorem Ipsum"
-              biologicalSex: 152
+              biologicalSex: 753
               language: "Lorem Ipsum"
               bloodType: "Lorem Ipsum"
+  /api/v1/account/access-code:
+    get:
+      summary: "Show access code to the user that owns it (showAccessCode)"
+      description: "\n\n _app/controllers/profile_controller.ts_ - **showAccessCode**"
+      parameters: []
+      tags:
+        - "ACCOUNT"
+      responses:
+        401:
+          description: "Returns **401** (Unauthorized)"
+        403:
+          description: "Returns **403** (Forbidden)"
+      security:
+        - BearerAuth:
+            - "access"
   /api/v1/account/by-email/{email}:
     get:
       summary: "Find a user by email (byEmail)"
@@ -686,7 +731,7 @@ paths:
             example:
               firstName: "Lorem Ipsum"
               surnames: "Lorem Ipsum"
-              biologicalSex: 152
+              biologicalSex: 753
               language: "Lorem Ipsum"
               bloodType: "Lorem Ipsum"
   /api/v1/bracelet:

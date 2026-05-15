@@ -144,7 +144,7 @@
           },
           "id": {
             "type": "number",
-            "example": 359
+            "example": 690
           },
           "category": {
             "$ref": "#/components/schemas/'allergy'",
@@ -182,7 +182,7 @@
         "properties": {
           "id": {
             "type": "number",
-            "example": 152
+            "example": 789
           },
           "key": {
             "type": "string",
@@ -245,7 +245,7 @@
           },
           "id": {
             "type": "number",
-            "example": 650
+            "example": 182
           },
           "category": {
             "$ref": "#/components/schemas/'allergy'",
@@ -264,7 +264,7 @@
           },
           "user_id": {
             "type": "number",
-            "example": 84
+            "example": 167
           }
         },
         "description": "UserCondition (Model)"
@@ -329,12 +329,12 @@
         "properties": {
           "id": {
             "type": "number",
-            "example": 56,
+            "example": 935,
             "required": true
           }
         },
         "example": {
-          "id": 56
+          "id": 935
         },
         "description": "idParamValidator (Validator)"
       },
@@ -362,14 +362,14 @@
               "properties": {
                 "code": {
                   "type": "number",
-                  "example": 982,
+                  "example": 471,
                   "required": true
                 },
                 "textValues": {
                   "type": "array",
                   "items": {
                     "type": "number",
-                    "example": 537
+                    "example": 238
                   },
                   "required": true
                 }
@@ -419,7 +419,7 @@
           },
           "biologicalSex": {
             "type": "number",
-            "example": 152,
+            "example": 753,
             "choices": [
               "M",
               "F"
@@ -442,7 +442,7 @@
         "example": {
           "firstName": "Lorem Ipsum",
           "surnames": "Lorem Ipsum",
-          "biologicalSex": 152,
+          "biologicalSex": 753,
           "language": "Lorem Ipsum",
           "bloodType": "Lorem Ipsum"
         },
@@ -486,6 +486,20 @@
           "passwordConfirmation": "Lorem Ipsum"
         },
         "description": "adminSignupValidator (Validator)"
+      },
+      "loginCodeValidator": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string",
+            "example": "Lorem Ipsum",
+            "required": true
+          }
+        },
+        "example": {
+          "code": "Lorem Ipsum"
+        },
+        "description": "loginCodeValidator (Validator)"
       },
       "loginValidator": {
         "type": "object",
@@ -560,7 +574,7 @@
           },
           "role": {
             "type": "number",
-            "example": 695,
+            "example": 380,
             "choices": [
               "Patient",
               "Practitioner"
@@ -586,7 +600,7 @@
           "firstName": "Lorem Ipsum",
           "surnames": "Lorem Ipsum",
           "email": "Lorem Ipsum",
-          "role": 695,
+          "role": 380,
           "password": "Lorem Ipsum",
           "passwordConfirmation": "Lorem Ipsum"
         },
@@ -639,7 +653,7 @@
                 "firstName": "Lorem Ipsum",
                 "surnames": "Lorem Ipsum",
                 "email": "Lorem Ipsum",
-                "role": 695,
+                "role": 380,
                 "password": "Lorem Ipsum",
                 "passwordConfirmation": "Lorem Ipsum"
               }
@@ -674,6 +688,37 @@
               "example": {
                 "email": "Lorem Ipsum",
                 "password": "Lorem Ipsum"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/auth/login-access-code": {
+      "post": {
+        "summary": "Login an account through code (accessWithCode)",
+        "description": "\n\n _app/controllers/access_token_controller.ts_ - **accessWithCode**",
+        "parameters": [],
+        "tags": [
+          "AUTH"
+        ],
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {}
+            }
+          }
+        },
+        "security": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/loginCodeValidator"
+              },
+              "example": {
+                "code": "Lorem Ipsum"
               }
             }
           }
@@ -870,13 +915,38 @@
               "example": {
                 "firstName": "Lorem Ipsum",
                 "surnames": "Lorem Ipsum",
-                "biologicalSex": 152,
+                "biologicalSex": 753,
                 "language": "Lorem Ipsum",
                 "bloodType": "Lorem Ipsum"
               }
             }
           }
         }
+      }
+    },
+    "/api/v1/account/access-code": {
+      "get": {
+        "summary": "Show access code to the user that owns it (showAccessCode)",
+        "description": "\n\n _app/controllers/profile_controller.ts_ - **showAccessCode**",
+        "parameters": [],
+        "tags": [
+          "ACCOUNT"
+        ],
+        "responses": {
+          "401": {
+            "description": "Returns **401** (Unauthorized)"
+          },
+          "403": {
+            "description": "Returns **403** (Forbidden)"
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": [
+              "access"
+            ]
+          }
+        ]
       }
     },
     "/api/v1/account/by-email/{email}": {
@@ -966,7 +1036,7 @@
               "example": {
                 "firstName": "Lorem Ipsum",
                 "surnames": "Lorem Ipsum",
-                "biologicalSex": 152,
+                "biologicalSex": 753,
                 "language": "Lorem Ipsum",
                 "bloodType": "Lorem Ipsum"
               }
