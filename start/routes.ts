@@ -74,16 +74,22 @@ router
 
     router
       .group(() => {
-        router.get('/', [controllers.MedicalConditions, 'show'])
+        router.get('/', [controllers.MedicalConditions, 'show']).use(middleware.role(['Patient']))
         router.get('/catalog', [controllers.MedicalConditions, 'showCatalog'])
-        router.get('/uid/:userUid', [controllers.MedicalConditions, 'showByUid'])
-        router.get('/bracelet/:braceletUid', [controllers.MedicalConditions, 'showByBraceletUid'])
+        router
+          .get('/uid/:userUid', [controllers.MedicalConditions, 'showByUid'])
+          .use(middleware.role(['Practitioner', 'Admin']))
+        router
+          .get('/bracelet/:braceletUid', [controllers.MedicalConditions, 'showByBraceletUid'])
+          .use(middleware.role(['Practitioner', 'Admin']))
 
-        router.put('/', [controllers.MedicalConditions, 'update'])
-        router.put('/uid/:userUid', [controllers.MedicalConditions, 'updateByUid'])
+        router.put('/', [controllers.MedicalConditions, 'update']).use(middleware.role(['Patient']))
+        router
+          .put('/uid/:userUid', [controllers.MedicalConditions, 'updateByUid'])
+          .use(middleware.role(['Practitioner', 'Admin']))
       })
       .prefix('medical-conditions')
-      .use([middleware.auth(), middleware.role(['Patient', 'Practitioner'])])
+      .use(middleware.auth())
 
     // ? Medplum Proxy
     router
