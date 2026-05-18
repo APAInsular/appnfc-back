@@ -13,17 +13,7 @@ export default class UserCondition extends UserConditionSchema {
 
   @column({
     prepare: (v: string[] | null) => v || [],
-    consume: (v: any) => {
-      if (!v) return []
-      if (typeof v === 'string') {
-        try {
-          return JSON.parse(v)
-        } catch {
-          return []
-        }
-      }
-      return v;
-    },
+    consume: (value) => (value && value.trim() !== '' ? JSON.parse(value) : []),
   })
   declare textValues: string[]
   declare userId: number
