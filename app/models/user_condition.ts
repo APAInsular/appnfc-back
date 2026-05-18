@@ -12,8 +12,18 @@ export default class UserCondition extends UserConditionSchema {
   declare checked: boolean
 
   @column({
-    prepare: (v: string[] | null) => v ? JSON.stringify(v) : null,
-    consume: (v: string | null) => v ? JSON.parse(v) : null,
+    prepare: (v: string[] | null) => v || [],
+    consume: (v: any) => {
+      if (!v) return []
+      if (typeof v === 'string') {
+        try {
+          return JSON.parse(v)
+        } catch {
+          return []
+        }
+      }
+      return v;
+    },
   })
   declare textValues: string[]
   declare userId: number
