@@ -2,24 +2,40 @@ import Bracelet from '#models/bracelet'
 import User from '#models/user'
 import { updateConditions } from '#validators/medical_conditions'
 import type { HttpContext } from '@adonisjs/core/http'
-import logger from '@adonisjs/core/services/logger'
 import ConditionCatalog from '#models/conditions_catalog'
 import UserCondition from '#models/user_condition'
 
 export default class MedicalConditionsController {
-  private static async getConditionsForUser(userId: number) {
-    const catalog = await ConditionCatalog.all()
-    const userConditions = await UserCondition.query().where('userId', userId)
+public static async getConditionsForUser(userId: number) {
+    const [catalog, userConditions] = await Promise.all([
+      ConditionCatalog.all(),
+      UserCondition.query().where('userId', userId)
+    ])
 
-    return catalog.map((item: any) => {
-      const uc = userConditions.find((c: any) => c.catalogId === item.id)
+    return catalog.map((item) => {
+      const uc = userConditions.find((c) => c.catalogId === item.id)
+
+      let formattedTextValues: string[] = []
+      
+      if (uc?.textValues) {
+        if (Array.isArray(uc.textValues)) {
+          formattedTextValues = uc.textValues
+        } else if (typeof uc.textValues === 'string') {
+          try {
+            formattedTextValues = JSON.parse(uc.textValues)
+          } catch {
+            formattedTextValues = [] 
+          }
+        }
+      }
+
       return {
         code: item.code,
         display: item.display,
         category: item.category,
         allowsText: item.allowsText,
         checked: uc?.checked ?? false,
-        textValues: uc?.textValues ?? [],
+        textValues: formattedTextValues,
       }
     })
   }
