@@ -11,10 +11,7 @@ export default class UserCondition extends UserConditionSchema {
   declare category: 'allergy' | 'medication' | 'pathology' | 'implant' | 'neuro'
   declare checked: boolean
 
-  @column({
-    prepare: (v: string[] | null) => v || [],
-    consume: (value) => (value && value.trim() !== '' ? JSON.parse(value) : []),
-  })
+
   declare textValues: string[]
   declare userId: number
 }
