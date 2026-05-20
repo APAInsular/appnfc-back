@@ -109,7 +109,7 @@ components:
           example: null
         id:
           type: "number"
-          example: 675
+          example: 8
         category:
           $ref: "#/components/schemas/'allergy'"
           example: null
@@ -137,7 +137,7 @@ components:
       properties:
         id:
           type: "number"
-          example: 723
+          example: 599
         key:
           type: "string"
           example: "Lorem Ipsum"
@@ -184,7 +184,7 @@ components:
           example: null
         id:
           type: "number"
-          example: 496
+          example: 304
         category:
           $ref: "#/components/schemas/'allergy'"
           example: null
@@ -198,7 +198,7 @@ components:
             example: "Lorem Ipsum"
         user_id:
           type: "number"
-          example: 60
+          example: 10
       description: "UserCondition (Model)"
     assignBraceletValidator:
       type: "object"
@@ -246,10 +246,10 @@ components:
       properties:
         id:
           type: "number"
-          example: 750
+          example: 536
           required: true
       example:
-        id: 750
+        id: 536
       description: "idParamValidator (Validator)"
     uidValidator:
       type: "object"
@@ -271,13 +271,13 @@ components:
             properties:
               code:
                 type: "number"
-                example: 166
+                example: 419
                 required: true
               textValues:
                 type: "array"
                 items:
                   type: "number"
-                  example: 868
+                  example: 825
                 required: true
           required: true
           properties:
@@ -308,7 +308,7 @@ components:
           required: true
         biologicalSex:
           type: "number"
-          example: 425
+          example: 222
           choices:
             - "M"
             - "F"
@@ -326,7 +326,7 @@ components:
       example:
         firstName: "Lorem Ipsum"
         surnames: "Lorem Ipsum"
-        biologicalSex: 425
+        biologicalSex: 222
         language: "Lorem Ipsum"
         bloodType: "Lorem Ipsum"
       description: "updateProfile (Validator)"
@@ -431,7 +431,7 @@ components:
           maxLength: 254
         role:
           type: "number"
-          example: 22
+          example: 517
           choices:
             - "Patient"
             - "Practitioner"
@@ -452,7 +452,7 @@ components:
         firstName: "Lorem Ipsum"
         surnames: "Lorem Ipsum"
         email: "Lorem Ipsum"
-        role: 22
+        role: 517
         password: "Lorem Ipsum"
         passwordConfirmation: "Lorem Ipsum"
       description: "signupValidator (Validator)"
@@ -491,7 +491,7 @@ paths:
               firstName: "Lorem Ipsum"
               surnames: "Lorem Ipsum"
               email: "Lorem Ipsum"
-              role: 22
+              role: 517
               password: "Lorem Ipsum"
               passwordConfirmation: "Lorem Ipsum"
   /api/v1/auth/login:
@@ -657,7 +657,7 @@ paths:
             example:
               firstName: "Lorem Ipsum"
               surnames: "Lorem Ipsum"
-              biologicalSex: 425
+              biologicalSex: 222
               language: "Lorem Ipsum"
               bloodType: "Lorem Ipsum"
   /api/v1/account/access-code:
@@ -731,7 +731,7 @@ paths:
             example:
               firstName: "Lorem Ipsum"
               surnames: "Lorem Ipsum"
-              biologicalSex: 425
+              biologicalSex: 222
               language: "Lorem Ipsum"
               bloodType: "Lorem Ipsum"
   /api/v1/bracelet:

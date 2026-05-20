@@ -144,7 +144,7 @@
           },
           "id": {
             "type": "number",
-            "example": 675
+            "example": 8
           },
           "category": {
             "$ref": "#/components/schemas/'allergy'",
@@ -182,7 +182,7 @@
         "properties": {
           "id": {
             "type": "number",
-            "example": 723
+            "example": 599
           },
           "key": {
             "type": "string",
@@ -245,7 +245,7 @@
           },
           "id": {
             "type": "number",
-            "example": 496
+            "example": 304
           },
           "category": {
             "$ref": "#/components/schemas/'allergy'",
@@ -264,7 +264,7 @@
           },
           "user_id": {
             "type": "number",
-            "example": 60
+            "example": 10
           }
         },
         "description": "UserCondition (Model)"
@@ -329,12 +329,12 @@
         "properties": {
           "id": {
             "type": "number",
-            "example": 750,
+            "example": 536,
             "required": true
           }
         },
         "example": {
-          "id": 750
+          "id": 536
         },
         "description": "idParamValidator (Validator)"
       },
@@ -362,14 +362,14 @@
               "properties": {
                 "code": {
                   "type": "number",
-                  "example": 166,
+                  "example": 419,
                   "required": true
                 },
                 "textValues": {
                   "type": "array",
                   "items": {
                     "type": "number",
-                    "example": 868
+                    "example": 825
                   },
                   "required": true
                 }
@@ -419,7 +419,7 @@
           },
           "biologicalSex": {
             "type": "number",
-            "example": 425,
+            "example": 222,
             "choices": [
               "M",
               "F"
@@ -442,7 +442,7 @@
         "example": {
           "firstName": "Lorem Ipsum",
           "surnames": "Lorem Ipsum",
-          "biologicalSex": 425,
+          "biologicalSex": 222,
           "language": "Lorem Ipsum",
           "bloodType": "Lorem Ipsum"
         },
@@ -574,7 +574,7 @@
           },
           "role": {
             "type": "number",
-            "example": 22,
+            "example": 517,
             "choices": [
               "Patient",
               "Practitioner"
@@ -600,7 +600,7 @@
           "firstName": "Lorem Ipsum",
           "surnames": "Lorem Ipsum",
           "email": "Lorem Ipsum",
-          "role": 22,
+          "role": 517,
           "password": "Lorem Ipsum",
           "passwordConfirmation": "Lorem Ipsum"
         },
@@ -653,7 +653,7 @@
                 "firstName": "Lorem Ipsum",
                 "surnames": "Lorem Ipsum",
                 "email": "Lorem Ipsum",
-                "role": 22,
+                "role": 517,
                 "password": "Lorem Ipsum",
                 "passwordConfirmation": "Lorem Ipsum"
               }
@@ -915,7 +915,7 @@
               "example": {
                 "firstName": "Lorem Ipsum",
                 "surnames": "Lorem Ipsum",
-                "biologicalSex": 425,
+                "biologicalSex": 222,
                 "language": "Lorem Ipsum",
                 "bloodType": "Lorem Ipsum"
               }
@@ -1036,7 +1036,7 @@
               "example": {
                 "firstName": "Lorem Ipsum",
                 "surnames": "Lorem Ipsum",
-                "biologicalSex": 425,
+                "biologicalSex": 222,
                 "language": "Lorem Ipsum",
                 "bloodType": "Lorem Ipsum"
               }
